@@ -19,9 +19,9 @@ module.exports = function(config) {
         {pattern: 'src/main/javascript/**/*.js', included: false},
         {pattern: 'src/test/javascript/*.js', included: false},
         {pattern: 'src/test/javascript/**/*.js', included: false},
-        {pattern: 'src/test/javascript/feature/html/*.html', included: false},
-        {pattern: 'node_modules/cheerio/lib/cheerio.js', included: false},
-        {pattern: 'node_modules/lodash/lodash.js', included: false},
+        {pattern: 'src/test/javascript/fixtures/html/*.html', included: false},
+        {pattern: 'node_modules/cheerio/lib/cheerio.js', included: true},
+        {pattern: 'node_modules/lodash/lodash.js', included: true},
         'test-main.js'
     ],
 
