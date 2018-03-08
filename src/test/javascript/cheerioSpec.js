@@ -3,8 +3,9 @@
  */
 /*global expect, jasmine, define, describe, beforeAll*/
 //define(['cheerio'], function (cheerio) {
+    var cheerio = require('cheerio');
     describe("Cheerio tests", function() {
-        beforeAll(function() {
+        beforeEach(function() {
             jasmine.getFixtures().fixturesPath = 'base/src/test/javascript/fixtures/html';
         });
 
