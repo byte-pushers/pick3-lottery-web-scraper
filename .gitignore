@@ -41,8 +41,7 @@ hs_err_pid*
 .idea/**/uiDesigner.xml
 
 .idea
-bytepushers-js-core.iml
-bytepushers-js-test-utils.iml
+pick3-lottery-web-scraper.iml
 
 # Gradle:
 .idea/**/gradle.xml
