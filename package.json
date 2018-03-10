@@ -33,7 +33,7 @@
     "mocha": "^5.0.4"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "",
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1",
     "pretest": "npm install",
