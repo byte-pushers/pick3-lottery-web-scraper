@@ -3,6 +3,8 @@
  */
 /*global require*/
 
+var cheerio = require("cheerio");
+var request = require("request");
 
 (function () {
     'use strict';
@@ -18,7 +20,7 @@
 
     BytePushers.service.Scraper.scrapeTxPick3LotterySite = function (error, response, html) {
         if (!error) {
-            var $ = cheerio.load(html,
+            var $ = cheerio.load(html),
                 date,
                 drawingTime,
                 number;

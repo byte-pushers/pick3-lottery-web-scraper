@@ -1,20 +1,89 @@
 /**
  * Created by tonte on 2/15/18.
  */
-/*global expect, jasmine, define, describe, beforeAll*/
+/*global expect, jasmine, define, describe, beforeAll, it*/
 //define(['cheerio'], function (cheerio) {
+    var assert = require('assert'),
+        cheerio = require('cheerio'),
+        fs = require('fs'),
+        fixturePath = "src/test/javascript/fixtures/html/",
+        $;
+
+    function removeNewLine2(someText) {
+        var bytes = []; // char codes
+
+        for (var i = 0; i < someText.length; ++i) {
+            var code = someText.charCodeAt(i);
+
+            bytes = bytes.concat([code]);
+        }
+
+        for (var i = 0; i < bytes.length; i++) {
+            if (bytes[i] === 92 && bytes[i+1] === 110) {
+                bytes.splice(i, 2);
+            }
+        }
+
+        someText = convertBinaryArrayToString(bytes);
+
+        return someText.trim();
+    }
+
+    function convertBinaryArrayToString(bytes) {
+        var result = "";
+
+        for (var i = 0; i < bytes.length; i++) {
+            result += String.fromCharCode(bytes[i]);
+        }
+
+        return result;
+    }
+
+    function scrapeMorningWinningNumber($section) {
+        var num1 = $section.find("td:nth-child(2)").text(),
+            num2 = $section.find("td:nth-child(3)").text(),
+            num3 = $section.find("td:nth-child(4)").text();
+
+        num1 = removeNewLine2(num1).trim();
+        num2 = removeNewLine2(num2).trim();
+        num3 = removeNewLine2(num3).trim();
+
+        return 100 * num1 + 10 * num2 + 1 * num3;
+    }
+
+    function scrapeDrawDateTdElement(drawingDate) {
+        var $drawDateTdElement = $('#pastResults').find('tr > td:first-child:contains('+drawingDate+')');
+
+        return $drawDateTdElement;
+    }
+
+    function scrapeDrawDateTrElement($targetTdElement) {
+        var $drawDateTrElement = $targetTdElement.parent();
+
+        return $drawDateTrElement;
+    }
+
+    function findMorningWinningNumber(drawingDate) {
+        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
+            winningNumber = scrapeMorningWinningNumber($targetTrElement);
+
+        return winningNumber;
+    }
+
     describe("Cheerio tests", function() {
-        beforeAll(function() {
-            jasmine.getFixtures().fixturesPath = 'base/src/test/javascript/fixtures/html';
-        });
+        it("should be able to find morning winning Number for a specific date", function () {
+            var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+                expectedDate = "02/15/2018",
+                expectedMorningWinningNumber = 158,
+                actualMorningWinningNumber;
 
-        //began writing filter tests and really need to finish filters period
+            $ = cheerio.load(html);
+            actualMorningWinningNumber = findMorningWinningNumber(expectedDate);
 
-        it("should be able to find ", function() {
-            var html = readFixtures('pick3-morning-drawing-fixture.html');//"<html><body><table id='pastResults'><caption>Pick 3™ Past Winning Numbers 2018</caption><tbody><tr><th>Draw Date</th><th colspan='3'>Morning Winning Numbers</th><th>Sum It Up!</th><th colspan='3'>Day Winning Numbers</th><th>Sum It Up!</th><th colspan='3'>Evening Winning Numbers</th><th>Sum It Up!</th><th colspan='3'>Night Winning Numbers</th><th>Sum It Up!</th></tr><tr><td>02/15/2018</td><td>1</td><td>5</td><td>8\n&nbsp;\n</td><td><strong>14</strong><td colspan='3'>&nbsp;</td><td>&nbsp;</td><td colspan='3'>&nbsp;</td><td>&nbsp;</td><td colspan='3'>&nbsp;</td><td>&nbsp;</td></tr><tr><td>02/14/2018</td><td>2</td><td>9</td><td>9\n&nbsp;\n</td><td><strong>20</strong></td><td>2</td><td>8</td><td>4\n&nbsp;\n</td><td><strong>14</strong></td><td>2</td><td>3</td><td>0\n&nbsp;\n</td><td><strong>6</strong></td><td>1</td><td>2</td><td>9\n&nbsp;\n</td><td><strong>9</strong></td></tr><tr><td>02/13/2018</td><td>2</td><td>4</td><td>0\n&nbsp;\n</td><td><strong>6</strong></td><td>2</td><td>7</td><td>1\n&nbsp;\n</td><td><strong>10</strong></td><td>1</td><td>6</td><td>1\n&nbsp;\n</td><td><strong>8</strong></td><td>8</td><td>2</td><td>0\n&nbsp;\n</td><td><strong>10</strong></td></tr></tbody></table></body></html>";
-            var $ = cheerio.load(html);
-
-            expect(true).toBe(true);
+            assert.equal(actualMorningWinningNumber, expectedMorningWinningNumber);
         });
     });
+
+
 //});
