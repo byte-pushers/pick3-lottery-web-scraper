@@ -6,7 +6,7 @@
     var assert = require('assert'),
         cheerio = require('cheerio'),
         fs = require('fs'),
-        fixturePath = "fixtures/html/",
+        fixturePath = "src/test/javascript/fixtures/html/",
         $;
 
     function removeNewLine2(someText) {
@@ -82,8 +82,8 @@
         return winningNumber;
     }
 
-    //describe("Cheerio tests", function() {
-        //it("should be able to find morning winning Number for a specific date", function () {
+    describe("Cheerio tests", function() {
+        it("should be able to find morning winning Number for a specific date", function () {
             var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
                 expectedDate = "02/15/2018",
                 expectedMorningWinningNumber = 158,
@@ -93,8 +93,8 @@
             actualMorningWinningNumber = findMorningWinningNumber(expectedDate);
 
             assert.equal(actualMorningWinningNumber, expectedMorningWinningNumber);
-        //});
-    //});
+        });
+    });
 
 
 //});

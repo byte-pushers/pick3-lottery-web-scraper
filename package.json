@@ -29,14 +29,15 @@
     "grunt-jslint": "^1.1.14",
     "grunt-npm": "0.0.2",
     "grunt-release": "^0.13.0",
-    "jshint-stylish": "^2.2.0"
+    "jshint-stylish": "^2.2.0",
+    "mocha": "^5.0.4"
   },
   "scripts": {
     "postinstall": "bower install",
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1",
     "pretest": "npm install",
-    "test": "karma start karma.conf.js ",
+    "test": "./node_modules/mocha/bin/mocha --slow 2000 src/test/javascript/*.js",
     "test-single-run": "karma start karma.conf.js --log-level debug --single-run",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
