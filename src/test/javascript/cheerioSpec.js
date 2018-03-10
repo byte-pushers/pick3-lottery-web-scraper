@@ -24,12 +24,12 @@
             }
         }
 
-        someText = bin2String(bytes);
+        someText = convertBinaryArrayToString(bytes);
 
         return someText.trim();
     }
 
-    function bin2String(bytes) {
+    function convertBinaryArrayToString(bytes) {
         var result = "";
 
         for (var i = 0; i < bytes.length; i++) {
@@ -37,17 +37,6 @@
         }
 
         return result;
-    }
-
-    function removeNewLine(someText) {
-        var eachLine = someText.split('\n'),
-            consolidatedLine = "";
-
-        eachLine.forEach(function (line) {
-            consolidatedLine += line;
-        });
-
-        return consolidatedLine;
     }
 
     function scrapeMorningWinningNumber($section) {
