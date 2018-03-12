@@ -9,7 +9,8 @@
   "license": "MIT",
   "author": "Tonté Pouncil <tonte.pouncil@bytepushers.software>",
   "contributors": [
-    "Tonté Pouncil <pouncilt.developer@gmail.com> "
+    "Tonté Pouncil <pouncilt.developer@gmail.com> ",
+    "Kenneth Flowers <kenneth_flow@hotmail.com> "
   ],
   "directories": {
     "lib": "src/main/javascript"
