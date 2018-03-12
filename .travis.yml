@@ -9,3 +9,10 @@ branches:
 before_script:
   - npm install -g bower
   - bower install
+
+notifications:
+  email:
+    recipients:
+      - kenneth_flow@hotmail.com
+    on_success: change # default: change
+    on_failure: always # default: always
