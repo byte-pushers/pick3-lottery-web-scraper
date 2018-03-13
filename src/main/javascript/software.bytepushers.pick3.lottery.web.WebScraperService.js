@@ -1,20 +1,18 @@
 /**
  * Created by tonte on 10/4/17.
  */
+//var BytePushers = require('bytepushers-js-oop');
+var request = require('request');
+var cheerio = require('cheerio');
+
 /*global require*/
-
-var cheerio = require("cheerio");
-var request = require("request");
-
-(function (BytePushers) {
+//(function (BytePushers) {
     'use strict';
-    var request = require('request');
-    var cheerio = require('cheerio');
 
-    var BytePushers = {};
-
-    BytePushers.service.Pick3LotteryWebScrapingService = BytePushers.namespace("software.service.Pick3LotteryWebScrapingService");
-    BytePushers.service.Pick3LotteryWebScrapingService = function () {
+    /*BytePushers = BytePushers || {};
+    BytePushers.service = BytePushers.service ||  BytePushers.namespace("software.service.Pick3LotteryWebScrapingService");
+    BytePushers.service.Pick3LotteryWebScrapingService = */
+    function Pick3LotteryWebScrapingService() {
         //TODO: Create endpoint function
 
         this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime) {
@@ -32,7 +30,6 @@ var request = require("request");
                 winningNumber.date = scraper.getDrawingDate();
                 winningNumber.time = scraper.getDrawingTime();
                 winningNumber.number = scraper.getDrawingNumber();
-                winningNumber.availability = scraper.isDrawingNumberAvailable();
             } catch (e) {
                 //TODO: Handle error
             }
@@ -63,7 +60,9 @@ var request = require("request");
         }
 
         var registeredScrapers = [
-            {state: "TX", stateName: "Texas", url: BytePushers.scraper.TexasPick3WebScraper.url, Scraper: BytePushers.scraper.TexasPick3WebScraper}
+            {state: "TX", stateName: "Texas", url: /*BytePushers.scraper.*/TexasPick3WebScraper.url, Scraper: /*BytePushers.scraper.*/TexasPick3WebScraper}
         ]
     }
-}(BytePushers));
+
+    module.exports = Pick3LotteryWebScrapingService;
+//}(global.BytePushers));
