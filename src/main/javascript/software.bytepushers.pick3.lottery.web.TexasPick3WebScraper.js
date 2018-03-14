@@ -15,8 +15,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    this.findDayWinningNumber = function (drawingDate, drawingTime) {
-        // throw Error("method not implemented by WebScraper" + this.constructor.name);
+    this.findDayWinningNumber = function (drawingDate) {
         var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
             $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
             winningNumber = scrapeDayWinningNumber($targetTrElement);
