@@ -7,34 +7,26 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     TexasPick3WebScraper.prototype.superclass.apply(this, [TxPick3WebScraperConfig]);
     var $ = this.getCheerio();
 
-    this.findWinningNumber = function (drawingDate, drawingTime) {
-        var winningNumber = 0;
-
-        switch (drawingTime.toUpperCase()) {
-            case TexasPick3WebScraper.DRAWING_TIMES.MORNING.value:
-                winningNumber = findMorningWinningNumber(drawingDate);
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.MORNING.name:
-                winningNumber = findMorningWinningNumber(drawingDate);
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.DAY.value:
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.DAY.name:
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.EVENING.value:
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.EVENING.name:
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.NIGHT.value:
-                break;
-            case TexasPick3WebScraper.DRAWING_TIMES.NIGHT.name:
-                break;
-            default:
-                throw new Error("TexasPick3WebScraper.DRAWING_TIMES("+drawingTime+") is not supported.");
-        }
+    this.findMorningWinningNumber = function (drawingDate, drawingTime) {
+        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
+            winningNumber = scrapeMorningWinningNumber($targetTrElement);
 
         return winningNumber;
     };
+
+    this.findDayWinningNumber = function (drawingDate, drawingTime) {
+        throw Error("method not implemented by WebScraper" + this.constructor.name);
+    };
+
+    this.findEveningWinningNumber = function (drawingDate, drawingTime) {
+        throw Error("method not implemented by WebScraper" + this.constructor.name);
+    };
+
+    this.findNightWinningNumber = function (drawingDate, drawingTime) {
+        throw Error("method not implemented by WebScraper" + this.constructor.name);
+    };
+
 
     function removeNewLine2(someText) {
         var bytes = []; // char codes
@@ -89,14 +81,6 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
 
         return $drawDateTrElement;
     }
-
-    function findMorningWinningNumber(drawingDate) {
-        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
-            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
-            winningNumber = scrapeMorningWinningNumber($targetTrElement);
-
-        return winningNumber;
-    }
 }
 
 TexasPick3WebScraper.prototype = BytePushers.inherit(WebScraper.prototype);
@@ -104,23 +88,5 @@ TexasPick3WebScraper.prototype.constructor = TexasPick3WebScraper;
 TexasPick3WebScraper.prototype.superclass = WebScraper;
 
 TexasPick3WebScraper.URL = "http://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/print.html_8783066.html";
-TexasPick3WebScraper.DRAWING_TIMES = BytePushers.enumeration({
-    'MORNING': {
-        value: 'Morning',
-        description: "Pick 3 Lottery drawing time for morning time drawing."
-    },
-    'DAY': {
-        value: 'Day',
-        description: "Pick 3 Lottery drawing time for mid-day time drawing."
-    },
-    'EVENING': {
-        value: 'Evening',
-        description: "Pick 3 Lottery drawing time for evening time drawing."
-    },
-    'NIGHT': {
-        value: 'Night',
-        description: "Pick 3 Lottery drawing time for night time drawing."
-    }
-});
 
 module.exports = TexasPick3WebScraper;
