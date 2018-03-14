@@ -1,6 +1,3 @@
-/**
- * Created by tonte on 2/15/18.
- */
 /*global expect, jasmine, define, describe, beforeAll, it*/
 var BytePushers = require('../../main/javascript'),
     assert = require('assert'),
@@ -9,23 +6,23 @@ var BytePushers = require('../../main/javascript'),
     fixturePath = "src/test/javascript/fixtures/html/",
     $;
 
-describe("TexasPick3WebScraper Unit Tests", function() {
-    it("should be able to find morning winning Number for a specific date", function () {
+describe("WebScraperService Integration Tests", function() {
+    it("should be able to scrape Texas Pick3 Lottery website and return winning number for a specific date", function () {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
             expectedDate = new Date("02/15/2018"),
             expectedMorningWinningNumber = 158,
             actualMorningWinningNumber,
-            scraper;
+            service;
 
         $ = cheerio.load(html);
 
-        scraper = new BytePushers.TexasPick3WebScraper({
+        service = new BytePushers.WebScraperService({
             url: BytePushers.TexasPick3WebScraper.URL,
             cheerio: $
         });
 
-        actualMorningWinningNumber = scraper.findWinningNumber(expectedDate, "Morning");
+        actualMorningWinningNumber = service.retrieveWinningNumber("TX", expectedDate, "Morning");
 
-        assert.equal(actualMorningWinningNumber, expectedMorningWinningNumber);
+        assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
     });
 });

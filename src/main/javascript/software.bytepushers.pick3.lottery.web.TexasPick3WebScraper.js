@@ -7,7 +7,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     TexasPick3WebScraper.prototype.superclass.apply(this, [TxPick3WebScraperConfig]);
     var $ = this.getCheerio();
 
-    this.findMorningWinningNumber = function (drawingDate, drawingTime) {
+    this.findMorningWinningNumber = function (drawingDate) {
         var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
             $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
             winningNumber = scrapeMorningWinningNumber($targetTrElement);
@@ -15,20 +15,20 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    this.findDayWinningNumber = function (drawingDate, drawingTime) {
+    this.findDayWinningNumber = function (drawingDate) {
         throw Error("method not implemented by WebScraper" + this.constructor.name);
     };
 
-    this.findEveningWinningNumber = function (drawingDate, drawingTime) {
+    this.findEveningWinningNumber = function (drawingDate) {
         throw Error("method not implemented by WebScraper" + this.constructor.name);
     };
 
-    this.findNightWinningNumber = function (drawingDate, drawingTime) {
+    this.findNightWinningNumber = function (drawingDate) {
         throw Error("method not implemented by WebScraper" + this.constructor.name);
     };
 
 
-    function removeNewLine2(someText) {
+    function removeNewLineBytes(someText) {
         var bytes = []; // char codes
 
         for (var i = 0; i < someText.length; ++i) {
@@ -63,9 +63,9 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
             num2 = $section.find("td:nth-child(3)").text(),
             num3 = $section.find("td:nth-child(4)").text();
 
-        num1 = removeNewLine2(num1).trim();
-        num2 = removeNewLine2(num2).trim();
-        num3 = removeNewLine2(num3).trim();
+        num1 = removeNewLineBytes(num1).trim();
+        num2 = removeNewLineBytes(num2).trim();
+        num3 = removeNewLineBytes(num3).trim();
 
         return 100 * num1 + 10 * num2 + 1 * num3;
     }

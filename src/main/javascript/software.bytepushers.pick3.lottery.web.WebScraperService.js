@@ -20,7 +20,7 @@ function Pick3LotteryWebScrapingService() {
         try {
             scraper = findRegisteredScraper(drawingState, drawingDate, drawingTime);
 
-            doScrape(scraper.url, scraper.scrape);
+            doScrape(scraper.getUrl(), scraper.scrape);
 
             winningNumber.date = scraper.getDrawingDate();
             winningNumber.time = scraper.getDrawingTime();
@@ -55,7 +55,7 @@ function Pick3LotteryWebScrapingService() {
     }
 
     var registeredScrapers = [
-        {state: "TX", stateName: "Texas", url: TexasPick3WebScraper.url, Scraper: TexasPick3WebScraper}
+        {state: "TX", stateName: "Texas", url: TexasPick3WebScraper.URL, Scraper: TexasPick3WebScraper}
     ]
 }
 
