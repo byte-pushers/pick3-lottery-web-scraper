@@ -4,7 +4,7 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
-
+var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
 
 function Pick3LotteryWebScrapingService() {
     'use strict';
@@ -38,7 +38,7 @@ function Pick3LotteryWebScrapingService() {
 
     function findRegisteredScraper(stateAbbreviation, drawingDate, drawingTime) {
         var registeredScraper = registeredScrapers.find(function (registeredScraper) {
-                return registeredScraper.state === stateAbbreviation
+                return (stateAbbreviation && registeredScraper.state.toUpperCase() === stateAbbreviation.toUpperCase());
             }),
             scraper = (registeredScraper === undefined)? null : new registeredScraper.Scraper({
                 url: registeredScraper.url,
@@ -55,7 +55,7 @@ function Pick3LotteryWebScrapingService() {
     }
 
     var registeredScrapers = [
-        {state: "TX", stateName: "Texas", url: /*BytePushers.scraper.*/TexasPick3WebScraper.url, Scraper: /*BytePushers.scraper.*/TexasPick3WebScraper}
+        {state: "TX", stateName: "Texas", url: TexasPick3WebScraper.url, Scraper: TexasPick3WebScraper}
     ]
 }
 
