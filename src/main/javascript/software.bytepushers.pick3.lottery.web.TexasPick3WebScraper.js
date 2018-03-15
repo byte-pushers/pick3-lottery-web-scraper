@@ -16,11 +16,19 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     };
 
     this.findDayWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
+            winningNumber = scrapeDayWinningNumber($targetTrElement);
+
+        return winningNumber;
     };
 
     this.findEveningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
+            winningNumber = scrapeEveningWinningNumber($targetTrElement);
+
+        return winningNumber;
     };
 
     this.findNightWinningNumber = function (drawingDate) {
@@ -66,6 +74,30 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         num1 = removeNewLineBytes(num1).trim();
         num2 = removeNewLineBytes(num2).trim();
         num3 = removeNewLineBytes(num3).trim();
+
+        return 100 * num1 + 10 * num2 + 1 * num3;
+    }
+
+    function scrapeDayWinningNumber($section) {
+        var num1 = $section.find("td:nth-child(6)").text(),
+            num2 = $section.find("td:nth-child(7)").text(),
+            num3 = $section.find("td:nth-child(8)").text();
+
+        num1 = removeNewLine2(num1).trim();
+        num2 = removeNewLine2(num2).trim();
+        num3 = removeNewLine2(num3).trim();
+
+        return 100 * num1 + 10 * num2 + 1 * num3;
+    }
+
+    function scrapeEveningWinningNumber($section) {
+        var num1 = $section.find("td:nth-child(10)").text(),
+            num2 = $section.find("td:nth-child(11)").text(),
+            num3 = $section.find("td:nth-child(12)").text();
+
+        num1 = removeNewLine2(num1).trim();
+        num2 = removeNewLine2(num2).trim();
+        num3 = removeNewLine2(num3).trim();
 
         return 100 * num1 + 10 * num2 + 1 * num3;
     }

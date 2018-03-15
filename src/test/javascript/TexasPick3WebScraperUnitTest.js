@@ -28,4 +28,40 @@ describe("TexasPick3WebScraper Unit Tests", function() {
 
         assert.equal(actualMorningWinningNumber, expectedMorningWinningNumber);
     });
+    it("should be able to find Day Winning Number for a specific date", function() {
+        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+            expectedDate = "02/14/2018",
+            expectedDayWinningNumber = 284,
+            actualDayWinningNumber,
+            scraper;
+
+        $ = cheerio.load(html);
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: BytePushers.TexasPick3WebScraper.URL,
+            cheerio: $
+        });
+
+        actualDayWinningNumber = scraper.findWinningNumber(expectedDate, "Day");
+
+        assert.equal(actualDayWinningNumber, expectedDayWinningNumber);
+    });
+    it("should be able to find Evening Winning Number for a specific date", function() {
+        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+            expectedDate = "02/14/2018",
+            expectedEveningWinningNumber = 230,
+            actualEveningWinningNumber,
+            scraper;
+
+        $ = cheerio.load(html);
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: BytePushers.TexasPick3WebScraper.URL,
+            cheerio: $
+        });
+
+        actualEveningWinningNumber = scraper.findWinningNumber(expectedDate, "Evening");
+
+        assert.equal(actualEveningWinningNumber, expectedEveningWinningNumber);
+    });
 });
