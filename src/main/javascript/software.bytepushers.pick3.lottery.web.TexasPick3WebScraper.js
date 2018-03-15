@@ -114,9 +114,9 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
             num2 = $section.find("td:nth-child(15)").text(),
             num3 = $section.find("td:nth-child(16)").text();
 
-        num1 = removeNewLine2(num1).trim();
-        num2 = removeNewLine2(num2).trim();
-        num3 = removeNewLine2(num3).trim();
+        num1 = removeNewLineBytes(num1).trim();
+        num2 = removeNewLineBytes(num2).trim();
+        num3 = removeNewLineBytes(num3).trim();
 
         return 100 * num1 + 10 * num2 + 1 * num3;
     }
