@@ -7,7 +7,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     TexasPick3WebScraper.prototype.superclass.apply(this, [TxPick3WebScraperConfig]);
     var $ = this.getCheerio();
 
-    this.findMorningWinningNumber = function (drawingDate, drawingTime) {
+    this.findMorningWinningNumber = function (drawingDate) {
         var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
             $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
             winningNumber = scrapeMorningWinningNumber($targetTrElement);
@@ -23,11 +23,15 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    this.findEveningWinningNumber = function (drawingDate, drawingTime) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+    this.findEveningWinningNumber = function (drawingDate) {
+        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
+            winningNumber = scrapeEveningWinningNumber($targetTrElement);
+
+        return winningNumber;
     };
 
-    this.findNightWinningNumber = function (drawingDate, drawingTime) {
+    this.findNightWinningNumber = function (drawingDate) {
         throw Error("method not implemented by WebScraper" + this.constructor.name);
     };
 
@@ -78,6 +82,18 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         var num1 = $section.find("td:nth-child(6)").text(),
             num2 = $section.find("td:nth-child(7)").text(),
             num3 = $section.find("td:nth-child(8)").text();
+
+        num1 = removeNewLine2(num1).trim();
+        num2 = removeNewLine2(num2).trim();
+        num3 = removeNewLine2(num3).trim();
+
+        return 100 * num1 + 10 * num2 + 1 * num3;
+    }
+
+    function scrapeEveningWinningNumber($section) {
+        var num1 = $section.find("td:nth-child(10)").text(),
+            num2 = $section.find("td:nth-child(11)").text(),
+            num3 = $section.find("td:nth-child(12)").text();
 
         num1 = removeNewLine2(num1).trim();
         num2 = removeNewLine2(num2).trim();
