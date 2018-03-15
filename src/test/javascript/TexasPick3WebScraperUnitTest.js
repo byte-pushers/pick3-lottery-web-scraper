@@ -64,4 +64,22 @@ describe("Cheerio tests", function() {
 
         assert.equal(actualEveningWinningNumber, expectedEveningWinningNumber);
     });
+    it("should be able to find Night Winning Number for a specific date", function() {
+        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+            expectedDate = "02/14/2018",
+            expectedNightWinningNumber = 129,
+            actualNightWinningNumber,
+            scraper;
+
+        $ = cheerio.load(html);
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: BytePushers.TexasPick3WebScraper.URL,
+            cheerio: $
+        });
+
+        actualNightWinningNumber = scraper.findWinningNumber(expectedDate, "Night");
+
+        assert.equal(actualNightWinningNumber, expectedNightWinningNumber);
+    });
 });

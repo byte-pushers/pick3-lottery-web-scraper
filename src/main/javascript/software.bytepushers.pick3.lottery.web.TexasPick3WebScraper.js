@@ -32,7 +32,11 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     };
 
     this.findNightWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
+            winningNumber = scrapeNightWinningNumber($targetTrElement);
+
+        return winningNumber;
     };
 
 
@@ -94,6 +98,18 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         var num1 = $section.find("td:nth-child(10)").text(),
             num2 = $section.find("td:nth-child(11)").text(),
             num3 = $section.find("td:nth-child(12)").text();
+
+        num1 = removeNewLine2(num1).trim();
+        num2 = removeNewLine2(num2).trim();
+        num3 = removeNewLine2(num3).trim();
+
+        return 100 * num1 + 10 * num2 + 1 * num3;
+    }
+
+    function scrapeNightWinningNumber($section) {
+        var num1 = $section.find("td:nth-child(14)").text(),
+            num2 = $section.find("td:nth-child(15)").text(),
+            num3 = $section.find("td:nth-child(16)").text();
 
         num1 = removeNewLine2(num1).trim();
         num2 = removeNewLine2(num2).trim();
