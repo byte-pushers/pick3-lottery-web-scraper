@@ -84,7 +84,7 @@ function WebScraper(txPick3WebScraperConfig) {
 
         if (targetDate instanceof Date) {
             formattedTargetDate = pad(targetDate.getMonth()+1) + "/" + pad(targetDate.getDate()) + "/" + targetDate.getFullYear();
-        } else if (targetDate instanceof String) {
+        } else if (typeof targetDate === 'string' || targetDate instanceof String) {
             formattedTargetDate = targetDate;
         }
 
