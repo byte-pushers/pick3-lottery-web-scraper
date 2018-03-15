@@ -71,7 +71,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     }
 
     function scrapeDrawDateTdElement(drawingDate) {
-        var $drawDateTdElement = $('#pastResults').find('tr > td:first-child:contains('+drawingDate+')');
+        var $drawDateTdElement = $('#pastresults').find('tr > td:first-child:contains('+drawingDate+')');
 
         return $drawDateTdElement;
     }

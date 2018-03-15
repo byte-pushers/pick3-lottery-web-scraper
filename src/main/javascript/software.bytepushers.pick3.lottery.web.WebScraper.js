@@ -3,7 +3,7 @@ var BytePushers = require('bytepushers-js-oop');
 function WebScraper(txPick3WebScraperConfig) {
     'use strict';
     var url = (txPick3WebScraperConfig && txPick3WebScraperConfig.url)? txPick3WebScraperConfig.url: null;
-    var $ = (txPick3WebScraperConfig && txPick3WebScraperConfig.cheerio)? txPick3WebScraperConfig.cheerio: null;
+    var $ = (txPick3WebScraperConfig && txPick3WebScraperConfig.cheerio)? txPick3WebScraperConfig.cheerio: {};
     var drawingDate = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingDate)? txPick3WebScraperConfig.drawingDate: null;
     var drawingTime = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingTime)? txPick3WebScraperConfig.drawingTime: null;
     var drawingNumber = -1;
@@ -30,14 +30,6 @@ function WebScraper(txPick3WebScraperConfig) {
 
     this.getDrawingNumber = function () {
         return drawingNumber;
-    };
-
-    this.scrape = function (error, response, html) {
-
-        if (!error) {
-            $ = $.load(html);
-            drawingNumber = this.findWinningNumber(drawingDate, drawingTime);
-        }
     };
 
     this.findMorningWinningNumber = function (drawingDate) {
