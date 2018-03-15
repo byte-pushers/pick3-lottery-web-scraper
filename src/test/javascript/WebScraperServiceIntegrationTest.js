@@ -3,8 +3,7 @@ var BytePushers = require('../../main/javascript'),
     assert = require('assert'),
     cheerio = require('cheerio'),
     fs = require('fs'),
-    fixturePath = "src/test/javascript/fixtures/html/",
-    $;
+    fixturePath = "src/test/javascript/fixtures/html/";
 
 describe("WebScraperService Integration Tests", function() {
     it("should be able to scrape Texas Pick3 Lottery website and return winning number for a specific date", function () {
@@ -16,11 +15,9 @@ describe("WebScraperService Integration Tests", function() {
             actualMorningWinningNumber,
             service;
 
-        $ = cheerio.load(html);
-
         service = new BytePushers.Pick3LotteryWebScrapingService({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            cheerio: cheerio.load(html)
         });
 
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).then(function(actualMorningWinningNumber) {
