@@ -36,7 +36,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     };
 
 
-    function removeNewLine2(someText) {
+    function removeNewLineBytes(someText) {
         var bytes = []; // char codes
 
         for (var i = 0; i < someText.length; ++i) {
@@ -71,9 +71,9 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
             num2 = $section.find("td:nth-child(3)").text(),
             num3 = $section.find("td:nth-child(4)").text();
 
-        num1 = removeNewLine2(num1).trim();
-        num2 = removeNewLine2(num2).trim();
-        num3 = removeNewLine2(num3).trim();
+        num1 = removeNewLineBytes(num1).trim();
+        num2 = removeNewLineBytes(num2).trim();
+        num3 = removeNewLineBytes(num3).trim();
 
         return 100 * num1 + 10 * num2 + 1 * num3;
     }
@@ -83,9 +83,9 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
             num2 = $section.find("td:nth-child(7)").text(),
             num3 = $section.find("td:nth-child(8)").text();
 
-        num1 = removeNewLine2(num1).trim();
-        num2 = removeNewLine2(num2).trim();
-        num3 = removeNewLine2(num3).trim();
+        num1 = removeNewLineBytes(num1).trim();
+        num2 = removeNewLineBytes(num2).trim();
+        num3 = removeNewLineBytes(num3).trim();
 
         return 100 * num1 + 10 * num2 + 1 * num3;
     }
@@ -95,15 +95,15 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
             num2 = $section.find("td:nth-child(11)").text(),
             num3 = $section.find("td:nth-child(12)").text();
 
-        num1 = removeNewLine2(num1).trim();
-        num2 = removeNewLine2(num2).trim();
-        num3 = removeNewLine2(num3).trim();
+        num1 = removeNewLineBytes(num1).trim();
+        num2 = removeNewLineBytes(num2).trim();
+        num3 = removeNewLineBytes(num3).trim();
 
         return 100 * num1 + 10 * num2 + 1 * num3;
     }
 
     function scrapeDrawDateTdElement(drawingDate) {
-        var $drawDateTdElement = $('#pastResults').find('tr > td:first-child:contains('+drawingDate+')');
+        var $drawDateTdElement = $('#pastresults').find('tr > td:first-child:contains('+drawingDate+')');
 
         return $drawDateTdElement;
     }
