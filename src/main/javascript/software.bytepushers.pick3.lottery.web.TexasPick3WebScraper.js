@@ -7,34 +7,37 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     TexasPick3WebScraper.prototype.superclass.apply(this, [TxPick3WebScraperConfig]);
     var $ = this.getCheerio();
 
-    this.findMorningWinningNumber = function (drawingDate) {
+    function findTargetDrawDateSection(drawingDate){
         var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
-            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
-            winningNumber = scrapeMorningWinningNumber($targetTrElement);
+            $targetTrElement = scrapeDrawDateTrElement($targetTdElement);
+
+        return $targetTrElement;
+    }
+
+    this.findMorningWinningNumber = function (drawingDate) {
+        var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
+            winningNumber = scrapeMorningWinningNumber($targetDrawDateSection);
 
         return winningNumber;
     };
 
     this.findDayWinningNumber = function (drawingDate) {
-        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
-            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
-            winningNumber = scrapeDayWinningNumber($targetTrElement);
+        var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
+            winningNumber = scrapeDayWinningNumber($targetDrawDateSection);
 
         return winningNumber;
     };
 
     this.findEveningWinningNumber = function (drawingDate) {
-        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
-            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
-            winningNumber = scrapeEveningWinningNumber($targetTrElement);
+        var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
+            winningNumber = scrapeEveningWinningNumber($targetDrawDateSection);
 
         return winningNumber;
     };
 
     this.findNightWinningNumber = function (drawingDate) {
-        var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
-            $targetTrElement = scrapeDrawDateTrElement($targetTdElement),
-            winningNumber = scrapeNightWinningNumber($targetTrElement);
+        var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
+            winningNumber = scrapeNightWinningNumber($targetDrawDateSection);
 
         return winningNumber;
     };
