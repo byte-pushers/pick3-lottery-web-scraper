@@ -16,3 +16,18 @@ notifications:
       - kenneth_flow@hotmail.com
     on_success: change # default: change
     on_failure: always # default: always
+
+jobs:
+  include:
+    - stage: test
+      script: npm test
+    - stage: deploy
+      script: npm deploy-aws-lambda
+    - stage: post-deploy
+      script: npm prepare-aws-lambda $TRAVIS_BRANCH $TRAVIS_COMMIT
+stages:
+  - compile
+  - test
+  - name: deploy
+    if: branch = develop
+  - post-deploy
