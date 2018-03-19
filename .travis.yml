@@ -31,5 +31,5 @@ stages:
   - test
   - pre-deploy
   - name: deploy
-    if: branch = develop
+    if: branch = features/plws-8-setup-continuous-deployment-to-aws
   - post-deploy
