@@ -40,10 +40,10 @@
   "scripts": {
     "pretest": "npm install",
     "test": "./node_modules/mocha/bin/mocha --slow 2000 src/test/javascript/*.js",
-    "posttest": "build-aws-resource",
-    "deploy-aws-lambda": "scripts/aws/deploy-aws-lambda.js",
-    "build-aws-resource": "pack-zip",
-    "prepare-aws-lambda": "script s/aws/add-version-number-to-aws-resource.js"
+    "posttest": "npm run build:aws:resource",
+    "deploy:aws:lambda": "scripts/aws/deploy-aws-lambda.js",
+    "build:aws:resource": "pack-zip",
+    "build:aws:deployment-package": "scripts/aws/create-aws-deployment-package.js"
   },
   "jspm": {
     "files": [

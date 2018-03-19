@@ -23,13 +23,11 @@ jobs:
     - stage: test
       script: npm test
     - stage: deploy
-      script: npm deploy-aws-lambda
+      script: npm deploy:aws:lambda
     - stage: pre-deploy
-      script: npm prepare-aws-lambda $TRAVIS_BRANCH $TRAVIS_COMMIT
+      script: npm build:aws:deployment-package $TRAVIS_BRANCH $TRAVIS_COMMIT
 stages:
-  - compile
   - test
   - pre-deploy
   - name: deploy
     if: branch = features/plws-8-setup-continuous-deployment-to-aws
-  - post-deploy
