@@ -3,6 +3,9 @@ var AdmZip = require('adm-zip');
 var datetime = require('node-datetime');
 var awsResourceFileName = "pick3-lottery-web-scraper";
 
+console.log("Branch Name: " + process.argv[2]);
+console.log("Commit Number: " + process.argv[3]);
+
 function deleteFolderRecursive(path) {
     if (fs.existsSync(path)) {
         fs.readdirSync(path).forEach(function(file, index){
