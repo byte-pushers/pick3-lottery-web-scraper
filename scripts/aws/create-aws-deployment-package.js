@@ -105,7 +105,7 @@ function printOutWorkspaceInfo() {
 
 
     console.log("../../build is : ");
-    fs.readdirSync("../../build").forEach(file = > {
+    fs.readdirSync("../../build").forEach(file => {
         console.log(file);
     });
 }
