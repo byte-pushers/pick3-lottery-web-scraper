@@ -5,6 +5,8 @@ process.argv.forEach(function (val, index) {
 var fs = require('fs');
 var AdmZip = require('adm-zip');
 var datetime = require('node-datetime');
+var TRAVIS_BUILD_DIR = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4] : null;
+
 
 function deleteFolderRecursive(path) {
     if (fs.existsSync(path)) {
@@ -21,15 +23,15 @@ function deleteFolderRecursive(path) {
 }
 
 function clean() {
-    if (fs.existsSync("../../build")) {
-        deleteFolderRecursive("../../build");
+    if (fs.existsSync(TRAVIS_BUILD_DIR + "/build")) {
+        deleteFolderRecursive(TRAVIS_BUILD_DIR + "/build");
     }
 
-    fs.mkdirSync("../../build");
+    fs.mkdirSync(TRAVIS_BUILD_DIR + "/build");
 }
 
 function getAwsDeploymentSourcePackagePath() {
-    return '../../pick3-lottery-web-scraper.zip';
+    return TRAVIS_BUILD_DIR + '/pick3-lottery-web-scraper.zip';
 }
 
 function getAwsDeploymentPackagePath() {
@@ -44,7 +46,7 @@ function getAwsDeploymentPackagePath() {
     console.log("Branch Name: " + branchName);
     console.log("Commit Number: " + commitNumber);
 
-    filename = '../../build/pick3-lottery-web-scraper.' + branchName + '.' + commitNumber + '.' + formatted + '.zip';
+    filename = TRAVIS_BUILD_DIR + '/build/pick3-lottery-web-scraper.' + branchName + '.' + commitNumber + '.' + formatted + '.zip';
 
     console.log("File Name: " + filename);
 
@@ -53,8 +55,6 @@ function getAwsDeploymentPackagePath() {
 
 function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
     console.log("createAwsDeploymentPackage() method: awsDeploymentSourcePackagePath: " + awsDeploymentSourcePackagePath);
-
-    printOutWorkspaceInfo();
 
     //create a zip object to hold the new zip files
     var newZip = new AdmZip();
@@ -105,11 +105,9 @@ function printOutWorkspaceInfo(workspacePath) {
     console.log("../../build is : ");
     printDirectoryInfo("../../build");
 
-    var buildDir = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4] : null;
-
-    if (buildDir !== null) {
-        console.log("buildDir is: " + buildDir);
-        printDirectoryInfo(buildDir);
+    if (TRAVIS_BUILD_DIR !== null) {
+        console.log("TRAVIS_BUILD_DIR is: " + TRAVIS_BUILD_DIR);
+        printDirectoryInfo(TRAVIS_BUILD_DIR);
     }
 }
 
