@@ -33,6 +33,7 @@ function getAwsDeploymentSourcePackagePath() {
 }
 
 function getAwsDeploymentPackagePath() {
+    var filename;
     var dt = datetime.create();
     var formatted = dt.format('Y.m.d.T.H.M.S');
     var branchName = (process.argv[2] !== undefined && process.argv[2] !== null)? process.argv[2]: "NA";
