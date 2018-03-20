@@ -42,7 +42,7 @@
     "posttest": "npm run build:aws:resource",
     "deploy:aws:lambda": "scripts/aws/deploy-aws-lambda.js",
     "build:aws:resource": "pack-zip",
-    "build:aws:deployment-package": "scripts/aws/create-aws-deployment-package.js"
+    "build:aws:deployment-package": "node scripts/aws/create-aws-deployment-package.js"
   },
   "jspm": {
     "files": [
