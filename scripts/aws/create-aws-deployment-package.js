@@ -81,33 +81,36 @@ function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
     newZip.writeZip(getAwsDeploymentPackagePath());  //write the new zip
 }
 
-function printOutWorkspaceInfo() {
-    console.log("current directory is " + __dirname);
+function printDirectoryInfo(dirPath) {
+    console.log("current directory is " + dirPath);
 
-    fs.readdirSync(__dirname).forEach(file => {
+    fs.readdirSync(dirPath).forEach(file => {
         console.log(file);
     });
+}
+
+function printOutWorkspaceInfo(workspacePath) {
+    console.log("current directory is " + __dirname);
+    printDirectoryInfo(__dirname);
 
     console.log("../../ is : ");
-    fs.readdirSync("../../").forEach(file => {
-        console.log(file);
-    });
+    printDirectoryInfo("../../");
 
     console.log("../../byte-pushers is : ");
-    fs.readdirSync("../../byte-pushers").forEach(file => {
-        console.log(file);
-    });
+    printDirectoryInfo("../../byte-pushers");
 
     console.log("../../byte-pushers/pick3-lottery-web-scraper is : ");
-    fs.readdirSync("../../byte-pushers/pick3-lottery-web-scraper").forEach(file => {
-        console.log(file);
-    });
-
+    printDirectoryInfo("../../byte-pushers/pick3-lottery-web-scraper");
 
     console.log("../../build is : ");
-    fs.readdirSync("../../build").forEach(file => {
-        console.log(file);
-    });
+    printDirectoryInfo("../../build");
+
+    var buildDir = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4] : null;
+
+    if (buildDir !== null) {
+        console.log("buildDir is: " + buildDir);
+        printDirectoryInfo(buildDir);
+    }
 }
 
 clean();
