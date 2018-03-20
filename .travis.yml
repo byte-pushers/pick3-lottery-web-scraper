@@ -25,7 +25,7 @@ jobs:
     - stage: deploy
       script: npm deploy:aws:lambda
     - stage: pre-deploy
-      script: npm run build:aws:deployment-package $TRAVIS_BRANCH $TRAVIS_COMMIT
+      script: npm run build:aws:deployment-package
 stages:
   - test
   - pre-deploy
