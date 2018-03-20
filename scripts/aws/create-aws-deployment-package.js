@@ -52,11 +52,11 @@ function getAwsDeploymentPackagePath() {
 }
 
 function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
+    console.log("createAwsDeploymentPackage() method: awsDeploymentSourcePackagePath: " + awsDeploymentSourcePackagePath);
     //create a zip object to hold the new zip files
     var newZip = new AdmZip();
 
     // reading archives
-
     var zip = new AdmZip(awsDeploymentSourcePackagePath);
     var zipEntries = zip.getEntries(); // an array of ZipEntry records
 
@@ -74,6 +74,7 @@ function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
         }
     });
 
+    console.log("createAwsDeploymentPackage() method: about to write to new zip file.");
     newZip.writeZip(getAwsDeploymentPackagePath());  //write the new zip
 }
 
