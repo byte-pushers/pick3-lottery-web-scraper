@@ -23,6 +23,7 @@ jobs:
     - stage: pre-deploy
       script: npm run build:aws:deployment-package $TRAVIS_BRANCH $TRAVIS_COMMIT
 stages:
+  - test
   - pre-deploy
   - name: deploy
     if: branch = features/plws-8-setup-continuous-deployment-to-aws
