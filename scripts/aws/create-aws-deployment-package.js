@@ -2,9 +2,6 @@ process.argv.forEach(function (val, index) {
     console.log(index + ': ' + val);
 });
 
-console.log("Branch Name: " + process.argv[3]);
-console.log("Commit Number: " + process.argv[4]);
-
 var fs = require('fs');
 var AdmZip = require('adm-zip');
 var datetime = require('node-datetime');
@@ -37,13 +34,20 @@ function getAwsDeploymentSourcePackagePath() {
 
 function getAwsDeploymentPackagePath() {
     var dt = datetime.create();
-    var formatted = dt.format('Y-m-dTH-M-S');
+    var formatted = dt.format('Y.m.d.T.H.M.S');
     var branchName = (process.argv[2] !== undefined && process.argv[2] !== null)? process.argv[2]: "NA";
     var commitNumber = (process.argv[3] !== undefined && process.argv[3] !== null)? process.argv[3]: "NA";
 
     branchName = branchName.replace(/\//g, ".");
 
-    return '../../build/pick3-lottery-web-scraper.'+ branchName + '.' + commitNumber +'.'+ formatted + '.zip';
+    console.log("Branch Name: " + branchName);
+    console.log("Commit Number: " + commitNumber);
+
+    filename = '../../build/pick3-lottery-web-scraper.'+ branchName + '.' + commitNumber +'.'+ formatted + '.zip';
+
+    console.log("File Name: " + filename);
+
+    return filename;
 }
 
 function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
