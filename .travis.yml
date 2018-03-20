@@ -7,9 +7,6 @@ branches:
   - develop
   - features/plws-8-setup-continuous-deployment-to-aws
 
-before_script:
-  - npm install -g bower
-
 notifications:
   email:
     recipients:
