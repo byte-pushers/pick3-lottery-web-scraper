@@ -38,8 +38,8 @@ function getAwsDeploymentSourcePackagePath() {
 function getAwsDeploymentPackagePath() {
     var dt = datetime.create();
     var formatted = dt.format('Y-m-dTH-M-S');
-    var branchName = (process.argv[3] !== undefined && process.argv[3] !== null)? process.argv[3]: "NA";
-    var commitNumber = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4]: "NA";
+    var branchName = (process.argv[2] !== undefined && process.argv[2] !== null)? process.argv[2]: "NA";
+    var commitNumber = (process.argv[3] !== undefined && process.argv[3] !== null)? process.argv[3]: "NA";
 
     branchName = branchName.replace(/\//g, ".");
 
