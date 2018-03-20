@@ -29,7 +29,7 @@ function clean() {
 }
 
 function getAwsDeploymentSourcePackagePath() {
-    return 'pick3-lottery-web-scraper.zip';
+    return '../../pick3-lottery-web-scraper.zip';
 }
 
 function getAwsDeploymentPackagePath() {
