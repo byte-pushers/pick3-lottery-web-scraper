@@ -70,9 +70,9 @@ function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
         if (fileName.indexOf("/") > -1) {
             if (fileName.indexOf("src/main/javascript") > -1 && fileName.indexOf("node_modules") == -1) {
                 var newFileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-                newZip.addFile(newFileName, fileContent, '', 0644 << 16);
+                newZip.addFile(newFileName, fileContent, '', 0o644 << 16);
             } else if (fileName.indexOf("node_modules") > -1) {
-                newZip.addFile(fileName, fileContent, '', 0644 << 16);
+                newZip.addFile(fileName, fileContent, '', 0o644 << 16);
             }
         }
     });
