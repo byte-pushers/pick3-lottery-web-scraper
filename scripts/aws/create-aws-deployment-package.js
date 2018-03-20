@@ -41,6 +41,8 @@ function getAwsDeploymentPackagePath() {
     var branchName = (process.argv[3] !== undefined && process.argv[3] !== null)? process.argv[3]: "NA";
     var commitNumber = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4]: "NA";
 
+    branchName = branchName.replace(/\//g, ".");
+
     return '../../build/pick3-lottery-web-scraper.'+ branchName + '.' + commitNumber +'.'+ formatted + '.zip';
 }
 
