@@ -38,7 +38,6 @@
     "pack-zip": "^0.2.2"
   },
   "scripts": {
-    "pretest": "npm install",
     "test": "./node_modules/mocha/bin/mocha --slow 2000 src/test/javascript/*.js",
     "posttest": "npm run build:aws:resource",
     "deploy:aws:lambda": "scripts/aws/deploy-aws-lambda.js",
