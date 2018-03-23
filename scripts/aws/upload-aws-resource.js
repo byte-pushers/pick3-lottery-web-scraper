@@ -32,4 +32,3 @@ function getResource() {
 }
 
 uploadToS3Bucket(createS3Client(), filename, getResource());
-
