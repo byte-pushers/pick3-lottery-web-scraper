@@ -39,7 +39,8 @@
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --slow 2000 src/test/javascript/*.js",
-    "posttest": "npm run build:aws:resource && npm run build:aws:deployment-package $TRAVIS_BRANCH $TRAVIS_COMMIT $TRAVIS_BUILD_DIR",
+    "posttest": "npm run build:aws:resource && npm run build:aws:deployment-package $TRAVIS_BRANCH $TRAVIS_COMMIT $TRAVIS_BUILD_DIR && npm run build:aws:upload:aws:s3",
+    "upload:aws:s3": "scripts/aws/upload-aws-s3.js",
     "deploy:aws:lambda": "scripts/aws/deploy-aws-lambda.js",
     "build:aws:resource": "pack-zip",
     "build:aws:deployment-package": "node scripts/aws/create-aws-deployment-package.js"
