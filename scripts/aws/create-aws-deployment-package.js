@@ -6,7 +6,6 @@ var fs = require('fs');
 var AdmZip = require('adm-zip');
 var datetime = require('node-datetime');
 var TRAVIS_BUILD_DIR = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4] : null;
-TRAVIS_BUILD_DIR = ".";
 
 function deleteFolderRecursive(path) {
     if (fs.existsSync(path)) {
