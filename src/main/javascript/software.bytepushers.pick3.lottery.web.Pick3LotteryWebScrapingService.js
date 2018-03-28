@@ -75,3 +75,19 @@ function Pick3LotteryWebScrapingService() {
 }
 
 module.exports = Pick3LotteryWebScrapingService;
+module.exports.retrieveWinningNumber = function(event, context, callback) {
+    var drawingState = (event && event.drawingState)? event.drawingState: null;
+    var drawingDate = (event && event.drawingDate)? new Date(event.drawingDate): null;
+    var drawingTime = (event && event.drawingTime)? event.drawingTime: null;
+    var service = new Pick3LotteryWebScrapingService();
+
+    if (drawingState && drawingDate && drawingTime) {
+        return service.retrieveWinningNumber(drawingState, drawingDate, drawingTime).then(function (actualMorningWinningNumber) {
+            callback(null, actualMorningWinningNumber.number);
+        }, function (error) {
+            callback(error);
+        });
+    } else {
+        callback("Required parameters must be defined.");
+    }
+};
