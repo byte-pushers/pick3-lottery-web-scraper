@@ -1,7 +1,6 @@
 /*global expect, jasmine, define, describe, beforeAll, it*/
 var BytePushers = require('../../main/javascript'),
     assert = require('assert'),
-    cheerio = require('cheerio'),
     fs = require('fs'),
     fixturePath = "src/test/javascript/fixtures/html/";
 
@@ -12,13 +11,9 @@ describe("WebScraperService Integration Tests", function() {
             actualDrawingTime = "Morning",
             actualDrawingDate = new Date("02/15/2018"),
             expectedMorningWinningNumber = 158,
-            actualMorningWinningNumber,
             service;
 
-        service = new BytePushers.Pick3LotteryWebScrapingService({
-            url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: cheerio.load(html)
-        });
+        service = new BytePushers.Pick3LotteryWebScrapingService();
 
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).then(function(actualMorningWinningNumber) {
             assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
