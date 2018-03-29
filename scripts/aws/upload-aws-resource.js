@@ -1,8 +1,6 @@
 var S3 = require('aws-sdk/clients/s3');
 var fs = require('fs');
 
-
-//var filename = "pick3-lottery-web-scraper.features.test.1.2018.03.23.T.14.54.12.zip";
 var bucketName = "com.bytepushers.chucks-pick3";
 var TRAVIS_BUILD_DIR = (process.argv[2] !== undefined && process.argv[2] !== null)? process.argv[2] : ".";
 
