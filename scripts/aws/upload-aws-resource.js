@@ -29,7 +29,7 @@ function getResource() {
     var filename = fs.readdirSync(TRAVIS_BUILD_DIR)[0];
     var resourceBase64Data, resourceData = fs.readFileSync(TRAVIS_BUILD_DIR + "/" +filename);
 
-    resourceBase64Data = new Buffer(resourceData, 'base64');
+    resourceBase64Data = new Buffer(resourceData, 'binary');
 
     return {key: filename, value: resourceBase64Data};
 }
