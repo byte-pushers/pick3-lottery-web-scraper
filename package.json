@@ -18,7 +18,7 @@
   "main": "release/index.js",
   "devDependencies": {
     "adm-zip": "^0.4.7",
-    "aws-sdk": "^2.220.1",
+    "aws-sdk": "^2.222.1",
     "graceful-fs": "^4.1.4",
     "grunt": "~1.0.1",
     "grunt-bump": "^0.8.0",
@@ -52,7 +52,7 @@
     "main": "index.js"
   },
   "dependencies": {
-    "bytepushers-js-oop": "0.x",
+    "bytepushers-js-oop": "0.0.14",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.85.0"
   }
