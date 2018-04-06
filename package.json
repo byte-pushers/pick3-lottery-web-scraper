@@ -15,7 +15,7 @@
   "directories": {
     "lib": "src/main/javascript"
   },
-  "main": "release/index.js",
+  "main": "index.js",
   "devDependencies": {
     "adm-zip": "^0.4.7",
     "aws-sdk": "^2.222.1",
@@ -52,7 +52,7 @@
     "main": "index.js"
   },
   "dependencies": {
-    "bytepushers-js-oop": "0.0.14",
+    "bytepushers-js-oop": "0.x",
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.85.0"
   }

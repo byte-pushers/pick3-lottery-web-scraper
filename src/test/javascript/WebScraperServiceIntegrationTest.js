@@ -9,8 +9,7 @@ describe("WebScraperService Integration Tests", function() {
         assert.equal(true, true);
     });
     /*it("should be able to scrape Texas Pick3 Lottery website and return winning number for a specific date", function () {
-        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
-            actualDrawingStateAbbreviation = "TX",
+        var actualDrawingStateAbbreviation = "TX",
             actualDrawingTime = "Morning",
             actualDrawingDate = new Date("02/15/2018"),
             expectedMorningWinningNumber = 158,
