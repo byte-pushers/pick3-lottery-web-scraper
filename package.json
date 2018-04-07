@@ -38,6 +38,7 @@
     "pack-zip": "^0.2.2"
   },
   "scripts": {
+    "pretest": "node scripts/aws/clean.js $TRAVIS_BUILD_DIR",
     "test": "./node_modules/mocha/bin/mocha --slow 2000 src/test/javascript/*.js",
     "posttest": "npm run build:aws:resource && npm run build:aws:deployment-package $TRAVIS_BRANCH $TRAVIS_COMMIT $TRAVIS_BUILD_DIR && npm run upload:aws:resource $TRAVIS_BUILD_DIR ",
     "upload:aws:resource": "node scripts/aws/upload-aws-resource.js",

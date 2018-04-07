@@ -5,10 +5,7 @@ var BytePushers = require('../../main/javascript'),
     fixturePath = "src/test/javascript/fixtures/html/";
 
 describe("WebScraperService Integration Tests", function() {
-    it("Should work.", function () {
-        assert.equal(true, true);
-    });
-    /*it("should be able to scrape Texas Pick3 Lottery website and return winning number for a specific date", function () {
+    it("should be able to scrape Texas Pick3 Lottery website and return winning number for a specific date", function () {
         var actualDrawingStateAbbreviation = "TX",
             actualDrawingTime = "Morning",
             actualDrawingDate = new Date("02/15/2018"),
@@ -20,5 +17,5 @@ describe("WebScraperService Integration Tests", function() {
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).then(function(actualMorningWinningNumber) {
             assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
         });
-    });*/
+    });
 });

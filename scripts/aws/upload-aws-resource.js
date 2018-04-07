@@ -35,3 +35,12 @@ function getResource() {
 }
 
 uploadToS3Bucket(createS3Client(), getResource());
+
+function getResource2() {
+    var filename = "hellotonte.zip";
+    var resourceBase64Data, resourceData = fs.readFileSync(filename);
+
+    resourceBase64Data = new Buffer(resourceData, 'base64');
+
+    return {key: filename, value: resourceBase64Data};
+}

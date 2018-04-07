@@ -5,7 +5,7 @@ process.argv.forEach(function (val, index) {
 var fs = require('fs');
 var AdmZip = require('adm-zip');
 var datetime = require('node-datetime');
-var TRAVIS_BUILD_DIR = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4] : null;
+var TRAVIS_BUILD_DIR = (process.argv[4] !== undefined && process.argv[4] !== null)? process.argv[4] : ".";
 
 function deleteFolderRecursive(path) {
     if (fs.existsSync(path)) {
@@ -22,6 +22,10 @@ function deleteFolderRecursive(path) {
 }
 
 function clean() {
+    if (fs.existsSync("pick3-lottery-web-scraper.zip")) {
+        delete("pick3-lottery-web-scraper.zip");
+    }
+
     if (fs.existsSync(TRAVIS_BUILD_DIR + "/build")) {
         deleteFolderRecursive(TRAVIS_BUILD_DIR + "/build");
     }
@@ -37,15 +41,23 @@ function getAwsDeploymentPackagePath() {
     var filename;
     var dt = datetime.create();
     var formatted = dt.format('Y.m.d.T.H.M.S');
-    var branchName = (process.argv[2] !== undefined && process.argv[2] !== null) ? process.argv[2] : "NA";
-    var commitNumber = (process.argv[3] !== undefined && process.argv[3] !== null) ? process.argv[3] : "NA";
+    var branchName = (process.argv[2] !== undefined && process.argv[2] !== null) ? process.argv[2] : null;
+    var commitNumber = (process.argv[3] !== undefined && process.argv[3] !== null) ? process.argv[3] : null;
 
-    branchName = branchName.replace(/\//g, ".");
+    filename = TRAVIS_BUILD_DIR + '/build/pick3-lottery-web-scraper';
 
-    console.log("Branch Name: " + branchName);
-    console.log("Commit Number: " + commitNumber);
+    if (branchName !== null && branchName !== undefined) {
+        branchName = branchName.replace(/\//g, ".");
+        console.log("Branch Name: " + branchName);
+        filename += "." + branchName;
+    }
 
-    filename = TRAVIS_BUILD_DIR + '/build/pick3-lottery-web-scraper.' + branchName + '.' + commitNumber + '.' + formatted + '.zip';
+    if (commitNumber !== null && commitNumber !== undefined) {
+        console.log("Commit Number: " + commitNumber);
+        filename += "." + commitNumber;
+    }
+
+    filename += '.' + formatted + '.zip';
 
     console.log("File Name: " + filename);
 
@@ -64,19 +76,35 @@ function createAwsDeploymentPackage(awsDeploymentSourcePackagePath) {
 
     zipEntries.forEach(function (zipEntry) {
         var fileName = zipEntry.entryName;
-        var fileContent = zip.readAsText(fileName);
+        //var fileContent = zip.readAsText(fileName);
 
         if (fileName.indexOf("/") > -1) {
             if (fileName.indexOf("src/main/javascript") > -1 && fileName.indexOf("node_modules") == -1) {
                 var newFileName = fileName.substring(fileName.lastIndexOf("/") + 1);
-                newZip.addFile(newFileName, fileContent, '', 0o644 << 16);
+                //newZip.addFile(newFileName, fileContent, '', 0o644 << 16);
+                zip.extractEntryTo(zipEntry, TRAVIS_BUILD_DIR + "/build/", false, true);
             } else if (fileName.indexOf("node_modules") > -1) {
-                newZip.addFile(fileName, fileContent, '', 0o644 << 16);
+                //newZip.addFile(fileName, fileContent, '', 0o644 << 16);
+                zip.extractEntryTo(zipEntry, TRAVIS_BUILD_DIR + "/build/", true, true);
             }
         }
     });
 
     console.log("createAwsDeploymentPackage() method: about to write to new zip file.");
+    var path = TRAVIS_BUILD_DIR + '/build/';
+    if (fs.existsSync(path)) {
+        fs.readdirSync(path).forEach(function (file, index) {
+            var localPath = path + "/" + file;
+            if (fs.lstatSync(localPath).isDirectory()) { // recurse
+                newZip.addLocalFolder(localPath, file);
+            } else { // delete file
+                newZip.addLocalFile(localPath, ".");
+            }
+        });
+    }
+
+    clean();
+
     newZip.writeZip(getAwsDeploymentPackagePath());  //write the new zip
 }
 
