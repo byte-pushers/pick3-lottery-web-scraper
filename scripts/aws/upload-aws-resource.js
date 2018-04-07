@@ -25,8 +25,25 @@ function uploadToS3Bucket(s3, resource){
     });
 }
 
+function getZipFileName(path) {
+    var zipFileName;
+
+    if (fs.existsSync(path)) {
+        fs.readdirSync(path).some(function (file, index) {
+            zipFileName = file;
+            return file.endsWith(".zip");
+        });
+    }
+
+    if (zipFileName === undefined || zipFileName === null) {
+        throw new Error("Could not find zip file.");
+    }
+
+    return zipFileName;
+}
+
 function getResource() {
-    var filename = fs.readdirSync(TRAVIS_BUILD_DIR)[0];
+    var filename = getZipFileName(TRAVIS_BUILD_DIR);
     var resourceBase64Data, resourceData = fs.readFileSync(TRAVIS_BUILD_DIR + "/" +filename);
 
     resourceBase64Data = new Buffer(resourceData, 'binary');
