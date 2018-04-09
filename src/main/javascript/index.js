@@ -8,14 +8,6 @@ BytePushers.TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery
 
 module.exports = BytePushers;
 module.exports.retrieveWinningNumber = function(event, context, callback) {
-    var response = {
-        statusCode: 200,
-        body: JSON.stringify({
-            message: "Hello World!",
-            input: event
-        })
-    };
-    callback(null, response);
     var drawingState = (event && event.drawingState)? event.drawingState: null;
     var drawingDate = (event && event.drawingDate)? new Date(event.drawingDate): null;
     var drawingTime = (event && event.drawingTime)? event.drawingTime: null;
@@ -23,7 +15,14 @@ module.exports.retrieveWinningNumber = function(event, context, callback) {
 
     if (drawingState && drawingDate && drawingTime) {
         return service.retrieveWinningNumber(drawingState, drawingDate, drawingTime).then(function (actualMorningWinningNumber) {
-            callback(null, actualMorningWinningNumber.number);
+            var response = {
+                statusCode: 200,
+                body: JSON.stringify({
+                    message: actualMorningWinningNumber,
+                    input: event
+                })
+            };
+            callback(null, response);
         }, function (error) {
             callback(error);
         });
