@@ -146,23 +146,35 @@ function ensureTargetPathExist(targetPath) {
     var relativePath = "";
     var relativePathPrefix = TRAVIS_BUILD_DIR + "/build";
 
-    targetPaths.forEach(function (path, pathIndex) {
+    targetPaths.forEach(function (path, pathIndex, paths) {
         if (path) {
             if (path.trim().length > 0) {
-                if (pathIndex < targetPaths.length -1) {
+                if (pathIndex < paths.length -1) {
                     relativePath += "/" + path;
 
-                    if (pathIndex === 2) {
-                        var sourcePackageJsonPath = TRAVIS_BUILD_DIR + relativePath + "/package.json";
-                        var targetPackageJsonPath = relativePathPrefix + relativePath + "/package.json";
-
-                        if (fs.existsSync(sourcePackageJsonPath)) {
-                            shell.exec("cp " + sourcePackageJsonPath + " " + targetPackageJsonPath);
-                        }
-                    }
+                    var sourcePackageJsonPath = TRAVIS_BUILD_DIR + relativePath + "/package.json";
+                    var targetPackageJsonPath = relativePathPrefix + relativePath + "/package.json";
 
                     if (!fs.existsSync(relativePathPrefix + relativePath)) {
                         fs.mkdirSync(relativePathPrefix + relativePath);
+
+                        if (pathIndex === 2) {
+                            if (relativePath.search("ajv") > -1) {
+                                sourcePackageJsonPath = TRAVIS_BUILD_DIR + relativePath;
+                                targetPackageJsonPath = relativePathPrefix + relativePath;
+                                targetPackageJsonPath = targetPackageJsonPath.substring(0, targetPackageJsonPath.length -3);
+
+                                shell.exec("cp -R " + sourcePackageJsonPath + " " + targetPackageJsonPath);
+                            }
+                        }
+                    }
+
+                    if (pathIndex === 2) {
+                        if (relativePath.search("ajv") === -1) {
+                            if (fs.existsSync(sourcePackageJsonPath)) {
+                                shell.exec("cp " + sourcePackageJsonPath + " " + targetPackageJsonPath);
+                            }
+                        }
                     }
                 }
             }
@@ -171,22 +183,35 @@ function ensureTargetPathExist(targetPath) {
 }
 
 function getRequestModuleDependencies() {
-    var dependencies = dependencyTree.toList({
-        filename: TRAVIS_BUILD_DIR + "/node_modules/request/index.js",
-        directory: TRAVIS_BUILD_DIR + "/node_modules/request",
+    var project = getProjectInfo(),
+        projectDependencyTree,
+        dependencyName;
 
-    });
+    for (dependencyName in project.dependencies) {
+        projectDependencyTree = dependencyTree.toList({
+            filename: TRAVIS_BUILD_DIR + "/node_modules/" + dependencyName + "/index.js",
+            directory: TRAVIS_BUILD_DIR + "/node_modules/" + dependencyName,
+        });
 
-    dependencies.forEach(function (dependencySourcePath, dependencyIndex) {
-        var dependencyTargetPath = getRelativePath(dependencySourcePath, "/node_modules");
-        var copyCommand = "cp " + dependencySourcePath + " " + TRAVIS_BUILD_DIR + "/build" + dependencyTargetPath;
+        projectDependencyTree.forEach(function (dependencyTreeSourcePath, dependencyTreeIndex) {
+            var dependencyTreeTargetPath = getRelativePath(dependencyTreeSourcePath, "/node_modules");
+            var copyCommand = "cp " + dependencyTreeSourcePath + " " + TRAVIS_BUILD_DIR + "/build" + dependencyTreeTargetPath;
 
-        console.log("dependency["+dependencyIndex+"]: " + dependencySourcePath);
-        console.log("copy command: " + copyCommand);
+            console.log("dependency["+dependencyTreeIndex+"]: " + dependencyTreeSourcePath);
+            console.log("copy command: " + copyCommand);
 
-        ensureTargetPathExist(dependencyTargetPath);
-        shell.exec(copyCommand);
-    });
+            ensureTargetPathExist(dependencyTreeTargetPath);
+
+            if (dependencyTreeTargetPath.search("ajv") === -1) {
+                shell.exec(copyCommand);
+            }
+        });
+    }
+}
+
+function getProjectInfo() {
+    var dependencies = JSON.parse(fs.readFileSync(TRAVIS_BUILD_DIR + '/package.json', 'utf8'));
+    return dependencies;
 }
 
 clean();
