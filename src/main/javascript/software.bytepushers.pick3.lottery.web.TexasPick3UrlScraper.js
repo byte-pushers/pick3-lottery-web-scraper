@@ -10,14 +10,14 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
 
     var $ = this.getCheerio();
 
-    this.scrapeTargetUrl = function(targetYear) {
-        var targetUrl = $('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
+    this.scrapeTargetUrl = function(targetDate) {
+        var targetYear = targetDate.getFullYear(),
+            targetUrl = $('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
             pathArray = this.getUrl().split('/'),
             baseUrl = pathArray[0] + "//" + pathArray[2];
 
         if (targetUrl == null) {
-            // TODO: Handle error
-            return null;
+            throw Error("No URL available for year " + targetYear);
         }
         return baseUrl + targetUrl.replace("index", "print");
     }
