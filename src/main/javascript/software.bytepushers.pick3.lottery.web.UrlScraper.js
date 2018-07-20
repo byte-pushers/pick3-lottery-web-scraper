@@ -2,7 +2,7 @@
  * Created by kalexmills on 7/20/18.
  */
 var BytePushers = require('bytepushers-js-oop');
-var BaseScraper = require('./software.bytepushers.pick3.lottery.web.BaseScraper');
+var BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
 
 function UrlScraper(urlScraperConfig) {
     'use strict';
@@ -26,8 +26,8 @@ function UrlScraper(urlScraperConfig) {
     }
 }
 
-UrlScraper.prototype = BytePushers.inherit(BaseScraper.prototype);
+UrlScraper.prototype = BytePushers.inherit(BaseWebScraper.prototype);
 UrlScraper.prototype.constructor = UrlScraper;
-UrlScraper.prototype.superclass = BaseScraper;
+UrlScraper.prototype.superclass = BaseWebScraper;
 
 module.exports = UrlScraper;

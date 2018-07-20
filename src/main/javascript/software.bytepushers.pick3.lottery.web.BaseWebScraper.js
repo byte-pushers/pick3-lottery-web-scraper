@@ -1,4 +1,4 @@
-function BaseScraper(baseScraperConfig) {
+function BaseWebScraper(baseScraperConfig) {
     'use strict';
 
     var url = (baseScraperConfig && baseScraperConfig.url)? baseScraperConfig.url: null;
@@ -14,4 +14,4 @@ function BaseScraper(baseScraperConfig) {
 
 }
 
-module.exports = BaseScraper;
+module.exports = BaseWebScraper;

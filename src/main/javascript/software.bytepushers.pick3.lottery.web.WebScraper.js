@@ -1,5 +1,5 @@
 var BytePushers = require('bytepushers-js-oop');
-var BaseScraper = require('./software.bytepushers.pick3.lottery.web.BaseScraper');
+var BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
 
 function WebScraper(txPick3WebScraperConfig) {
     'use strict';
@@ -102,8 +102,8 @@ WebScraper.DRAWING_TIMES = BytePushers.enumeration({
     }
 });
 
-WebScraper.prototype = BytePushers.inherit(BaseScraper.prototype);
+WebScraper.prototype = BytePushers.inherit(BaseWebScraper.prototype);
 WebScraper.prototype.constructor = WebScraper;
-WebScraper.prototype.superclass = BaseScraper;
+WebScraper.prototype.superclass = BaseWebScraper;
 
 module.exports = WebScraper;
