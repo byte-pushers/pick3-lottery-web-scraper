@@ -15,6 +15,10 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
             pathArray = this.getUrl().split('/'),
             baseUrl = pathArray[0] + "//" + pathArray[2];
 
+        if (targetUrl == null) {
+            // TODO: Handle error
+            return null;
+        }
         return baseUrl + targetUrl.replace("index", "print");
     }
 }
