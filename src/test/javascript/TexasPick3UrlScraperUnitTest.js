@@ -11,7 +11,7 @@ var BytePushers = require('../../main/javascript'),
 describe("TexasPick3UrlScraper Unit Tests", function() {
     it("should be able to find URLs for a specific date", function () {
         var html = fs.readFileSync(fixturePath + "pick3-url-scraper-fixture.html", "UTF-8"),
-            expectedUrl = "https://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/index.html_8783066.html",
+            expectedUrl = "https://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/print.html_8783066.html",
             actualUrl,
             actualDrawDate = new Date("02/15/2018"),
             scraper;
@@ -29,7 +29,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
 
     it("should be able to find URLs for a date in the past", function () {
         var html = fs.readFileSync(fixturePath + "pick3-url-scraper-fixture.html", "UTF-8"),
-            expectedUrl = "https://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/index.html_8803961.html",
+            expectedUrl = "https://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/print.html_8803961.html",
             actualUrl,
             actualDrawDate = new Date("01/31/1997"),
             scraper;
