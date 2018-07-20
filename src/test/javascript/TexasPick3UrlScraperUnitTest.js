@@ -58,8 +58,8 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
             drawingDate: actualDrawDate,
         });
 
-        actualUrl = scraper.findSourcePath(actualDrawDate);
-
-        assert.equal(expectedUrl, actualUrl);
+        assert.throws(() => {
+            actualUrl = scraper.findSourcePath(actualDrawDate);
+        }, /No URL available/i);
     });
 });

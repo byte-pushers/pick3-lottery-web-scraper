@@ -20,7 +20,7 @@ function UrlScraper(urlScraperConfig) {
     }
 
     this.findSourcePath = function(drawingDate) {
-        var targetUrl = this.scrapeTargetUrl(targetDate);
+        var targetUrl = this.scrapeTargetUrl(drawingDate);
 
         return targetUrl;
     }
