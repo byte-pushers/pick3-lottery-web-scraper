@@ -19,3 +19,19 @@ describe("WebScraperService Integration Tests", function() {
         });
     });
 });
+
+describe("WebScraperService Integration Tests", function() {
+    it("should be able to scrape Texas Pick3 Lottery website and return winning number for a historical date", function () {
+        var actualDrawingStateAbbreviation = "TX",
+            actualDrawingTime = "Morning",
+            actualDrawingDate = new Date("02/15/2017"),
+            expectedMorningWinningNumber = 469,
+            service;
+
+        service = new BytePushers.Pick3LotteryWebScrapingService();
+
+        return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).then(function(actualMorningWinningNumber) {
+            assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
+        });
+    });
+});

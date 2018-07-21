@@ -1,9 +1,9 @@
 var BytePushers = require('bytepushers-js-oop');
+var BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
 
 function WebScraper(txPick3WebScraperConfig) {
     'use strict';
-    var url = (txPick3WebScraperConfig && txPick3WebScraperConfig.url)? txPick3WebScraperConfig.url: null;
-    var $ = (txPick3WebScraperConfig && txPick3WebScraperConfig.cheerio)? txPick3WebScraperConfig.cheerio: {};
+    WebScraper.prototype.superclass.apply(this, [txPick3WebScraperConfig]);
     var drawingDate = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingDate)? txPick3WebScraperConfig.drawingDate: null;
     var drawingTime = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingTime)? txPick3WebScraperConfig.drawingTime: null;
     var drawingNumber = -1;
@@ -11,14 +11,6 @@ function WebScraper(txPick3WebScraperConfig) {
     function pad(n) {
         return n < 10 ? '0' + n : n;
     }
-
-    this.getUrl = function () {
-        return url;
-    };
-
-    this.getCheerio = function () {
-        return $;
-    };
 
     this.getDrawingDate = function () {
         return drawingDate;
@@ -136,6 +128,8 @@ WebScraper.DRAWING_TIMES = BytePushers.enumeration({
     }
 });
 
-WebScraper.CheckBackLaterMsg = "Winning number not yet available. Check again after ";
+WebScraper.prototype = BytePushers.inherit(BaseWebScraper.prototype);
+WebScraper.prototype.constructor = WebScraper;
+WebScraper.prototype.superclass = BaseWebScraper;
 
 module.exports = WebScraper;
