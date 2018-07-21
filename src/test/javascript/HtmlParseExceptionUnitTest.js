@@ -13,4 +13,9 @@ describe("HtmlParseException Unit Tests", function() {
 
         assert.equal(expectedMsg, actualMsg);
     });
+    it("should have the correct exception code set", function() {
+        var exception = new BytePushers.HtmlParseException("test msg here");
+
+        assert.equal(exception.code, BytePushers.Exception.Code.HTML_PARSE_ERROR);
+    });
 });

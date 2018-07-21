@@ -13,4 +13,9 @@ describe("DrawingYearNotAvailableException Unit Tests", function() {
 
         assert.equal(expectedMsg, actualMsg);
     });
+    it("should have the correct exception code set", function() {
+        var exception = new BytePushers.DrawingYearNotAvailableException("2018");
+
+        assert.equal(exception.code, BytePushers.Exception.Code.DRAWING_YEAR_NOT_AVAILABLE);
+    });
 });

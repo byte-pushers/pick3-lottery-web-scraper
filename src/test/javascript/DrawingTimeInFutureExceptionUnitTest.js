@@ -14,4 +14,9 @@ describe("DrawingTimeInFutureException Unit Tests", function() {
 
         assert.equal(expectedMsg, actualMsg);
     });
+    it("should have the correct exception code set", function() {
+        var exception = new BytePushers.DrawingTimeInFutureException("MORNING", "07/31/2018", new Date().toISOString());
+
+        assert.equal(exception.code, BytePushers.Exception.Code.DRAWING_TIME_IN_FUTURE);
+    });
 });
