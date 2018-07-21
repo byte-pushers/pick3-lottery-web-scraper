@@ -10,6 +10,7 @@ BytePushers.TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery
 BytePushers.UrlScraper = require('./software.bytepushers.pick3.lottery.web.UrlScraper');
 BytePushers.TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
 
+BytePushers.Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 BytePushers.HtmlParseException = require('./software.bytepushers.pick3.lottery.web.exceptions.HtmlParseException');
 BytePushers.DrawingTimeInFutureException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeInFutureException');
 BytePushers.DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeNotFoundException');
