@@ -1,10 +1,12 @@
 var BytePushers = require('bytepushers-js-oop');
+var Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 
 function DrawingTimeInFutureException(drawingTime, drawingDate, expectedDrawTime) {
     'use strict';
     DrawingTimeInFutureException.prototype.superclass.apply(this);
 
     this.name = "DrawingTimeInFutureException";
+    this.code = Exception.Code.DRAWING_TIME_IN_FUTURE;
     this.drawingTime = drawingTime;
     this.drawingDate = drawingDate;
     this.expectedDrawTime = expectedDrawTime;

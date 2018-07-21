@@ -1,10 +1,12 @@
 var BytePushers = require('bytepushers-js-oop');
+var Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 
 function HtmlParseException(message) {
     'use strict';
     HtmlParseException.prototype.superclass.apply(this);
 
     this.name = "HtmlParseException";
+    this.code = Exception.Code.HTML_PARSE_ERROR;
     this.message = message;
 
     this.toString = function() {
@@ -12,8 +14,8 @@ function HtmlParseException(message) {
     }
 }
 
-HtmlParseException.prototype = BytePushers.inherit(Error.prototype);
+HtmlParseException.prototype = BytePushers.inherit(Exception.prototype);
 HtmlParseException.prototype.constructor = HtmlParseException;
-HtmlParseException.prototype.superclass = Error;
+HtmlParseException.prototype.superclass = Exception;
 
 module.exports = HtmlParseException;
