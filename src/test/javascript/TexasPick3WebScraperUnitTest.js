@@ -9,7 +9,7 @@ var BytePushers = require('../../main/javascript'),
     fixturePath = "src/test/javascript/fixtures/html/";
 
 describe("TexasPick3WebScraper Unit Tests", function() {
-    it("should be able to find morning winning Number for a specific date", function () {
+    it("should be able to find Morning winning Number for a specific date", function () {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
             expectedMorningWinningNumber = 158,
             actualMorningWinningNumber,
@@ -85,10 +85,61 @@ describe("TexasPick3WebScraper Unit Tests", function() {
 
         assert.equal(actualNightWinningNumber, expectedNightWinningNumber);
     });
-    it("should throw a DrawingTimeNotFoundException when a date is found but the drawing time is unavailable", function() {
+    it("should throw a DrawingTimeNotFoundException when a date is found but the MORNING drawing time is unavailable", function() {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
             drawDate = "02/12/2018",
             drawTime = "MORNING",
+            scraper;
+
+        $ = cheerio.load(html);
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: BytePushers.TexasPick3WebScraper.URL,
+            cheerio: $
+        })
+
+        assert.throws(() => {
+            scraper.findWinningNumber(drawDate, drawTime);
+        }, BytePushers.DrawingTimeNotFoundException)
+    });
+    it("should throw a DrawingTimeNotFoundException when a date is found but the DAY drawing time is unavailable", function() {
+        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+            drawDate = "02/11/2018",
+            drawTime = "DAY",
+            scraper;
+
+        $ = cheerio.load(html);
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: BytePushers.TexasPick3WebScraper.URL,
+            cheerio: $
+        })
+
+        assert.throws(() => {
+            scraper.findWinningNumber(drawDate, drawTime);
+        }, BytePushers.DrawingTimeNotFoundException)
+    });
+    it("should throw a DrawingTimeNotFoundException when a date is found but the EVENING drawing time is unavailable", function() {
+        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+            drawDate = "02/12/2018",
+            drawTime = "EVENING",
+            scraper;
+
+        $ = cheerio.load(html);
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: BytePushers.TexasPick3WebScraper.URL,
+            cheerio: $
+        })
+
+        assert.throws(() => {
+            scraper.findWinningNumber(drawDate, drawTime);
+        }, BytePushers.DrawingTimeNotFoundException)
+    });
+    it("should throw a DrawingTimeNotFoundException when a morning date is found but the NIGHT drawing time is unavailable", function() {
+        var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
+            drawDate = "02/11/2018",
+            drawTime = "NIGHT",
             scraper;
 
         $ = cheerio.load(html);
