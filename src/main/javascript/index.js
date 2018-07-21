@@ -1,4 +1,5 @@
 /*global require, module*/
+require('bytepushers-js-string-extensions');
 
 var BytePushers = {};
 BytePushers.opp = require('bytepushers-js-oop');
@@ -8,5 +9,10 @@ BytePushers.WebScraper = require('./software.bytepushers.pick3.lottery.web.WebSc
 BytePushers.TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
 BytePushers.UrlScraper = require('./software.bytepushers.pick3.lottery.web.UrlScraper');
 BytePushers.TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
+
+BytePushers.HtmlParseException = require('./software.bytepushers.pick3.lottery.web.exceptions.HtmlParseException');
+BytePushers.DrawingTimeInFutureException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeInFutureException');
+BytePushers.DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeNotFoundException');
+BytePushers.DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingYearNotAvailableException');
 
 module.exports = BytePushers;

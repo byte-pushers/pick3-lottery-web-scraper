@@ -47,7 +47,6 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
 
     it("should not be able to find URLs for a date which has no data", function () {
         var html = fs.readFileSync(fixturePath + "pick3-url-scraper-fixture.html", "UTF-8"),
-            expectedUrl = null,
             actualUrl,
             actualDrawDate = new Date("01/31/1986"),
             scraper;
@@ -60,6 +59,6 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
 
         assert.throws(() => {
             actualUrl = scraper.findSourcePath(actualDrawDate);
-        }, /No URL available/i);
+        }, BytePushers.DrawingYearNotAvailableException);
     });
 });

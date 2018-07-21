@@ -3,6 +3,7 @@
  */
 var BytePushers = require('bytepushers-js-oop');
 var UrlScraper = require('./software.bytepushers.pick3.lottery.web.UrlScraper');
+var DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingYearNotAvailableException');
 
 function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
     'use strict';
@@ -17,7 +18,7 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
             baseUrl = pathArray[0] + "//" + pathArray[2];
 
         if (targetUrl == null) {
-            throw Error("No URL available for year " + targetYear);
+            throw new DrawingYearNotAvailableException(targetYear);
         }
         return baseUrl + targetUrl.replace("index", "print");
     }
