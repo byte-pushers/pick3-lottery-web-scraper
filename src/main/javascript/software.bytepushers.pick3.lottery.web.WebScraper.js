@@ -33,19 +33,35 @@ function WebScraper(txPick3WebScraperConfig) {
     };
 
     this.findMorningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findDayWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findEveningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findNightWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getMorningPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getDayPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getEveningPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getNightPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findWinningNumber = function (drawingDate, drawingTime) {
@@ -73,10 +89,20 @@ function WebScraper(txPick3WebScraperConfig) {
                 break;
             default:
                 //TODO: Use specific Error for Drawing Times not supported.
-                throw new Error("TexasPick3WebScraper.DRAWING_TIMES("+drawingTime+") is not supported.");
+                throw new Error("WebScraper.DRAWING_TIMES("+drawingTime+") is not supported.");
         }
 
         return winningNumber;
+    };
+
+    this.createCheckBackLaterResponse = function(drawingDate, dailyPostTime) {
+        var checkbackDate = new Date(drawingDate);
+
+        checkbackDate.setHours(dailyPostTime.getHours(),
+            dailyPostTime.getMinutes(),
+            dailyPostTime.getSeconds());
+
+        return WebScraper.CheckBackLaterMsg + checkbackDate.toISOString();
     };
 
     this.formatDate = function(targetDate) {
@@ -109,5 +135,7 @@ WebScraper.DRAWING_TIMES = BytePushers.enumeration({
         description: "Pick 3 Lottery drawing time for night time drawing."
     }
 });
+
+WebScraper.CheckBackLaterMsg = "Winning number not yet available. Check again after ";
 
 module.exports = WebScraper;

@@ -42,7 +42,6 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-
     function removeNewLineBytes(someText) {
         var bytes = []; // char codes
 
