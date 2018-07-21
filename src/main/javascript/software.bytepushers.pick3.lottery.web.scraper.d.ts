@@ -3,4 +3,5 @@
  */
 
 declare interface String {
+    
 }

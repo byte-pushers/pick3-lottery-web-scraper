@@ -87,16 +87,6 @@ function WebScraper(txPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    this.createCheckBackLaterResponse = function(drawingDate, dailyPostTime) {
-        var checkbackDate = new Date(drawingDate);
-
-        checkbackDate.setHours(dailyPostTime.getHours(),
-            dailyPostTime.getMinutes(),
-            dailyPostTime.getSeconds());
-
-        return WebScraper.CheckBackLaterMsg + checkbackDate.toISOString();
-    };
-
     this.formatDate = function(targetDate) {
         var formattedTargetDate = null;
 

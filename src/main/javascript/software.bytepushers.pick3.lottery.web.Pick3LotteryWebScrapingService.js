@@ -52,7 +52,6 @@ function Pick3LotteryWebScrapingService() {
             });
         } catch (e) {
             //TODO: Handle error
-
             winningNumberPromise = new Promise(function (resolve, reject) {
                 //TODO: Handle error
                 reject(e);
