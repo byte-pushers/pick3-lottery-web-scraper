@@ -42,7 +42,11 @@ function Pick3LotteryWebScrapingService() {
                                     drawingDate: drawingDate,
                                     drawingTime: drawingTime
                                 });
-                                winningNumber.number = scraper.findWinningNumber(drawingDate, drawingTime);
+                                try {
+                                    winningNumber.number = scraper.findWinningNumber(drawingDate, drawingTime);
+                                } catch(error) {
+                                    reject(error);
+                                }
                                 resolve(winningNumber);
                             }
                         });
@@ -50,11 +54,11 @@ function Pick3LotteryWebScrapingService() {
                         reject(error);
                     });
             });
-        } catch (e) {
+        } catch (error) {
             //TODO: Handle error
             winningNumberPromise = new Promise(function (resolve, reject) {
                 //TODO: Handle error
-                reject(e);
+                reject(error);
             });
         }
 
@@ -87,7 +91,11 @@ function Pick3LotteryWebScrapingService() {
                             cheerio: cheerio.load(html),
                             drawingDate: drawingDate
                         });
-                        sourcePath.url = scraper.findSourcePath(drawingDate);
+                        try {
+                            sourcePath.url = scraper.findSourcePath(drawingDate);
+                        } catch (error) {
+                            reject(error);
+                        }
                         resolve(sourcePath);
                     }
                 });

@@ -25,19 +25,35 @@ function WebScraper(txPick3WebScraperConfig) {
     };
 
     this.findMorningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findDayWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findEveningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findNightWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper" + this.constructor.name);
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getMorningPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getDayPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getEveningPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getNightPostTime = function() {
+        throw Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findWinningNumber = function (drawingDate, drawingTime) {
@@ -65,7 +81,7 @@ function WebScraper(txPick3WebScraperConfig) {
                 break;
             default:
                 //TODO: Use specific Error for Drawing Times not supported.
-                throw new Error("TexasPick3WebScraper.DRAWING_TIMES("+drawingTime+") is not supported.");
+                throw new Error("WebScraper.DRAWING_TIMES("+drawingTime+") is not supported.");
         }
 
         return winningNumber;
