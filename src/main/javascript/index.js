@@ -1,19 +1,19 @@
-/*global require, module, BytePushers, let */
+/*global require, module*/
+require('bytepushers-js-string-extensions');
 
-/*require('./software.bytepushers.BytePushers.js');
-require('./software.bytepushers.exceptions.Errors');
-require('./software.bytepushers.utils.converters.date.DateConverter');
-require('./software.bytepushers.utils.DateUtility');
-require('./software.bytepushers.utils.DOMUtility');
-require('./software.bytepushers.utils.NumberUtility');
-require('./software.bytepushers.utils.ResourceLoader');*/
-require('./software.bytepushers.pick3.lottery.web.scraper');
+var BytePushers = {};
+BytePushers.opp = require('bytepushers-js-oop');
+BytePushers.Pick3LotteryWebScrapingService = require('./software.bytepushers.pick3.lottery.web.Pick3LotteryWebScrapingService');
+BytePushers.BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
+BytePushers.WebScraper = require('./software.bytepushers.pick3.lottery.web.WebScraper');
+BytePushers.TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
+BytePushers.UrlScraper = require('./software.bytepushers.pick3.lottery.web.UrlScraper');
+BytePushers.TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
+
+BytePushers.Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
+BytePushers.HtmlParseException = require('./software.bytepushers.pick3.lottery.web.exceptions.HtmlParseException');
+BytePushers.DrawingTimeInFutureException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeInFutureException');
+BytePushers.DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeNotFoundException');
+BytePushers.DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingYearNotAvailableException');
+
 module.exports = BytePushers;
-
-/*module.exports = {
-    webscaper: require('./software.bytepushers.pick3.lottery.web.scraper')
-
-};*/
-
-
-
