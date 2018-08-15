@@ -7,8 +7,7 @@ branches:
   - develop
 
 before_script:
-  - npm install -g bower
-  - bower install
+  - npm install
 
 notifications:
   email:
