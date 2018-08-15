@@ -6,12 +6,9 @@ branches:
   - master
   - develop
 
-before_script:
-  - npm install
-
 notifications:
   email:
     recipients:
-      - kenneth_flow@hotmail.com
+      - k.alex.mills@gmail.com
     on_success: change # default: change
     on_failure: always # default: always
