@@ -32,7 +32,8 @@
     "grunt-npm": "0.0.2",
     "grunt-release": "^0.14.0",
     "jshint-stylish": "^2.2.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nopt": "^4.0.1"
   },
   "scripts": {
     "prestart": "npm install",
