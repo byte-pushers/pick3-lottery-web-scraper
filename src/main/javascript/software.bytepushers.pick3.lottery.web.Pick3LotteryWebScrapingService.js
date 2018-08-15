@@ -1,4 +1,5 @@
 /*global Promise*/
+/*jshint -W002 */
 /**
  * Created by tonte on 10/4/17.
  */
@@ -66,8 +67,7 @@ function Pick3LotteryWebScrapingService() {
     };
 
     function doScrape(url, callback) {
-
-        request(url, callback)
+        request(url, callback);
     }
 
     function getWinningNumberSourcePath(drawingState, drawingDate) {
