@@ -105,6 +105,20 @@ module.exports = function (grunt) {
                 // can also be a function that returns NPM tag (eg. to determine canary/latest tag based on the version)
                 tag: 'latest'
             }
+        },
+        // Configure a mochaTest task
+        mochaTest: {
+            test: {
+                options: {
+                    reporter: 'spec',
+                    captureFile: 'target/results.txt', // Optionally capture the reporter output to a file
+                    quiet: false, // Optionally suppress output to standard out (defaults to false)
+                    clearRequireCache: false, // Optionally clear the require cache before running tests (defaults to false)
+                    clearCacheFilter: (key) => true, // Optionally defines which files should keep in cache
+                    noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
+                },
+                src: ['src/test/**/*.js']
+            }
         }
     });
     
@@ -112,25 +126,21 @@ module.exports = function (grunt) {
 
     var build = grunt.option('target') || 'build';
     var release = grunt.option('target') || 'release';
-    var karma_server = grunt.option('target') || 'server';
-    var karma_ci = grunt.option('target') || 'ci';
 
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jslint');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-bump');
     grunt.loadNpmTasks('grunt-npm');
+    grunt.loadNpmTasks('grunt-mocha-test');
 
+    grunt.registerTask('test', 'mochaTest');
     grunt.registerTask('default', ['build']);
     grunt.registerTask('validate', ['jshint', 'jslint']);
-    grunt.registerTask('test', ['test-karma-ci']);
-    grunt.registerTask('test-karma', ['karma:' + karma_server]);
-    grunt.registerTask('test-karma-ci', ['karma:' + karma_ci]);
     grunt.registerTask('package', ['copy:' + build, 'uglify', 'concat']);
     grunt.registerTask('build', ['clean:' + build, 'validate', 'test', 'package']);
     grunt.registerTask('release', ['clean:release', 'build', 'copy:release', 'bump', 'npm-publish']);
