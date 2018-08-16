@@ -1,16 +1,23 @@
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true */
+
 var BytePushers = require('bytepushers-js-oop');
 
-function Exception(drawingTime, drawingDate, expectedDrawTime) {
+function Exception() {
     'use strict';
-    Exception.prototype.superclass.apply(this);
+    var self = {};
+    
+    Exception.prototype.superclass.apply(self);
 
-    this.name = "Exception";
-    this.code = Exception.Code.BASE_EXCEPTION;
+    self.name = "Exception";
+    self.code = Exception.Code.BASE_EXCEPTION;
 
-    this.toString = function() {
+    self.toString = function () {
         return String.format("DrawingTimeInFutureException: the requested drawing time \"{1}\" is in the future. Check back on {2} after {3}",
-            this.drawingTime, this.drawingDate, this.expectedDrawTime);
+            self.drawingTime, self.drawingDate, self.expectedDrawTime);
     };
+
+    return self;
 }
 
 Exception.prototype = BytePushers.inherit(Error.prototype);

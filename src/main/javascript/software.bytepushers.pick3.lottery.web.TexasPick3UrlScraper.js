@@ -1,3 +1,6 @@
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true */
+
 /**
  * Created by kalexmills on 7/20/18.
  */
@@ -7,21 +10,25 @@ var DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lot
 
 function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
     'use strict';
-    TexasPick3UrlScraper.prototype.superclass.apply(this, [TxPick3UrlScraperConfig]);
+    var self = {};
+    
+    TexasPick3UrlScraper.prototype.superclass.apply(self, [TxPick3UrlScraperConfig]);
 
-    var $ = this.getCheerio();
+    var $ = self.getCheerio();
 
-    this.scrapeTargetUrl = function(targetDate) {
+    self.scrapeTargetUrl = function(targetDate) {
         var targetYear = targetDate.getFullYear(),
             targetUrl = $('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
-            pathArray = this.getUrl().split('/'),
+            pathArray = self.getUrl().split('/'),
             baseUrl = pathArray[0] + "//" + pathArray[2];
 
-        if (targetUrl == null) {
+        if (targetUrl === null) {
             throw new DrawingYearNotAvailableException(targetYear);
         }
         return baseUrl + targetUrl.replace("index", "print");
     };
+
+    return self;
 }
 
 TexasPick3UrlScraper.prototype = BytePushers.inherit(UrlScraper.prototype);

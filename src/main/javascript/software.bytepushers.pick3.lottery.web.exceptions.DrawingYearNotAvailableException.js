@@ -1,18 +1,25 @@
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true */
+
 var BytePushers = require('bytepushers-js-oop');
 var Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 
 function DrawingYearNotAvailableException(drawingYear) {
     'use strict';
-    DrawingYearNotAvailableException.prototype.superclass.apply(this);
+    var self = {};
+    
+    DrawingYearNotAvailableException.prototype.superclass.apply(self);
 
-    this.name = "DrawingYearNotAvailableException";
-    this.code = Exception.Code.DRAWING_YEAR_NOT_AVAILABLE;
-    this.drawingYear = drawingYear;
+    self.name = "DrawingYearNotAvailableException";
+    self.code = Exception.Code.DRAWING_YEAR_NOT_AVAILABLE;
+    self.drawingYear = drawingYear;
 
-    this.toString = function() {
+    self.toString = function () {
         return String.format("DrawingYearNotAvailableException: data is not available for the requested drawing year \"{1}\".",
-            this.drawingYear);
+            self.drawingYear);
     };
+
+    return self;
 }
 
 DrawingYearNotAvailableException.prototype = BytePushers.inherit(Error.prototype);

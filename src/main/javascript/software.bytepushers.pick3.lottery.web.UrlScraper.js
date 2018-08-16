@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true */
 /**
  * Created by kalexmills on 7/20/18.
  */
@@ -6,24 +8,26 @@ var BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebSc
 
 function UrlScraper(urlScraperConfig) {
     'use strict';
-    UrlScraper.prototype.superclass.apply(this, [urlScraperConfig]);
+    var self = {};
+    
+    UrlScraper.prototype.superclass.apply(self, [urlScraperConfig]);
     var drawingDate = (urlScraperConfig && urlScraperConfig.drawingDate) ? urlScraperConfig.drawingDate : null;
 
-    var $ = this.getCheerio();
-
-    this.getDrawingDate = function() {
+    self.getDrawingDate = function() {
         return drawingDate;
     };
 
-    this.scrapeTargetUrl = function(targetDate) {
-        throw Error("method not implemented by UrlScraper " + this.constructor.name);
+    self.scrapeTargetUrl = function() {
+        throw new Error("method not implemented by UrlScraper " + self.constructor.name);
     };
 
-    this.findSourcePath = function(drawingDate) {
-        var targetUrl = this.scrapeTargetUrl(drawingDate);
+    self.findSourcePath = function(drawingDate) {
+        var targetUrl = self.scrapeTargetUrl(drawingDate);
 
         return targetUrl;
     };
+
+    return self;
 }
 
 UrlScraper.prototype = BytePushers.inherit(BaseWebScraper.prototype);
