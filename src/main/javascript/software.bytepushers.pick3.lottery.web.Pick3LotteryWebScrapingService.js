@@ -1,4 +1,6 @@
-/*global Promise*/
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
+
 /**
  * Created by tonte on 10/4/17.
  */
@@ -10,7 +12,63 @@ var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.Tex
 
 function Pick3LotteryWebScrapingService() {
     'use strict';
-    //TODO: Create endpoint function
+    var registeredScrapers = [
+            {state: "TX", stateName: "Texas", WebScraper: TexasPick3WebScraper,
+                urlScraperUrl: TexasPick3UrlScraper.URL, UrlScraper: TexasPick3UrlScraper }
+        ];
+
+    function findRegisteredScraperConfiguration (drawingState) {
+        var registeredScraper = registeredScrapers.find(function (registeredScraper) {
+            return (drawingState && registeredScraper.state.toUpperCase() === drawingState.toUpperCase());
+        });
+
+        if (registeredScraper === undefined) {
+            throw new Error("Could not find registered scraper for specified state: " + drawingState);
+        }
+
+        return registeredScraper;
+    }
+    function doScrape (url, callback) {
+        request(url, callback);
+    }
+
+    function getWinningNumberSourcePath (drawingState, drawingDate) {
+        var registeredUrlScraperConfig,
+            scraper,
+            winningNumberSourcePathPromise,
+            sourcePath = {
+                date: drawingDate,
+                url: null
+            };
+        try {
+            registeredUrlScraperConfig = findRegisteredScraperConfiguration(drawingState);
+
+            winningNumberSourcePathPromise = new Promise(function (resolve, reject) {
+                doScrape(registeredUrlScraperConfig.urlScraperUrl, function(error, ignore, html) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        scraper = (registeredUrlScraperConfig === undefined) ? null : new registeredUrlScraperConfig.UrlScraper({
+                            url: registeredUrlScraperConfig.urlScraperUrl,
+                            cheerio: cheerio.load(html),
+                            drawingDate: drawingDate
+                        });
+                        try {
+                            sourcePath.url = scraper.findSourcePath(drawingDate);
+                        } catch (err) {
+                            reject(err);
+                        }
+                        resolve(sourcePath);
+                    }
+                });
+            });
+        } catch (e) {
+            winningNumberSourcePathPromise = new Promise(function(ignore,reject) {
+                reject(e);
+            });
+        }
+        return winningNumberSourcePathPromise;
+    }
 
     this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime) {
         var registeredScraperConfig,
@@ -28,11 +86,10 @@ function Pick3LotteryWebScrapingService() {
             winningNumberPromise = new Promise(function(resolve, reject) {
                 getWinningNumberSourcePath(drawingState, drawingDate)
                     .then(function(successResult) {
-                        if (!successResult || successResult.url == null) {
-                            // TODO: Handle error
+                        if (!successResult || successResult.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
                         }
-                        doScrape(successResult.url, function (error, response, html) {
+                        doScrape(successResult.url, function (error, ignore, html) {
                             if (error) {
                                 reject(error);
                             } else {
@@ -44,8 +101,8 @@ function Pick3LotteryWebScrapingService() {
                                 });
                                 try {
                                     winningNumber.number = scraper.findWinningNumber(drawingDate, drawingTime);
-                                } catch(error) {
-                                    reject(error);
+                                } catch(err) {
+                                    reject(err);
                                 }
                                 resolve(winningNumber);
                             }
@@ -55,77 +112,13 @@ function Pick3LotteryWebScrapingService() {
                     });
             });
         } catch (error) {
-            //TODO: Handle error
-            winningNumberPromise = new Promise(function (resolve, reject) {
-                //TODO: Handle error
+            winningNumberPromise = new Promise(function (ignore, reject) {
                 reject(error);
             });
         }
 
         return winningNumberPromise;
     };
-
-    function doScrape(url, callback) {
-
-        request(url, callback)
-    }
-
-    function getWinningNumberSourcePath(drawingState, drawingDate) {
-        var registeredUrlScraperConfig,
-            scraper,
-            winningNumberSourcePathPromise,
-            sourcePath = {
-                date: drawingDate,
-                url: null
-            };
-        try {
-            registeredUrlScraperConfig = findRegisteredScraperConfiguration(drawingState);
-
-            winningNumberSourcePathPromise = new Promise(function (resolve, reject) {
-                doScrape(registeredUrlScraperConfig.urlScraperUrl, function(error, response, html) {
-                    if (error) {
-                        reject(error);
-                    } else {
-                        scraper = (registeredUrlScraperConfig === undefined) ? null : new registeredUrlScraperConfig.UrlScraper({
-                            url: registeredUrlScraperConfig.urlScraperUrl,
-                            cheerio: cheerio.load(html),
-                            drawingDate: drawingDate
-                        });
-                        try {
-                            sourcePath.url = scraper.findSourcePath(drawingDate);
-                        } catch (error) {
-                            reject(error);
-                        }
-                        resolve(sourcePath);
-                    }
-                });
-            });
-        } catch (e) {
-            // TODO: Handle error
-            winningNumberSourcePathPromise = new Promise(function(resolve,reject) {
-                // TODO: Handle error
-               reject(e);
-            });
-        }
-        return winningNumberSourcePathPromise;
-    }
-
-    function findRegisteredScraperConfiguration(drawingState) {
-        var registeredScraper = registeredScrapers.find(function (registeredScraper) {
-            return (drawingState && registeredScraper.state.toUpperCase() === drawingState.toUpperCase());
-        });
-
-        if (registeredScraper === undefined) {
-            throw new Error("Could not find registered scraper for specified state: " + drawingState);
-        }
-
-        return registeredScraper;
-    }
-
-    var registeredScrapers = [
-        {state: "TX", stateName: "Texas", WebScraper: TexasPick3WebScraper,
-         urlScraperUrl: TexasPick3UrlScraper.URL, UrlScraper: TexasPick3UrlScraper }
-    ];
 }
 
 module.exports = Pick3LotteryWebScrapingService;
