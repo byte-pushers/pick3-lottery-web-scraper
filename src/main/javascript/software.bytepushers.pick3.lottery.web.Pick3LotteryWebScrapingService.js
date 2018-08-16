@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-/*jslint node: true, white: true, for: true, es6: true */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
 
 /**
  * Created by tonte on 10/4/17.
@@ -12,8 +12,7 @@ var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.Tex
 
 function Pick3LotteryWebScrapingService() {
     'use strict';
-    var self = {},
-        registeredScrapers = [
+    var registeredScrapers = [
             {state: "TX", stateName: "Texas", WebScraper: TexasPick3WebScraper,
                 urlScraperUrl: TexasPick3UrlScraper.URL, UrlScraper: TexasPick3UrlScraper }
         ];
@@ -71,7 +70,7 @@ function Pick3LotteryWebScrapingService() {
         return winningNumberSourcePathPromise;
     }
 
-    self.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime) {
+    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime) {
         var registeredScraperConfig,
             scraper,
             winningNumberPromise,
@@ -120,8 +119,6 @@ function Pick3LotteryWebScrapingService() {
 
         return winningNumberPromise;
     };
-
-    return self;
 }
 
 module.exports = Pick3LotteryWebScrapingService;

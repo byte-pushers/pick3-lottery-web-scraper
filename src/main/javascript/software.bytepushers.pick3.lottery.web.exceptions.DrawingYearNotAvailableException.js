@@ -1,29 +1,26 @@
 /*jshint esversion: 6 */
-/*jslint node: true, white: true, for: true, es6: true */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
 
 var BytePushers = require('bytepushers-js-oop');
 var Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 
 function DrawingYearNotAvailableException(drawingYear) {
     'use strict';
-    var self = {};
     
-    DrawingYearNotAvailableException.prototype.superclass.apply(self);
+    DrawingYearNotAvailableException.prototype.superclass.apply(this);
 
-    self.name = "DrawingYearNotAvailableException";
-    self.code = Exception.Code.DRAWING_YEAR_NOT_AVAILABLE;
-    self.drawingYear = drawingYear;
+    this.name = "DrawingYearNotAvailableException";
+    this.code = Exception.Code.DRAWING_YEAR_NOT_AVAILABLE;
+    this.drawingYear = drawingYear;
 
-    self.toString = function () {
+    this.toString = function () {
         return String.format("DrawingYearNotAvailableException: data is not available for the requested drawing year \"{1}\".",
-            self.drawingYear);
+            this.drawingYear);
     };
-
-    return self;
 }
 
-DrawingYearNotAvailableException.prototype = BytePushers.inherit(Error.prototype);
+DrawingYearNotAvailableException.prototype = BytePushers.inherit(Exception.prototype);
 DrawingYearNotAvailableException.prototype.constructor = DrawingYearNotAvailableException;
-DrawingYearNotAvailableException.prototype.superclass = Error;
+DrawingYearNotAvailableException.prototype.superclass = Exception;
 
 module.exports = DrawingYearNotAvailableException;

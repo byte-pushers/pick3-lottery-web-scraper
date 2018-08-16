@@ -1,24 +1,21 @@
 /*jshint esversion: 6 */
-/*jslint node: true, white: true, for: true, es6: true */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
 
 var BytePushers = require('bytepushers-js-oop');
 var Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 
 function HtmlParseException(message) {
     'use strict';
-    var self = {};
     
-    HtmlParseException.prototype.superclass.apply(self);
+    HtmlParseException.prototype.superclass.apply(this);
 
-    self.name = "HtmlParseException";
-    self.code = Exception.Code.HTML_PARSE_ERROR;
-    self.message = message;
+    this.name = "HtmlParseException";
+    this.code = Exception.Code.HTML_PARSE_ERROR;
+    this.message = message;
 
-    self.toString = function () {
-        return String.format("HtmlParseException: {1}", self.message);
+    this.toString = function () {
+        return String.format("HtmlParseException: {1}", this.message);
     };
-
-    return self;
 }
 
 HtmlParseException.prototype = BytePushers.inherit(Exception.prototype);

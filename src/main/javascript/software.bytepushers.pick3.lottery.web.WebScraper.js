@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-/*jslint node: true, white: true, for: true, es6: true */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
 
 var BytePushers = require('bytepushers-js-oop');
 var BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
@@ -7,64 +7,63 @@ var DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery
 
 function WebScraper(txPick3WebScraperConfig) {
     'use strict';
-    var self = {};
     
-    WebScraper.prototype.superclass.apply(self, [txPick3WebScraperConfig]);
-    self.drawingDate = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingDate)? txPick3WebScraperConfig.drawingDate : null;
-    self.drawingTime = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingTime)? txPick3WebScraperConfig.drawingTime : null;
-    self.drawingNumber = -1;
+    WebScraper.prototype.superclass.apply(this, [txPick3WebScraperConfig]);
+    this.drawingDate = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingDate)? txPick3WebScraperConfig.drawingDate : null;
+    this.drawingTime = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingTime)? txPick3WebScraperConfig.drawingTime : null;
+    this.drawingNumber = -1;
 
     function pad(n) {
         return n < 10 ? '0' + n : n;
     }
 
-    self.getDrawingDate = function () {
-        return self.drawingDate;
+    this.getDrawingDate = function () {
+        return this.drawingDate;
     };
 
-    self.getDrawingTime = function () {
-        return self.drawingTime;
+    this.getDrawingTime = function () {
+        return this.drawingTime;
     };
 
-    self.getDrawingNumber = function () {
-        return self.drawingNumber;
+    this.getDrawingNumber = function () {
+        return this.drawingNumber;
     };
 
-    self.findMorningWinningNumber = function () {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.findMorningWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.findDayWinningNumber = function () {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.findDayWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.findEveningWinningNumber = function () {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.findEveningWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.findNightWinningNumber = function () {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.findNightWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.getMorningPostTime = function() {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.getMorningPostTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.getDayPostTime = function() {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.getDayPostTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.getEveningPostTime = function() {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.getEveningPostTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.getNightPostTime = function() {
-        throw new Error("method not implemented by WebScraper " + self.constructor.name);
+    this.getNightPostTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    self.findWinningNumber = function (drawingDate, drawingTime) {
+    this.findWinningNumber = function (drawingDate, drawingTime) {
         var winningNumber = 0,
-            formattedDrawingDate = self.formatDate(drawingDate);
+            formattedDrawingDate = this.formatDate(drawingDate);
 
         if (formattedDrawingDate === undefined || formattedDrawingDate === null) {
             console.error("Problem occurred while trying to format date: " + drawingDate, drawingDate);
@@ -74,16 +73,16 @@ function WebScraper(txPick3WebScraperConfig) {
 
         switch (drawingTime.toUpperCase()) {
             case WebScraper.DRAWING_TIMES.MORNING.name:
-                winningNumber = self.findMorningWinningNumber(formattedDrawingDate);
+                winningNumber = this.findMorningWinningNumber(formattedDrawingDate);
                 break;
             case WebScraper.DRAWING_TIMES.DAY.name:
-                winningNumber = self.findDayWinningNumber(formattedDrawingDate);
+                winningNumber = this.findDayWinningNumber(formattedDrawingDate);
                 break;
             case WebScraper.DRAWING_TIMES.EVENING.name:
-                winningNumber = self.findEveningWinningNumber(formattedDrawingDate);
+                winningNumber = this.findEveningWinningNumber(formattedDrawingDate);
                 break;
             case WebScraper.DRAWING_TIMES.NIGHT.name:
-                winningNumber = self.findNightWinningNumber(formattedDrawingDate);
+                winningNumber = this.findNightWinningNumber(formattedDrawingDate);
                 break;
             default:
                 throw new DrawingTimeNotFoundException(drawingTime, drawingDate);
@@ -92,7 +91,7 @@ function WebScraper(txPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    self.formatDate = function(targetDate) {
+    this.formatDate = function(targetDate) {
         var formattedTargetDate = null;
 
         if (targetDate instanceof Date) {
@@ -103,8 +102,6 @@ function WebScraper(txPick3WebScraperConfig) {
 
         return formattedTargetDate;
     };
-
-    return self;
 }
 WebScraper.DRAWING_TIMES = BytePushers.enumeration({
     'MORNING': {

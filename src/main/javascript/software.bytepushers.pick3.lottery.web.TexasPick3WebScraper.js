@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-/*jslint node: true, white: true, for: true, es6: true */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
 
 var BytePushers = require('bytepushers-js-oop');
 var WebScraper = require('./software.bytepushers.pick3.lottery.web.WebScraper');
@@ -7,10 +7,10 @@ var DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery
 
 function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     'use strict';
-    var self = {};
     
-    TexasPick3WebScraper.prototype.superclass.apply(self, [TxPick3WebScraperConfig]);
-    var $ = self.getCheerio();
+    TexasPick3WebScraper.prototype.superclass.apply(this, [TxPick3WebScraperConfig]);
+    var $ = this.getCheerio(),
+        self = this;
 
     function scrapeDrawDateTdElement(drawingDate) {
         var $drawDateTdElement = $('#pastresults').find('tr > td:first-child:contains(' + drawingDate + ')');
@@ -109,7 +109,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return $targetTrElement;
     }
 
-    self.findMorningWinningNumber = function (drawingDate) {
+    this.findMorningWinningNumber = function (drawingDate) {
         var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
             parsedDrawDateSection = parseTargetDrawDateSection($targetDrawDateSection),
             winningNumber = scrapeWinningNumber(parsedDrawDateSection.morningTdElements);
@@ -117,7 +117,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    self.findDayWinningNumber = function (drawingDate) {
+    this.findDayWinningNumber = function (drawingDate) {
         var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
             parsedDrawDateSection = parseTargetDrawDateSection($targetDrawDateSection),
             winningNumber = scrapeWinningNumber(parsedDrawDateSection.dayTdElements);
@@ -125,7 +125,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    self.findEveningWinningNumber = function (drawingDate) {
+    this.findEveningWinningNumber = function (drawingDate) {
         var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
             parsedDrawDateSection = parseTargetDrawDateSection($targetDrawDateSection),
             winningNumber = scrapeWinningNumber(parsedDrawDateSection.eveningTdElements);
@@ -133,15 +133,13 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
-    self.findNightWinningNumber = function (drawingDate) {
+    this.findNightWinningNumber = function (drawingDate) {
         var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
             parsedDrawDateSection = parseTargetDrawDateSection($targetDrawDateSection),
             winningNumber = scrapeWinningNumber(parsedDrawDateSection.nightTdElements);
 
         return winningNumber;
     };
-
-    return self;
 }
 
 TexasPick3WebScraper.prototype = BytePushers.inherit(WebScraper.prototype);
