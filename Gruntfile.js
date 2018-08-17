@@ -30,17 +30,9 @@ module.exports = function (grunt) {
                 src: ['src/main/javascript/**/*.js']
             }
         },
-        karma: {
-            server: {
-                configFile: 'karma.conf.js'
-            },
-            ci: {
-                configFile: 'karma.conf.ci.js'
-            }
-        },
         copy: {
             build: {
-                files: [{expand: true, src: ['src/main/javascript/*.js'], dest: 'build/', filter: 'isFile'}]
+                files: [{expand: true, src: ['src/main/javascript/*.js', 'src/main/javascript/*.d.ts'], dest: 'build/', filter: 'isFile'}]
             },
             release: {
                 files: [
@@ -49,7 +41,8 @@ module.exports = function (grunt) {
                         src: [
                             'build/<%= pkg.name %>.min.js',
                             'build/<%= pkg.name %>.js',
-                            'build/src/main/javascript/index.js'
+                            'build/src/main/javascript/index.js',
+                            'build/src/main/javascript/*.d.ts'
                         ],
                         dest: 'release/',
                         filter: 'isFile',
