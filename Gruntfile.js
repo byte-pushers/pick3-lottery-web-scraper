@@ -143,7 +143,6 @@ module.exports = function (grunt) {
         grunt.task.run("build");
         grunt.task.run("copy:release");
         grunt.task.run("bump:"+target);
-        grunt.task.run("bump-commit");
         grunt.task.run("npm-publish");
     });
 };
