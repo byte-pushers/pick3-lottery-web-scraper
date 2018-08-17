@@ -136,5 +136,14 @@ module.exports = function (grunt) {
     grunt.registerTask('validate', ['jshint', 'jslint']);
     grunt.registerTask('package', ['copy:' + build, 'uglify', 'concat']);
     grunt.registerTask('build', ['clean:' + build, 'validate', 'test', 'package']);
-    grunt.registerTask('release', ['clean:release', 'build', 'copy:release', 'bump', 'npm-publish']);
+    grunt.registerTask('release', function (target) {
+        target = (target === null) ? "patch" : target;
+
+        grunt.task.run("clean:release");
+        grunt.task.run("build");
+        grunt.task.run("copy:release");
+        grunt.task.run("bump:"+target);
+        grunt.task.run("bump-commit");
+        grunt.task.run("npm-publish");
+    });
 };
