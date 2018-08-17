@@ -1,3 +1,6 @@
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
+
 /**
  * Created by kalexmills on 7/20/18.
  */
@@ -7,6 +10,7 @@ var DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lot
 
 function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
     'use strict';
+    
     TexasPick3UrlScraper.prototype.superclass.apply(this, [TxPick3UrlScraperConfig]);
 
     var $ = this.getCheerio();
@@ -17,11 +21,11 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
             pathArray = this.getUrl().split('/'),
             baseUrl = pathArray[0] + "//" + pathArray[2];
 
-        if (targetUrl == null) {
+        if (targetUrl === undefined || targetUrl === null) {
             throw new DrawingYearNotAvailableException(targetYear);
         }
         return baseUrl + targetUrl.replace("index", "print");
-    }
+    };
 }
 
 TexasPick3UrlScraper.prototype = BytePushers.inherit(UrlScraper.prototype);

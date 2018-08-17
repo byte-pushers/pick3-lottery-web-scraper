@@ -46,7 +46,7 @@ describe("WebScraperService Integration Tests", function() {
     it("should be able to scrape Texas Pick3 Lottery website and return DrawingYearNotAvailable when a drawing year is unavailable", function() {
         var actualDrawingStateAbbreviation = "TX",
             actualDrawingTime = "Morning",
-            actualDrawingDate = new Date("06/22/1984"),
+            actualDrawingDate = new Date("06/22/1972"),
             service;
 
         service = new BytePushers.Pick3LotteryWebScrapingService();

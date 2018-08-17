@@ -1,59 +1,64 @@
+/*jshint esversion: 6 */
+/*jslint node: true, white: true, for: true, es6: true, this: true */
+
 var BytePushers = require('bytepushers-js-oop');
 var BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
+var DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeNotFoundException');
 
 function WebScraper(txPick3WebScraperConfig) {
     'use strict';
+    
     WebScraper.prototype.superclass.apply(this, [txPick3WebScraperConfig]);
-    var drawingDate = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingDate)? txPick3WebScraperConfig.drawingDate: null;
-    var drawingTime = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingTime)? txPick3WebScraperConfig.drawingTime: null;
-    var drawingNumber = -1;
+    this.drawingDate = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingDate)? txPick3WebScraperConfig.drawingDate : null;
+    this.drawingTime = (txPick3WebScraperConfig && txPick3WebScraperConfig.drawingTime)? txPick3WebScraperConfig.drawingTime : null;
+    this.drawingNumber = -1;
 
     function pad(n) {
         return n < 10 ? '0' + n : n;
     }
 
     this.getDrawingDate = function () {
-        return drawingDate;
+        return this.drawingDate;
     };
 
     this.getDrawingTime = function () {
-        return drawingTime;
+        return this.drawingTime;
     };
 
     this.getDrawingNumber = function () {
-        return drawingNumber;
+        return this.drawingNumber;
     };
 
-    this.findMorningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    this.findMorningWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    this.findDayWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    this.findDayWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    this.findEveningWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    this.findEveningWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    this.findNightWinningNumber = function (drawingDate) {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+    this.findNightWinningNumber = function () {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.getMorningPostTime = function() {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.getDayPostTime = function() {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.getEveningPostTime = function() {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.getNightPostTime = function() {
-        throw Error("method not implemented by WebScraper " + this.constructor.name);
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
     this.findWinningNumber = function (drawingDate, drawingTime) {
@@ -62,7 +67,7 @@ function WebScraper(txPick3WebScraperConfig) {
 
         if (formattedDrawingDate === undefined || formattedDrawingDate === null) {
             console.error("Problem occurred while trying to format date: " + drawingDate, drawingDate);
-            //TODO: Use specific Error for date formatting issues.
+
             throw new Error("Problem occurred while trying to format date: " + drawingDate);
         }
 
@@ -80,8 +85,7 @@ function WebScraper(txPick3WebScraperConfig) {
                 winningNumber = this.findNightWinningNumber(formattedDrawingDate);
                 break;
             default:
-                //TODO: Use specific Error for Drawing Times not supported.
-                throw new Error("WebScraper.DRAWING_TIMES("+drawingTime+") is not supported.");
+                throw new DrawingTimeNotFoundException(drawingTime, drawingDate);
         }
 
         return winningNumber;

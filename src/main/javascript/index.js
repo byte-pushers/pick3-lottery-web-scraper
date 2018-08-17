@@ -1,4 +1,6 @@
-/*global require, module*/
+/*jshint esversion: 6 */
+/*jslint node: true */
+
 require('bytepushers-js-string-extensions');
 
 var BytePushers = {};
