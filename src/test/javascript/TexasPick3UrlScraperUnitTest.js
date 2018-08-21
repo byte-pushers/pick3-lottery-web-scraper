@@ -17,7 +17,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
             scraper;
 
         scraper = new BytePushers.TexasPick3UrlScraper({
-            url: BytePushers.TexasPick3UrlScraper.URL,
+            baseUrl: BytePushers.TexasPick3UrlScraper.BASE_URL,
             cheerio: cheerio.load(html),
             drawingDate: actualDrawDate,
         });
@@ -35,7 +35,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
             scraper;
 
         scraper = new BytePushers.TexasPick3UrlScraper({
-            url: BytePushers.TexasPick3UrlScraper.URL,
+            baseUrl: BytePushers.TexasPick3UrlScraper.BASE_URL,
             cheerio: cheerio.load(html),
             drawingDate: actualDrawDate,
         });
@@ -52,7 +52,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
             scraper;
 
         scraper = new BytePushers.TexasPick3UrlScraper({
-            url: BytePushers.TexasPick3UrlScraper.URL,
+            baseUrl: BytePushers.TexasPick3UrlScraper.BASE_URL,
             cheerio: cheerio.load(html),
             drawingDate: actualDrawDate,
         });

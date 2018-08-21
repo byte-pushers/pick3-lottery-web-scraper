@@ -24,7 +24,8 @@ declare module MBytePushers {
   }
 
   export interface BaseWebScraper {
-    getUrl() : string;
+    get
+    getBaseUrl() : string;
     getCheerio(): object;
   }
 
