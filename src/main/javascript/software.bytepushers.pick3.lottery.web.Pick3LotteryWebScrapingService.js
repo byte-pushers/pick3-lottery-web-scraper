@@ -10,11 +10,11 @@ var cheerio = require('cheerio');
 var TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
 var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
 
-function Pick3LotteryWebScrapingService() {
+function Pick3LotteryWebScrapingService(webScraperUrl) {
     'use strict';
     var registeredScrapers = [
             {state: "TX", stateName: "Texas", WebScraper: TexasPick3WebScraper,
-                urlScraperUrl: TexasPick3UrlScraper.URL, UrlScraper: TexasPick3UrlScraper }
+                webScraperUrl: (webScraperUrl === null || webScraperUrl === undefined) ? TexasPick3UrlScraper.URL: webScraperUrl, UrlScraper: TexasPick3UrlScraper }
         ];
 
     function findRegisteredScraperConfiguration (drawingState) {
@@ -32,7 +32,7 @@ function Pick3LotteryWebScrapingService() {
         request(url, callback);
     }
 
-    function getWinningNumberSourcePath (drawingState, drawingDate, urlScraperUrl = null) {
+    function getWinningNumberSourcePath (drawingState, drawingDate) {
         var registeredUrlScraperConfig,
             scraper,
             winningNumberSourcePathPromise,
@@ -44,12 +44,12 @@ function Pick3LotteryWebScrapingService() {
             registeredUrlScraperConfig = findRegisteredScraperConfiguration(drawingState);
 
             winningNumberSourcePathPromise = new Promise(function (resolve, reject) {
-                doScrape(registeredUrlScraperConfig.urlScraperUrl, function(error, ignore, html) {
+                doScrape(registeredUrlScraperConfig.webScraperUrl, function(error, ignore, html) {
                     if (error) {
                         reject(error);
                     } else {
                         scraper = (registeredUrlScraperConfig === undefined) ? null : new registeredUrlScraperConfig.UrlScraper({
-                            url: urlScraperUrl || registeredUrlScraperConfig.urlScraperUrl,
+                            url: registeredUrlScraperConfig.webScraperUrl,
                             cheerio: cheerio.load(html),
                             drawingDate: drawingDate
                         });
@@ -70,7 +70,7 @@ function Pick3LotteryWebScrapingService() {
         return winningNumberSourcePathPromise;
     }
 
-    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, urlToScrape = null) {
+    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime) {
         var registeredScraperConfig,
             scraper,
             winningNumberPromise,
@@ -84,7 +84,7 @@ function Pick3LotteryWebScrapingService() {
             registeredScraperConfig = findRegisteredScraperConfiguration(drawingState, drawingDate, drawingTime);
 
             winningNumberPromise = new Promise(function(resolve, reject) {
-                getWinningNumberSourcePath(drawingState, drawingDate, urlToScrape || registeredScraperConfig.urlScraperUrl)
+                getWinningNumberSourcePath(drawingState, drawingDate, registeredScraperConfig.webScraperUrl)
                     .then(function(successResult) {
                         if (!successResult || successResult.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
