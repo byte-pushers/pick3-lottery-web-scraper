@@ -137,7 +137,7 @@ module.exports = function (grunt) {
     grunt.registerTask('package', ['copy:' + build, 'uglify', 'concat']);
     grunt.registerTask('build', ['clean:' + build, 'validate', 'test', 'package']);
     grunt.registerTask('release', function (target) {
-        target = (target === null) ? "patch" : target;
+        target = (target === null || target === undefined) ? "patch" : target;
 
         grunt.task.run("clean:release");
         grunt.task.run("build");
