@@ -41,7 +41,7 @@ module.exports = function (grunt) {
                         src: [
                             'build/<%= pkg.name %>.min.js',
                             'build/<%= pkg.name %>.js',
-                            'build/src/main/javascript/index.js',
+                            'build/src/main/javascript/*.js',
                             'build/src/main/javascript/*.d.ts'
                         ],
                         dest: 'release/',

@@ -10,11 +10,13 @@ var cheerio = require('cheerio');
 var TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
 var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
 
-function Pick3LotteryWebScrapingService() {
+function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
     'use strict';
     var registeredScrapers = [
             {state: "TX", stateName: "Texas", WebScraper: TexasPick3WebScraper,
-                urlScraperUrl: TexasPick3UrlScraper.URL, UrlScraper: TexasPick3UrlScraper }
+                baseUrl: ((webScraperBaseUrl === null || webScraperBaseUrl === undefined) ? TexasPick3UrlScraper.BASE_URL : webScraperBaseUrl),
+                pathToScrape: TexasPick3UrlScraper.PATH_TO_SCRAPE,
+                UrlScraper: TexasPick3UrlScraper }
         ];
 
     function findRegisteredScraperConfiguration (drawingState) {
@@ -28,6 +30,7 @@ function Pick3LotteryWebScrapingService() {
 
         return registeredScraper;
     }
+
     function doScrape (url, callback) {
         request(url, callback);
     }
@@ -44,12 +47,12 @@ function Pick3LotteryWebScrapingService() {
             registeredUrlScraperConfig = findRegisteredScraperConfiguration(drawingState);
 
             winningNumberSourcePathPromise = new Promise(function (resolve, reject) {
-                doScrape(registeredUrlScraperConfig.urlScraperUrl, function(error, ignore, html) {
+                doScrape(registeredUrlScraperConfig.baseUrl + registeredUrlScraperConfig.pathToScrape, function(error, ignore, html) {
                     if (error) {
                         reject(error);
                     } else {
                         scraper = (registeredUrlScraperConfig === undefined) ? null : new registeredUrlScraperConfig.UrlScraper({
-                            url: registeredUrlScraperConfig.urlScraperUrl,
+                            baseUrl: registeredUrlScraperConfig.baseUrl,
                             cheerio: cheerio.load(html),
                             drawingDate: drawingDate
                         });
@@ -116,7 +119,6 @@ function Pick3LotteryWebScrapingService() {
                 reject(error);
             });
         }
-
         return winningNumberPromise;
     };
 }

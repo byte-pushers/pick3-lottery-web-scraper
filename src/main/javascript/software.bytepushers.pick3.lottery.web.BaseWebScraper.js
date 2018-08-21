@@ -3,11 +3,11 @@
 
 function BaseWebScraper(baseScraperConfig) {
     'use strict';
-    var url = (baseScraperConfig && baseScraperConfig.url) ? baseScraperConfig.url : null,
+    var baseUrl = (baseScraperConfig && baseScraperConfig.baseUrl) ? baseScraperConfig.baseUrl : null,
         $ = (baseScraperConfig && baseScraperConfig.cheerio) ? baseScraperConfig.cheerio : {};
 
-    this.getUrl = function () {
-        return url;
+    this.getBaseUrl = function () {
+        return baseUrl;
     };
 
     this.getCheerio = function () {
