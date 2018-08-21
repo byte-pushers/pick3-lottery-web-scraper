@@ -12,9 +12,8 @@ declare module MBytePushers {
   }
 
   export interface Pick3LotteryWebScrapingService {
-    (): Pick3LotteryWebScrapingService;
+    (baseUrl: string): Pick3LotteryWebScrapingService;
     retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string):Promise<ScrapingServiceDTO>;
-    retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string, urlToScrape:string):Promise<ScrapingServiceDTO>;
   }
 
   export interface ScrapingServiceDTO {
@@ -24,7 +23,7 @@ declare module MBytePushers {
   }
 
   export interface BaseWebScraper {
-    getUrl() : string;
+    getBaseUrl() : string;
     getCheerio(): object;
   }
 

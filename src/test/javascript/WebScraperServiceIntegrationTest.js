@@ -1,8 +1,6 @@
 /*global expect, jasmine, define, describe, beforeAll, it*/
 var BytePushers = require('../../main/javascript'),
-    assert = require('assert'),
-    fs = require('fs'),
-    fixturePath = "src/test/javascript/fixtures/html/";
+    assert = require('assert');
 
 describe("WebScraperService Integration Tests", function() {
     it("should be able to scrape Texas Pick3 Lottery website and return winning number for a specific date", function () {
@@ -12,7 +10,7 @@ describe("WebScraperService Integration Tests", function() {
             expectedMorningWinningNumber = 158,
             service;
 
-        service = new BytePushers.Pick3LotteryWebScrapingService();
+        service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).then(function(actualMorningWinningNumber) {
             assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
@@ -25,7 +23,7 @@ describe("WebScraperService Integration Tests", function() {
             expectedMorningWinningNumber = 469,
             service;
 
-        service = new BytePushers.Pick3LotteryWebScrapingService();
+        service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).then(function(actualMorningWinningNumber) {
             assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
@@ -37,7 +35,7 @@ describe("WebScraperService Integration Tests", function() {
             actualDrawingDate = new Date("06/14/1999"),
             service;
 
-        service = new BytePushers.Pick3LotteryWebScrapingService();
+        service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).catch(function(error) {
             assert.equal(error.code, BytePushers.Exception.Code.DRAWING_TIME_NOT_FOUND);
@@ -49,7 +47,7 @@ describe("WebScraperService Integration Tests", function() {
             actualDrawingDate = new Date("06/22/1972"),
             service;
 
-        service = new BytePushers.Pick3LotteryWebScrapingService();
+        service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
         return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime).catch(function(error) {
             assert.equal(error.code, BytePushers.Exception.Code.DRAWING_YEAR_NOT_AVAILABLE);

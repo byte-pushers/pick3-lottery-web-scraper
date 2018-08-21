@@ -18,8 +18,7 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
     this.scrapeTargetUrl = function(targetDate) {
         var targetYear = targetDate.getFullYear(),
             targetUrl = $('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
-            pathArray = this.getUrl().split('/'),
-            baseUrl = pathArray[0] + "//" + pathArray[2];
+            baseUrl = this.getBaseUrl();
 
         if (targetUrl === undefined || targetUrl === null) {
             throw new DrawingYearNotAvailableException(targetYear);
@@ -32,6 +31,7 @@ TexasPick3UrlScraper.prototype = BytePushers.inherit(UrlScraper.prototype);
 TexasPick3UrlScraper.prototype.constructor = TexasPick3UrlScraper;
 TexasPick3UrlScraper.prototype.superclass = UrlScraper;
 
-TexasPick3UrlScraper.URL = "https://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/";
+TexasPick3UrlScraper.PATH_TO_SCRAPE = "/export/sites/lottery/Games/Pick_3/Winning_Numbers/";
+TexasPick3UrlScraper.BASE_URL = "https://www.txlottery.org";
 
 module.exports = TexasPick3UrlScraper;
