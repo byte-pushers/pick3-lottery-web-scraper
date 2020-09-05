@@ -29,6 +29,40 @@ function WebScraper(txPick3WebScraperConfig) {
         return this.drawingNumber;
     };
 
+    this.getActualMorningDrawingTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getActualDayDrawingTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getActualEveningDrawingTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getActualNightDrawingTime = function() {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.getNextDrawingDrawingTime = function (currentDate) {
+        if (currentDate instanceof Date) {
+            if (currentDate <= this.getActualMorningDrawingTime()) {
+                return WebScraper.DRAWING_TIMES.MORNING;
+            } else if (currentDate <= this.getActualDayDrawingTime()) {
+                return WebScraper.DRAWING_TIMES.DAY;
+            } else if (currentDate <= this.getActualEveningDrawingTime()) {
+                return WebScraper.DRAWING_TIMES.EVENING;
+            } else if (currentDate <= this.getActualNightDrawingTime()) {
+                return WebScraper.DRAWING_TIMES.NIGHT;
+            } else {
+                return WebScraper.DRAWING_TIMES.TOMORROW_MORNING;
+            }
+        }
+
+        throw new Error("parameter.must.be.a.date");
+    };
+
     this.findMorningWinningNumber = function () {
         throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
@@ -119,6 +153,10 @@ WebScraper.DRAWING_TIMES = BytePushers.enumeration({
     'NIGHT': {
         value: 'Night',
         description: "Pick 3 Lottery drawing time for night time drawing."
+    },
+    'TOMORROW_MORNING': {
+        value: 'Tomorrow Morning',
+        description: "Pick 3 Lottery drawing time for tomorrow morning drawing."
     }
 });
 

@@ -19,8 +19,8 @@ describe("WebScraperService Integration Tests", function() {
     it("should be able to scrape Texas Pick3 Lottery website and return winning number for a historical date", function () {
         var actualDrawingStateAbbreviation = "TX",
             actualDrawingTime = "Morning",
-            actualDrawingDate = new Date("02/15/2017"),
-            expectedMorningWinningNumber = 469,
+            actualDrawingDate = new Date("02/15/2020"),
+            expectedMorningWinningNumber = 647,
             service;
 
         service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
