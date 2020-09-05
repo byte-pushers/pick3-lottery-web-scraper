@@ -9,6 +9,6 @@ branches:
 notifications:
   email:
     recipients:
-      - k.alex.mills@gmail.com
+      - tonte.pouncil@bytepushers.software
     on_success: change # default: change
     on_failure: always # default: always
