@@ -1,5 +1,5 @@
 declare module MPick3LotteryWebScrapingService {
-    // import ScrapingServiceDTO = BytePushers.ScrapingServiceDTO;
+
     export interface ScrapingServiceDTO {
         number: number;
         date: Date;
@@ -8,12 +8,15 @@ declare module MPick3LotteryWebScrapingService {
 
     export interface Pick3LotteryWebScrapingService {
         new():Pick3LotteryWebScrapingService;
+        retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string):Promise<ScrapingServiceDTO>;
+
     }
 
     export interface Main {
-        retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string):Promise<ScrapingServiceDTO>;
-        new():Pick3LotteryWebScrapingService;
+        ScrapingServiceDTO:ScrapingServiceDTO,
+        Pick3LotteryWebScrapingService:Pick3LotteryWebScrapingService;
     }
 }
 
-declare var Pick3LotteryWebScrapingService:MPick3LotteryWebScrapingService.Main;
+declare const Pick3LotteryWebScrapingService:MPick3LotteryWebScrapingService.Main;
+export = Pick3LotteryWebScrapingService;
