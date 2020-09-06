@@ -6,7 +6,12 @@ var BytePushers = require('../../main/javascript'),
     assert = require('assert'),
     cheerio = require('cheerio'),
     fs = require('fs'),
-    fixturePath = "src/test/javascript/fixtures/html/";
+    fixturePath = "src/test/javascript/fixtures/html/",
+    pageReader = {
+        read: (html) => {
+            return cheerio.load(html);
+        }
+    };
 
 describe("TexasPick3WebScraper Unit Tests", function() {
     it("should be able to find Morning winning Number for a specific date", function () {
@@ -19,7 +24,7 @@ describe("TexasPick3WebScraper Unit Tests", function() {
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: cheerio.load(html),
+            pageReader: pageReader.read(html),
             drawingDate: actualDrawDate,
             drawingTime: actualDrawingTime
         });
@@ -36,11 +41,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualDayWinningNumber,
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualDayWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
@@ -55,11 +60,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualEveningWinningNumber,
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualEveningWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
@@ -74,11 +79,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualNightWinningNumber,
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualNightWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
@@ -91,11 +96,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             drawTime = "MORNING",
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         })
 
         assert.throws(() => {
@@ -108,11 +113,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             drawTime = "DAY",
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         })
 
         assert.throws(() => {
@@ -125,11 +130,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             drawTime = "EVENING",
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         })
 
         assert.throws(() => {
@@ -142,11 +147,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             drawTime = "NIGHT",
             scraper;
 
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         })
 
         assert.throws(() => {
@@ -159,11 +164,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -185,11 +190,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -210,11 +215,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -235,11 +240,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -259,11 +264,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -284,11 +289,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -308,11 +313,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -332,11 +337,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -355,11 +360,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -380,11 +385,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -404,11 +409,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -428,11 +433,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -451,11 +456,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -475,11 +480,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
@@ -498,11 +503,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         assert.throws(() => {
@@ -521,11 +526,11 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             actualWinningNumber = -1,
             expectedWinningNumber = 123,
             scraper;
-        $ = cheerio.load(html);
+        $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
             url: BytePushers.TexasPick3WebScraper.URL,
-            cheerio: $
+            pageReader: $
         });
 
         actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");

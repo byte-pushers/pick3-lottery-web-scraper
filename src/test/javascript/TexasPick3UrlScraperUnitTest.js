@@ -6,7 +6,12 @@ var BytePushers = require('../../main/javascript'),
     assert = require('assert'),
     cheerio = require('cheerio'),
     fs = require('fs'),
-    fixturePath = "src/test/javascript/fixtures/html/";
+    fixturePath = "src/test/javascript/fixtures/html/",
+    pageReader = {
+        read: (html) => {
+            return cheerio.load(html);
+        }
+    };
 
 describe("TexasPick3UrlScraper Unit Tests", function() {
     it("should be able to find URLs for a specific date", function () {
@@ -18,7 +23,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
 
         scraper = new BytePushers.TexasPick3UrlScraper({
             baseUrl: BytePushers.TexasPick3UrlScraper.BASE_URL,
-            cheerio: cheerio.load(html),
+            pageReader: pageReader.read(html),
             drawingDate: actualDrawDate,
         });
 
@@ -36,7 +41,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
 
         scraper = new BytePushers.TexasPick3UrlScraper({
             baseUrl: BytePushers.TexasPick3UrlScraper.BASE_URL,
-            cheerio: cheerio.load(html),
+            pageReader: pageReader.read(html),
             drawingDate: actualDrawDate,
         });
 
@@ -53,7 +58,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
 
         scraper = new BytePushers.TexasPick3UrlScraper({
             baseUrl: BytePushers.TexasPick3UrlScraper.BASE_URL,
-            cheerio: cheerio.load(html),
+            pageReader: pageReader.read(html),
             drawingDate: actualDrawDate,
         });
 

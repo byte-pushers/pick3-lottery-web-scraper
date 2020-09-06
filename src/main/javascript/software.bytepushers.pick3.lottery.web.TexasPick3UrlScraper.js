@@ -13,11 +13,11 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
     
     TexasPick3UrlScraper.prototype.superclass.apply(this, [TxPick3UrlScraperConfig]);
 
-    var $ = this.getCheerio();
+    // var $ = this.getCheerio();
 
     this.scrapeTargetUrl = function(targetDate) {
         var targetYear = targetDate.getFullYear(),
-            targetUrl = $('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
+            targetUrl = this.getPageReader()('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
             baseUrl = this.getBaseUrl();
 
         if (targetUrl === undefined || targetUrl === null) {

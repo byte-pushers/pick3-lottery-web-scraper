@@ -4,14 +4,14 @@
 function BaseWebScraper(baseScraperConfig) {
     'use strict';
     var baseUrl = (baseScraperConfig && baseScraperConfig.baseUrl) ? baseScraperConfig.baseUrl : null,
-        $ = (baseScraperConfig && baseScraperConfig.cheerio) ? baseScraperConfig.cheerio : {};
+        pr = (baseScraperConfig && baseScraperConfig.pageReader) ? baseScraperConfig.pageReader : {};
 
     this.getBaseUrl = function () {
         return baseUrl;
     };
 
-    this.getCheerio = function () {
-        return $;
+    this.getPageReader = function () {
+        return pr;
     };
 }
 

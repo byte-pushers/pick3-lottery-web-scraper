@@ -5,7 +5,7 @@
  * Created by tonte on 10/4/17.
  */
 // var request = require('request');
-var cheerio = require('cheerio');
+// var cheerio = require('cheerio');
 
 var TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
 var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
@@ -35,7 +35,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         request(url, callback);
     }
 
-    function getWinningNumberSourcePath (drawingState, drawingDate, request) {
+    function getWinningNumberSourcePath (drawingState, drawingDate, request, pageReader) {
         var registeredUrlScraperConfig,
             scraper,
             winningNumberSourcePathPromise,
@@ -53,7 +53,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
                     } else {
                         scraper = (registeredUrlScraperConfig === undefined) ? null : new registeredUrlScraperConfig.UrlScraper({
                             baseUrl: registeredUrlScraperConfig.baseUrl,
-                            cheerio: cheerio.load(html),
+                            pageReader: pageReader.read(html),
                             drawingDate: drawingDate
                         });
                         try {
@@ -73,7 +73,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         return winningNumberSourcePathPromise;
     }
 
-    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request) {
+    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
         var registeredScraperConfig,
             scraper,
             winningNumberPromise,
@@ -87,7 +87,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
             registeredScraperConfig = findRegisteredScraperConfiguration(drawingState, drawingDate, drawingTime);
 
             winningNumberPromise = new Promise(function(resolve, reject) {
-                getWinningNumberSourcePath(drawingState, drawingDate, request)
+                getWinningNumberSourcePath(drawingState, drawingDate, request, pageReader)
                     .then(function(successResult) {
                         if (!successResult || successResult.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
@@ -98,7 +98,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
                             } else {
                                 scraper = (registeredScraperConfig === undefined)? null : new registeredScraperConfig.WebScraper({
                                     url: successResult.url,
-                                    cheerio: cheerio.load(html),
+                                    pageReader: pageReader.read(html),
                                     drawingDate: drawingDate,
                                     drawingTime: drawingTime
                                 });

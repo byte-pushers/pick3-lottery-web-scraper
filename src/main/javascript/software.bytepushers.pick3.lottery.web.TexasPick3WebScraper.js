@@ -9,7 +9,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     'use strict';
     
     TexasPick3WebScraper.prototype.superclass.apply(this, [TxPick3WebScraperConfig]);
-    var $ = this.getCheerio(),
+    var $ = this.getPageReader(),
         self = this;
 
     this.getActualMorningDrawingTime = function() {
