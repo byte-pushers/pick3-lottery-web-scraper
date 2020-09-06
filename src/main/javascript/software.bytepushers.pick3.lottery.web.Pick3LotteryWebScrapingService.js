@@ -4,7 +4,7 @@
 /**
  * Created by tonte on 10/4/17.
  */
-var request = require('request');
+// var request = require('request');
 var cheerio = require('cheerio');
 
 var TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
@@ -31,11 +31,11 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         return registeredScraper;
     }
 
-    function doScrape (url, callback) {
+    function doScrape (url, callback, request) {
         request(url, callback);
     }
 
-    function getWinningNumberSourcePath (drawingState, drawingDate) {
+    function getWinningNumberSourcePath (drawingState, drawingDate, request) {
         var registeredUrlScraperConfig,
             scraper,
             winningNumberSourcePathPromise,
@@ -63,7 +63,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
                         }
                         resolve(sourcePath);
                     }
-                });
+                }, request);
             });
         } catch (e) {
             winningNumberSourcePathPromise = new Promise(function(ignore,reject) {
@@ -73,7 +73,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         return winningNumberSourcePathPromise;
     }
 
-    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime) {
+    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request) {
         var registeredScraperConfig,
             scraper,
             winningNumberPromise,
@@ -87,7 +87,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
             registeredScraperConfig = findRegisteredScraperConfiguration(drawingState, drawingDate, drawingTime);
 
             winningNumberPromise = new Promise(function(resolve, reject) {
-                getWinningNumberSourcePath(drawingState, drawingDate)
+                getWinningNumberSourcePath(drawingState, drawingDate, request)
                     .then(function(successResult) {
                         if (!successResult || successResult.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
@@ -109,7 +109,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
                                 }
                                 resolve(winningNumber);
                             }
-                        });
+                        }, request);
                     }).catch(function(error) {
                         reject(error);
                     });
