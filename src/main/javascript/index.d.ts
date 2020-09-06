@@ -2,17 +2,17 @@
 declare module MBytePushers {
 
   export interface DrawingTimeNotFoundException {
-    (drawingTime:string, drawingDat:Date):DrawingTimeNotFoundException;
+    new (drawingTime:string, drawingDat:Date):DrawingTimeNotFoundException;
     toString():string;
   }
 
   export interface DrawingYearNotAvailableException {
-    (drawingTime:string, drawingDat:Date):DrawingYearNotAvailableException;
+    new (drawingTime:string, drawingDat:Date):DrawingYearNotAvailableException;
     toString():string;
   }
 
   export interface Pick3LotteryWebScrapingService {
-    (baseUrl: string): Pick3LotteryWebScrapingService;
+    new (baseUrl: string): Pick3LotteryWebScrapingService;
     retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string):Promise<ScrapingServiceDTO>;
   }
 
@@ -37,4 +37,4 @@ declare module MBytePushers {
 
 }
 
-declare var BytePushers:MBytePushers.BytePushers;
+declare var BytePushers: MBytePushers.BytePushers;
