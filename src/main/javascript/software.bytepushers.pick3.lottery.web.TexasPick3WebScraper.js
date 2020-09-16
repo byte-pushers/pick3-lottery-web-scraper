@@ -12,38 +12,6 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     var $ = this.getPageReader(),
         self = this;
 
-    this.getActualMorningDrawingTime = function() {
-        var actualMorningDrawingTime = new Date();
-
-        actualMorningDrawingTime.setHours(9, 5, 0, 0);
-
-        return actualMorningDrawingTime;
-    };
-
-    this.getActualDayDrawingTime = function() {
-        var actualDayDrawingTime = new Date();
-
-        actualDayDrawingTime.setHours(11, 31, 0, 0);
-
-        return actualDayDrawingTime;
-    };
-
-    this.getActualEveningDrawingTime = function() {
-        var actualEveningDrawingTime = new Date();
-
-        actualEveningDrawingTime.setHours(17, 3, 0, 0);
-
-        return actualEveningDrawingTime;
-    };
-
-    this.getActualNightDrawingTime = function() {
-        var actualNightDrawingTime = new Date();
-
-        actualNightDrawingTime.setHours(21, 16, 0, 0);
-
-        return actualNightDrawingTime;
-    };
-
     function scrapeDrawDateTdElement(drawingDate) {
         var $drawDateTdElement = $('#pastresults').find('tr > td:first-child:contains(' + drawingDate + ')');
 

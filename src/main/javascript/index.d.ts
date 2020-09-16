@@ -12,6 +12,10 @@ declare module MBytePushers {
   export interface Pick3LotteryWebScrapingService {
     new (baseUrl: string): Pick3LotteryWebScrapingService;
     retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string, request: Function, pageReader: {read:Function}):Promise<ScrapingServiceDTO>;
+    getActualMorningDrawingTime(drawingState: string): Date;
+    getActualDayDrawingTime(drawingState: string): Date
+    getActualEveningDrawingTime(drawingState: string): Date;
+    getActualNightDrawingTime(drawingState: string): Date;
   }
 
   export interface ScrapingServiceDTO {
