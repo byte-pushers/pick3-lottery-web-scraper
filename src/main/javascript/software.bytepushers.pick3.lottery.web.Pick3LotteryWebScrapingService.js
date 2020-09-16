@@ -13,7 +13,7 @@ var TexasPick3Lottery = require('./software.bytepushers.pick3.lottery.web.TexasP
 
 function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
     'use strict';
-    const registeredPick3Lotteries = [
+    var registeredPick3Lotteries = [
         {
             state: "TX",
             stateName: "Texas",
@@ -26,7 +26,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
     ];
 
     function findRegisteredPick3Lottery (drawingState) {
-        const registeredPick3Lottery = registeredPick3Lotteries.find(function (registeredScraper) {
+        var registeredPick3Lottery = registeredPick3Lotteries.find(function (registeredScraper) {
             return (drawingState && registeredScraper.state.toUpperCase() === drawingState.toUpperCase());
         });
 
@@ -38,30 +38,30 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
     }
 
     this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
-        let registeredPick3Lottery = findRegisteredPick3Lottery(drawingState, drawingDate, drawingTime);
+         var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState, drawingDate, drawingTime);
         return registeredPick3Lottery.pick3Lottery.retrieveWinningNumber(drawingState, drawingDate, drawingTime, request, pageReader);
     };
 
     this.getActualMorningDrawingTime = function(drawingState) {
-        const registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
+        var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
 
         return registeredPick3Lottery.pick3Lottery.getActualMorningDrawingTime();
     };
 
     this.getActualDayDrawingTime = function(drawingState) {
-        const registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
+        var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
 
-        return registeredPick3Lottery.pick3Lottery.getActualDayDrawingTime()
+        return registeredPick3Lottery.pick3Lottery.getActualDayDrawingTime();
     };
 
     this.getActualEveningDrawingTime = function(drawingState) {
-        const registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
+        var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
 
         return registeredPick3Lottery.pick3Lottery.getActualEveningDrawingTime();
     };
 
     this.getActualNightDrawingTime = function(drawingState) {
-        const registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
+        var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
 
         return registeredPick3Lottery.pick3Lottery.getActualNightDrawingTime();
     };

@@ -12,7 +12,7 @@ var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.Tex
 
 function TexasPick3Lottery(webScraperBaseUrl) {
     'use strict';
-    const config = {
+    var config = {
         state: "TX",
         stateName: "Texas",
         WebScraper: TexasPick3WebScraper,
@@ -20,13 +20,13 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         pathToScrape: TexasPick3UrlScraper.PATH_TO_SCRAPE,
         UrlScraper: TexasPick3UrlScraper
     };
-    let scraper;
+    var scraper;
 
     function doScrape (url, callback, request) {
         request(url, callback);
     }
 
-    function getWinningNumberSourcePath (drawingState, drawingDate, request, pageReader) {
+    function getWinningNumberSourcePath (drawingDate, request, pageReader) {
         var winningNumberSourcePathPromise,
             sourcePath = {
                 date: drawingDate,
@@ -71,7 +71,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
 
         try {
             winningNumberPromise = new Promise(function(resolve, reject) {
-                getWinningNumberSourcePath(drawingState, drawingDate, request, pageReader)
+                getWinningNumberSourcePath(drawingDate, request, pageReader)
                     .then(function(successResult) {
                         if (!successResult || successResult.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
@@ -107,7 +107,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
     };
 
     this.getActualMorningDrawingTime = function() {
-        const actualMorningDrawingTime = new Date();
+        var actualMorningDrawingTime = new Date();
 
         actualMorningDrawingTime.setHours(9, 5, 0, 0);
 
@@ -115,7 +115,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
     };
 
     this.getActualDayDrawingTime = function() {
-        const actualDayDrawingTime = new Date();
+        var actualDayDrawingTime = new Date();
 
         actualDayDrawingTime.setHours(11, 31, 0, 0);
 
@@ -123,7 +123,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
     };
 
     this.getActualEveningDrawingTime = function() {
-        const actualEveningDrawingTime = new Date();
+        var actualEveningDrawingTime = new Date();
 
         actualEveningDrawingTime.setHours(17, 3, 0, 0);
 
@@ -131,7 +131,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
     };
 
     this.getActualNightDrawingTime = function() {
-        const actualNightDrawingTime = new Date();
+        var actualNightDrawingTime = new Date();
 
         actualNightDrawingTime.setHours(21, 16, 0, 0);
 
