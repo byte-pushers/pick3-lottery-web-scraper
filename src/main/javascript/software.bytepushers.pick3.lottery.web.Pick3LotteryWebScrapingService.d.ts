@@ -9,7 +9,7 @@ declare module MPick3LotteryWebScrapingService {
     export interface Pick3LotteryWebScrapingService {
         new():Pick3LotteryWebScrapingService;
         retrieveWinningNumber(drawingState:string, drawingDate:Date, drawingTime:string, request: Function, pageReader: {read:Function}):Promise<ScrapingServiceDTO>;
-
+        getCurrentDrawingTime(drawingState: string, currentTime: Date): {type: string, dateTime: Date}
     }
 
     export interface Main {

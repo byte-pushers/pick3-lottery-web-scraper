@@ -7,8 +7,6 @@
 // var request = require('request');
 // var cheerio = require('cheerio');
 
-var TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3UrlScraper');
-var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
 var TexasPick3Lottery = require('./software.bytepushers.pick3.lottery.web.TexasPick3Lottery');
 
 function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
@@ -17,10 +15,6 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         {
             state: "TX",
             stateName: "Texas",
-            WebScraper: TexasPick3WebScraper,
-            baseUrl: ((webScraperBaseUrl === null || webScraperBaseUrl === undefined) ? TexasPick3UrlScraper.BASE_URL : webScraperBaseUrl),
-            pathToScrape: TexasPick3UrlScraper.PATH_TO_SCRAPE,
-            UrlScraper: TexasPick3UrlScraper,
             pick3Lottery: new TexasPick3Lottery(webScraperBaseUrl)
         }
     ];
@@ -38,7 +32,7 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
     }
 
     this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
-         var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState, drawingDate, drawingTime);
+        var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState, drawingDate, drawingTime);
         return registeredPick3Lottery.pick3Lottery.retrieveWinningNumber(drawingState, drawingDate, drawingTime, request, pageReader);
     };
 
@@ -64,6 +58,12 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
 
         return registeredPick3Lottery.pick3Lottery.getActualNightDrawingTime();
+    };
+
+    this.getCurrentDrawingTime = function (drawingState, currentTime) {
+        var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState);
+        var drawingTime = registeredPick3Lottery.getDrawingTime(currentTime);
+        return drawingTime;
     };
 }
 
