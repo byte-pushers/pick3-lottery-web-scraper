@@ -12,13 +12,18 @@ var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.Tex
 
 function TexasPick3Lottery(webScraperBaseUrl) {
     'use strict';
-    var config = {
-        state: "TX",
-        stateName: "Texas",
+    var state = "TX",
+        stateName = "Texas",
+        config = {
+        state: state,
+        stateName: stateName,
         WebScraper: TexasPick3WebScraper,
         baseUrl: ((webScraperBaseUrl === null || webScraperBaseUrl === undefined) ? TexasPick3UrlScraper.BASE_URL : webScraperBaseUrl),
         pathToScrape: TexasPick3UrlScraper.PATH_TO_SCRAPE,
-        UrlScraper: TexasPick3UrlScraper
+        UrlScraper: TexasPick3UrlScraper,
+        theme: {
+            backgroundImageUrl: 'https://blairhouseinn.com/wp-content/uploads/2020/02/Bluebonnets-in-Texas-Hill-Country-1170x475.jpg'
+        }
     };
     var scraper;
 
@@ -60,6 +65,14 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         }
         return winningNumberSourcePathPromise;
     }
+
+    this.getState = function () {
+        return state;
+    };
+
+    this.getStateName = function () {
+        return stateName;
+    };
 
     this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
         var winningNumberPromise,
@@ -106,74 +119,142 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         return winningNumberPromise;
     };
 
-    this.getActualMorningDrawingTime = function() {
-        var actualMorningDrawingTime = new Date();
-        var drawingTime = {
-            type: "Morning",
-            dateTime: actualMorningDrawingTime
-        };
-
-        actualMorningDrawingTime.setHours(9, 5, 0, 0);
-
-        return drawingTime;
-    };
-
-    this.getActualDayDrawingTime = function() {
-        var actualDayDrawingTime = new Date();
-        var drawingTime = {
-            type: "Day",
-            dateTime: actualDayDrawingTime
-        };
-        actualDayDrawingTime.setHours(11, 31, 0, 0);
-
-        return drawingTime;
-    };
-
-    this.getActualEveningDrawingTime = function() {
-        var actualEveningDrawingTime = new Date();
-        var drawingTime = {
-            type: "Evening",
-            dateTime: actualEveningDrawingTime
-        };
-
-        actualEveningDrawingTime.setHours(17, 3, 0, 0);
-
-        return drawingTime;
-    };
-
-    this.getActualNightDrawingTime = function() {
-        var actualNightDrawingTime = new Date();
-        var drawingTime = {
-            type: "Night",
-            dateTime: actualNightDrawingTime
-        };
-
-        actualNightDrawingTime.setHours(21, 16, 0, 0);
-
-        return drawingTime;
-    };
-
     this.getDrawingTime = function(currentTime) {
-        if (TexasPick3Lottery.DRAWING_TIMES.MORNING.dateTime <= currentTime) {
+        if (currentTime < TexasPick3Lottery.getActualDayDrawingTime().getDateTime()) {
             return TexasPick3Lottery.DRAWING_TIMES.MORNING;
-        } else if (TexasPick3Lottery.DRAWING_TIMES.DAY.dateTime <= currentTime) {
+        } else if (currentTime < TexasPick3Lottery.getActualEveningDrawingTime().getDateTime()) {
             return TexasPick3Lottery.DRAWING_TIMES.DAY;
-        } else if (TexasPick3Lottery.DRAWING_TIMES.EVENING.dateTime <= currentTime) {
+        } else if (currentTime < TexasPick3Lottery.getActualNightDrawingTime().getDateTime()) {
             return TexasPick3Lottery.DRAWING_TIMES.EVENING;
-        } else if (TexasPick3Lottery.DRAWING_TIMES.NIGHT.dateTime <= currentTime){
+        } else if (currentTime >= TexasPick3Lottery.getActualNightDrawingTime().getDateTime()){
             return TexasPick3Lottery.DRAWING_TIMES.NIGHT;
-        } else if (new Date().setHours(24, 0, 0, 0) < currentTime) {
+        } else if (currentTime < new Date().setHours(24, 0, 0, 0)) {
             return TexasPick3Lottery.DRAWING_TIMES.NIGHT;
         } else {
             return TexasPick3Lottery.DRAWING_TIMES.MORNING;
         }
     };
 
-    this.DRAWING_TIMES = {
-        MORNING: this.getActualMorningDrawingTime(),
-        DAY: this.getActualDayDrawingTime(),
-        EVENING: this.getActualEveningDrawingTime(),
-        NIGHT: this.getActualNightDrawingTime()
+    this.getCurrentDrawingTime = function() {
+        return this.getDrawingTime(new Date());
+    };
+
+    this.getBackgroundImageUrl = function () {
+        return config.theme.backgroundImageUrl;
+    };
+
+    this.winningNumberHasBeenDrawn = function (pick3DrawTime) {
+        var now = new Date().setHours(17, 0, 0, 0);
+        var drawingTime = this.getDrawingTime(pick3DrawTime.getDateTime());
+        var winningNumberDrawn = false;
+
+        if (now >= drawingTime.getDateTime()) {
+            winningNumberDrawn = true;
+        }
+
+        return winningNumberDrawn;
     };
 }
+TexasPick3Lottery.getActualMorningDrawingTime = function() {
+    var actualMorningDrawingTime = new Date();
+    var drawingTime = {
+        type: "Morning",
+        dateTime: actualMorningDrawingTime,
+        getType: function() {
+            return this.type;
+        },
+        setType: function(type) {
+            this.type = type;
+        },
+        getDateTime: function() {
+            return this.dateTime;
+        },
+        setDateTime: function (dateTime) {
+            this.dateTime = dateTime;
+        }
+    };
+
+    drawingTime.getDateTime().setHours(9, 5, 0, 0);
+
+    return drawingTime;
+};
+
+TexasPick3Lottery.getActualDayDrawingTime = function() {
+    var actualDayDrawingTime = new Date();
+    var drawingTime = {
+        type: "Day",
+        dateTime: actualDayDrawingTime,
+        getType: function() {
+            return this.type;
+        },
+        setType: function(type) {
+            this.type = type;
+        },
+        getDateTime: function() {
+            return this.dateTime;
+        },
+        setDateTime: function (dateTime) {
+            this.dateTime = dateTime;
+        }
+    };
+
+    drawingTime.getDateTime().setHours(11, 31, 0, 0);
+
+    return drawingTime;
+};
+
+TexasPick3Lottery.getActualEveningDrawingTime = function() {
+    var actualEveningDrawingTime = new Date();
+    var drawingTime = {
+        type: "Evening",
+        dateTime: actualEveningDrawingTime,
+        getType: function() {
+            return this.type;
+        },
+        setType: function(type) {
+            this.type = type;
+        },
+        getDateTime: function() {
+            return this.dateTime;
+        },
+        setDateTime: function (dateTime) {
+            this.dateTime = dateTime;
+        }
+    };
+
+    drawingTime.getDateTime().setHours(17, 3, 0, 0);
+
+    return drawingTime;
+};
+
+TexasPick3Lottery.getActualNightDrawingTime = function() {
+    var actualNightDrawingTime = new Date();
+    var drawingTime = {
+        type: "Night",
+        dateTime: actualNightDrawingTime,
+        getType: function() {
+            return this.type;
+        },
+        setType: function(type) {
+            this.type = type;
+        },
+        getDateTime: function() {
+            return this.dateTime;
+        },
+        setDateTime: function (dateTime) {
+            this.dateTime = dateTime;
+        }
+    };
+
+    drawingTime.getDateTime().setHours(21, 16, 0, 0);
+
+    return drawingTime;
+};
+
+TexasPick3Lottery.DRAWING_TIMES = {
+    MORNING: TexasPick3Lottery.getActualMorningDrawingTime(),
+    DAY: TexasPick3Lottery.getActualDayDrawingTime(),
+    EVENING: TexasPick3Lottery.getActualEveningDrawingTime(),
+    NIGHT: TexasPick3Lottery.getActualNightDrawingTime()
+};
 module.exports = TexasPick3Lottery;
