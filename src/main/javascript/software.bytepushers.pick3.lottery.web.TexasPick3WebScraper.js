@@ -14,7 +14,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
 
     function scrapeDrawDateTdElement(drawingDate) {
         var $drawDateTdElement = (Object.isFunction($.find)) ?
-            $.find('#pastresults').find('tr > td:first-child:contains(' + drawingDate + ')') :
+            $.find('tr > td:first-child:contains(' + drawingDate + ')') :
             $('tr > td:first-child:contains(' + drawingDate + ')');
 
         return $drawDateTdElement;
