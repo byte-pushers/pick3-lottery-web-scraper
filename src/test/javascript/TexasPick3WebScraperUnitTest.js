@@ -10,6 +10,17 @@ var BytePushers = require('../../main/javascript'),
     pageReader = {
         read: (html) => {
             return cheerio.load(html);
+        },
+        read2: (html) => {
+            var r;
+
+            cheerio.load(html).each((a, b) => {
+                if (b.localName === "table") {
+                    r = cheerio(b);
+                }
+            });
+
+            return r;
         }
     };
 

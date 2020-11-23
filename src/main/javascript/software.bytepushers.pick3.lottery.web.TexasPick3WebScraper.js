@@ -13,7 +13,9 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         self = this;
 
     function scrapeDrawDateTdElement(drawingDate) {
-        var $drawDateTdElement = $('#pastresults').find('tr > td:first-child:contains(' + drawingDate + ')');
+        var $drawDateTdElement = (Object.isFunction($.find)) ?
+            $.find('#pastresults').find('tr > td:first-child:contains(' + drawingDate + ')') :
+            $('tr > td:first-child:contains(' + drawingDate + ')');
 
         return $drawDateTdElement;
     }
@@ -68,7 +70,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         // Iterate over the td elements and separate them into morning, day, evening, and night buckets
         // based on the column the element lies in.
         tdElements.each(function (ignore, $tdElement) {
-            if ($tdElement.attribs.colspan) {
+            if ($tdElement.attribs && $tdElement.attribs.colspan) {
                 columnCount += parseInt($tdElement.attribs.colspan);
             } else {
                 columnCount += 1;
@@ -89,22 +91,44 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     }
 
     function scrapeWinningNumber(parsedDrawDateSection) {
-        var num1, num2, num3;
+        var num1, num2, num3, winningNumber;
 
         if (parsedDrawDateSection.length !== 3) {
             throw new DrawingTimeNotFoundException(self.getDrawingTime(), self.getDrawingDate());
         }
 
-        num1 = removeNewLineBytes(parsedDrawDateSection[0].children[0].data).trim();
-        num2 = removeNewLineBytes(parsedDrawDateSection[1].children[0].data).trim();
-        num3 = removeNewLineBytes(parsedDrawDateSection[2].children[0].data).trim();
+        num1 = (parsedDrawDateSection[0] &&
+                parsedDrawDateSection[0].children[0] &&
+                parsedDrawDateSection[0].children[0].data) ?
+            removeNewLineBytes(parsedDrawDateSection[0].children[0].data).trim() : (parsedDrawDateSection[0] && parsedDrawDateSection[0].innerText) ? parsedDrawDateSection[0].innerText.trim() : null;
+        num2 = (parsedDrawDateSection[1] &&
+            parsedDrawDateSection[1].children[0] &&
+            parsedDrawDateSection[1].children[0].data) ?
+            removeNewLineBytes(parsedDrawDateSection[1].children[0].data).trim() : (parsedDrawDateSection[1] && parsedDrawDateSection[1].innerText) ? parsedDrawDateSection[1].innerText.trim() : null;
+        num3 = (parsedDrawDateSection[2] &&
+            parsedDrawDateSection[2].children[0] &&
+            parsedDrawDateSection[2].children[0].data) ?
+            removeNewLineBytes(parsedDrawDateSection[2].children[0].data).trim(): (parsedDrawDateSection[2] && parsedDrawDateSection[2].innerText) ? parsedDrawDateSection[2].innerText.trim() : null;
 
-        return 100 * num1 + 10 * num2 + 1 * num3;
+        if (num1 && num2 && num3) {
+            winningNumber = 100 * num1 + 10 * num2 + 1 * num3;
+        } else {
+            console.error("Could not convert number: num1: " + num1 + ", num2: " + num2 + ", num3: " + num3);
+            throw new WinningNumberNotFoundException(num1, num2, num3);
+        }
+
+        return winningNumber;
     }
 
     function findTargetDrawDateSection(drawingDate){
         var $targetTdElement = scrapeDrawDateTdElement(drawingDate),
+            $targetTrElement = null;
+
+        if ($targetTdElement.length > 0) {
             $targetTrElement = scrapeDrawDateTrElement($targetTdElement);
+        } else {
+            throw new DrawingYearNotAvailableException(drawingDate);
+        }
 
         return $targetTrElement;
     }

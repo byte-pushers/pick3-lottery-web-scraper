@@ -13,16 +13,18 @@ function TexasPick3UrlScraper(TxPick3UrlScraperConfig) {
     
     TexasPick3UrlScraper.prototype.superclass.apply(this, [TxPick3UrlScraperConfig]);
 
-    // var $ = this.getCheerio();
-
     this.scrapeTargetUrl = function(targetDate) {
         var targetYear = targetDate.getFullYear(),
-            targetUrl = this.getPageReader()('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
+            $html = this.getPageReader(),
+            targetUrl = (Object.isFunction($html.find)) ?
+                $html.find('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value") :
+                $html('#Pick3PastWinningNumbers').find('select > option:contains(' + targetYear + ')').attr("value"),
             baseUrl = this.getBaseUrl();
 
         if (targetUrl === undefined || targetUrl === null) {
             throw new DrawingYearNotAvailableException(targetYear);
         }
+
         return baseUrl + targetUrl.replace("index", "print");
     };
 }

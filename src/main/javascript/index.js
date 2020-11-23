@@ -5,6 +5,7 @@ require('bytepushers-js-string-extensions');
 
 var BytePushers = {};
 BytePushers.opp = require('bytepushers-js-oop');
+BytePushers.objext = require('bytepushers-js-obj-extensions');
 BytePushers.BaseWebScraper = require('./software.bytepushers.pick3.lottery.web.BaseWebScraper');
 BytePushers.WebScraper = require('./software.bytepushers.pick3.lottery.web.WebScraper');
 BytePushers.UrlScraper = require('./software.bytepushers.pick3.lottery.web.UrlScraper');

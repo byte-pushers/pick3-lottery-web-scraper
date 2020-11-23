@@ -1,10 +1,13 @@
 /*global expect, jasmine, define, describe, beforeAll, it*/
 var BytePushers = require('../../main/javascript'),
     assert = require('assert'),
-    request = require('request'),
+    request = {request: require('request')},
     cheerio = require('cheerio'),
     pageReader = {
         read: (html) => {
+            return cheerio.load(html);
+        },
+        read2: (html) => {
             return cheerio.load(html);
         }
     };
