@@ -185,8 +185,8 @@ function TexasPick3Lottery(webScraperBaseUrl) {
 
     this.winningNumberHasBeenDrawn = function (pick3DrawTime) {
         var now = new Date();
-        now.setDate(now.getDate() - 1);
-        now.setHours(17, 30, 0, 0);
+        //now.setDate(now.getDate() - 1);
+        //now.setHours(17, 30, 0, 0);
 
         var drawingTime = this.getDrawingTime(/*now*/pick3DrawTime.getDateTime());
         var winningNumberDrawn = false;
