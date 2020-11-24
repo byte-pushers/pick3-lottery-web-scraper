@@ -5,6 +5,7 @@ var BytePushers = require('bytepushers-js-oop');
 var WebScraper = require('./software.bytepushers.pick3.lottery.web.WebScraper');
 var DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeNotFoundException');
 var WinningNumberNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.WinningNumberNotFoundException');
+var DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingYearNotAvailableException');
 
 function TexasPick3WebScraper(TxPick3WebScraperConfig) {
     'use strict';

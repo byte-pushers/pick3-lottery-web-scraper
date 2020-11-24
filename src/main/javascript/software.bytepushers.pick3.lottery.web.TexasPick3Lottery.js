@@ -51,10 +51,10 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                         });
                         try {
                             sourcePath.url = scraper.findSourcePath(drawingDate);
+                            resolve(sourcePath);
                         } catch (err) {
                             reject(err);
                         }
-                        resolve(sourcePath);
                     }
                 }, request);
             });
@@ -93,7 +93,6 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                             if (error) {
                                 reject(error);
                             } else {
-
                                 scraper = (config === undefined)? null : new config.WebScraper({
                                     baseUrl: successResult.url,
                                     pageReader: pageReader.read2(html),
@@ -102,10 +101,10 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                                 });
                                 try {
                                     winningNumber.number = scraper.findWinningNumber(drawingDate, drawingTime);
-                                } catch(err) {
+                                    resolve(winningNumber);
+                                } catch (err) {
                                     reject(err);
                                 }
-                                resolve(winningNumber);
                             }
                         }, request);
                     }).catch(function(error) {
@@ -186,8 +185,8 @@ function TexasPick3Lottery(webScraperBaseUrl) {
 
     this.winningNumberHasBeenDrawn = function (pick3DrawTime) {
         var now = new Date();
-        /*now.setDate(now.getDate() - 1);
-        now.setHours(21, 16, 0, 0);*/
+        now.setDate(now.getDate() - 1);
+        now.setHours(17, 30, 0, 0);
 
         var drawingTime = this.getDrawingTime(/*now*/pick3DrawTime.getDateTime());
         var winningNumberDrawn = false;
