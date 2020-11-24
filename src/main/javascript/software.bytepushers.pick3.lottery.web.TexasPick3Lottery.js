@@ -219,7 +219,7 @@ TexasPick3Lottery.getActualMorningDrawingTime = function(actualMorningDrawingTim
         }
     };
 
-    drawingTime.getDateTime().setHours(9, 5, 0, 0);
+    drawingTime.getDateTime().setHours(9, 51, 0, 0);
 
     return drawingTime;
 };
@@ -272,7 +272,7 @@ TexasPick3Lottery.getActualEveningDrawingTime = function(actualEveningDrawingTim
         }
     };
 
-    drawingTime.getDateTime().setHours(17, 3, 0, 0);
+    drawingTime.getDateTime().setHours(17, 4, 0, 0);
 
     return drawingTime;
 };
