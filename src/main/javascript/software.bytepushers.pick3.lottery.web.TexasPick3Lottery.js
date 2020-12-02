@@ -139,6 +139,25 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         }
     };
 
+    this.getDrawingTimeByName = function(drawingTime) {
+        for (var prop in TexasPick3Lottery.DRAWING_TIMES) {
+            if (TexasPick3Lottery.DRAWING_TIMES.hasOwnProperty(prop)) {
+                if (prop === drawingTime) {
+                    //console.log(`TexasPick3Lottery.DRAWING_TIMES.${prop} = ${TexasPick3Lottery.DRAWING_TIMES[prop]}`);
+                    drawingTime = TexasPick3Lottery.DRAWING_TIMES[prop]();
+                    break;
+                }
+            }
+        }
+
+        if (drawingTime == null) {
+            //TODO: throw exception.
+            throw "Unable to get Drawing Time By Name.";
+        }
+
+        return drawingTime;
+    };
+
     function compareTime(time1, time2) {
         if (time1 && time2 ) {
             if (!time1.getHours() && !time2.getHours()) {
