@@ -74,7 +74,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         return stateName;
     };
 
-    this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
+    this.retrievePastWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
         var winningNumberPromise,
             winningNumber = {
                 date: drawingDate,

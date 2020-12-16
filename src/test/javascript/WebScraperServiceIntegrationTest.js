@@ -22,7 +22,7 @@ describe("WebScraperService Integration Tests", function() {
 
         service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
-        /*return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).then(function(actualMorningWinningNumber) {
+        /*return service.retrievePastWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).then(function(actualMorningWinningNumber) {
             assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
         });*/
 
@@ -41,7 +41,7 @@ describe("WebScraperService Integration Tests", function() {
 
         service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
-        /*return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).then(function(actualMorningWinningNumber) {
+        /*return service.retrievePastWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).then(function(actualMorningWinningNumber) {
             assert.equal(actualMorningWinningNumber.number, expectedMorningWinningNumber);
         });*/
 
@@ -59,7 +59,7 @@ describe("WebScraperService Integration Tests", function() {
 
         service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
-        /*return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).catch(function(error) {
+        /*return service.retrievePastWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).catch(function(error) {
             assert.equal(error.code, BytePushers.Exception.Code.DRAWING_TIME_NOT_FOUND);
         });*/
 
@@ -77,7 +77,7 @@ describe("WebScraperService Integration Tests", function() {
 
         service = new BytePushers.Pick3LotteryWebScrapingService(BytePushers.TexasPick3UrlScraper.BASE_URL);
 
-        /*return service.retrieveWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).catch(function(error) {
+        /*return service.retrievePastWinningNumber(actualDrawingStateAbbreviation, actualDrawingDate, actualDrawingTime, request, pageReader).catch(function(error) {
             assert.equal(error.code, BytePushers.Exception.Code.DRAWING_YEAR_NOT_AVAILABLE);
         });*/
 

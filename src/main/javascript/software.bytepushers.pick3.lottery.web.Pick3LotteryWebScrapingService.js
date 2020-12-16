@@ -35,9 +35,9 @@ function Pick3LotteryWebScrapingService(webScraperBaseUrl) {
         return findRegisteredPick3Lottery(drawingState);
     };
 
-    /*this.retrieveWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
+    /*this.retrievePastWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
         var registeredPick3Lottery = findRegisteredPick3Lottery(drawingState, drawingDate, drawingTime);
-        return registeredPick3Lottery.pick3Lottery.retrieveWinningNumber(drawingState, drawingDate, drawingTime, request, pageReader);
+        return registeredPick3Lottery.pick3Lottery.retrievePastWinningNumber(drawingState, drawingDate, drawingTime, request, pageReader);
     };*/
 
     /*this.getActualMorningDrawingTime = function(drawingState) {
