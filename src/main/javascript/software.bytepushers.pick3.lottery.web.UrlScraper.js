@@ -16,12 +16,12 @@ function UrlScraper(urlScraperConfig) {
         return drawingDate;
     };
 
-    this.scrapeTargetUrl = function() {
+    this.scrapeUrlForYear = function(targetDate) {
         throw new Error("method not implemented by UrlScraper " + this.constructor.name);
     };
 
-    this.findSourcePath = function(drawingDate) {
-        var targetUrl = this.scrapeTargetUrl(drawingDate);
+    this.findDrawingUrlForYear = function(drawingDate) {
+        var targetUrl = this.scrapeUrlForYear(drawingDate);
 
         return targetUrl;
     };

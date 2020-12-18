@@ -79,6 +79,22 @@ function WebScraper(txPick3WebScraperConfig) {
         throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
+    this.findLastDrawnMorningWinningNumber = function (drawingDate, drawingTime) {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.findLastDrawnDayWinningNumber = function (drawingDate, drawingTime) {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.findLastDrawnEveningWinningNumber = function (drawingDate, drawingTime) {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
+    this.findLastDrawnNightWinningNumber = function (drawingDate, drawingTime) {
+        throw new Error("method not implemented by WebScraper " + this.constructor.name);
+    };
+
     this.getMorningPostTime = function() {
         throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
@@ -95,7 +111,37 @@ function WebScraper(txPick3WebScraperConfig) {
         throw new Error("method not implemented by WebScraper " + this.constructor.name);
     };
 
-    this.findWinningNumber = function (drawingDate, drawingTime) {
+    this.findLastDrawingWinningNumber = function (drawingDate, drawingTime) {
+        var winningNumber = 0,
+            formattedDrawingDate = this.formatDate(drawingDate);
+
+        if (formattedDrawingDate === undefined || formattedDrawingDate === null) {
+            console.error("Problem occurred while trying to format date: " + drawingDate, drawingDate);
+
+            throw new Error("Problem occurred while trying to format date: " + drawingDate);
+        }
+
+        switch (drawingTime.toUpperCase()) {
+            case WebScraper.DRAWING_TIMES.MORNING.name:
+                winningNumber = this.findLastDrawnMorningWinningNumber(formattedDrawingDate, drawingTime);
+                break;
+            case WebScraper.DRAWING_TIMES.DAY.name:
+                winningNumber = this.findLastDrawnDayWinningNumber(formattedDrawingDate, drawingTime);
+                break;
+            case WebScraper.DRAWING_TIMES.EVENING.name:
+                winningNumber = this.findLastDrawnEveningWinningNumber(formattedDrawingDate, drawingTime);
+                break;
+            case WebScraper.DRAWING_TIMES.NIGHT.name:
+                winningNumber = this.findLastDrawnNightWinningNumber(formattedDrawingDate, drawingTime);
+                break;
+            default:
+                throw new DrawingTimeNotFoundException(drawingTime, drawingDate);
+        }
+
+        return winningNumber;
+    };
+
+    this.findPastWinningNumber = function (drawingDate, drawingTime) {
         var winningNumber = 0,
             formattedDrawingDate = this.formatDate(drawingDate);
 

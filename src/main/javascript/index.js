@@ -14,10 +14,11 @@ BytePushers.TexasPick3UrlScraper = require('./software.bytepushers.pick3.lottery
 BytePushers.TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.TexasPick3WebScraper');
 BytePushers.Pick3LotteryWebScrapingService = require('./software.bytepushers.pick3.lottery.web.Pick3LotteryWebScrapingService');
 
+BytePushers.Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 BytePushers.DrawingTimeInFutureException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeInFutureException');
 BytePushers.DrawingTimeNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingTimeNotFoundException');
 BytePushers.DrawingYearNotAvailableException = require('./software.bytepushers.pick3.lottery.web.exceptions.DrawingYearNotAvailableException');
-BytePushers.Exception = require('./software.bytepushers.pick3.lottery.web.exceptions.Exception');
 BytePushers.HtmlParseException = require('./software.bytepushers.pick3.lottery.web.exceptions.HtmlParseException');
+BytePushers.WinningNumberNotFoundException = require('./software.bytepushers.pick3.lottery.web.exceptions.WinningNumberNotFoundException');
 
 module.exports = BytePushers;

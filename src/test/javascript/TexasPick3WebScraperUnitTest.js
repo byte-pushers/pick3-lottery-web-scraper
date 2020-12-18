@@ -3,6 +3,7 @@
  */
 /*global expect, jasmine, define, describe, beforeAll, it*/
 var BytePushers = require('../../main/javascript'),
+    url = "http://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/print.html_8783066.html",
     assert = require('assert'),
     cheerio = require('cheerio'),
     fs = require('fs'),
@@ -24,7 +25,7 @@ var BytePushers = require('../../main/javascript'),
         }
     };
 
-describe("TexasPick3WebScraper Unit Tests", function() {
+describe("TexasPick3WebScraper Unit Tests for Past Winning Numbers", function() {
     it("should be able to find Morning winning Number for a specific date", function () {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
             expectedMorningWinningNumber = 158,
@@ -34,15 +35,15 @@ describe("TexasPick3WebScraper Unit Tests", function() {
             scraper;
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: pageReader.read(html),
             drawingDate: actualDrawDate,
             drawingTime: actualDrawingTime
         });
 
-        actualMorningWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
+        actualMorningWinningNumber = scraper.findPastWinningNumber(actualDrawDate, actualDrawingTime);
 
-        assert.equal(actualMorningWinningNumber, expectedMorningWinningNumber);
+        assert.strictEqual(actualMorningWinningNumber, expectedMorningWinningNumber);
     });
     it("should be able to find Day Winning Number for a specific date", function() {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
@@ -55,13 +56,13 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualDayWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
+        actualDayWinningNumber = scraper.findPastWinningNumber(actualDrawDate, actualDrawingTime);
 
-        assert.equal(actualDayWinningNumber, expectedDayWinningNumber);
+        assert.strictEqual(actualDayWinningNumber, expectedDayWinningNumber);
     });
     it("should be able to find Evening Winning Number for a specific date", function() {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
@@ -74,13 +75,13 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualEveningWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
+        actualEveningWinningNumber = scraper.findPastWinningNumber(actualDrawDate, actualDrawingTime);
 
-        assert.equal(actualEveningWinningNumber, expectedEveningWinningNumber);
+        assert.strictEqual(actualEveningWinningNumber, expectedEveningWinningNumber);
     });
     it("should be able to find Night Winning Number for a specific date", function() {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
@@ -93,13 +94,13 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualNightWinningNumber = scraper.findWinningNumber(actualDrawDate, actualDrawingTime);
+        actualNightWinningNumber = scraper.findPastWinningNumber(actualDrawDate, actualDrawingTime);
 
-        assert.equal(actualNightWinningNumber, expectedNightWinningNumber);
+        assert.strictEqual(actualNightWinningNumber, expectedNightWinningNumber);
     });
     it("should throw a DrawingTimeNotFoundException when a date is found but the MORNING drawing time is unavailable", function() {
         var html = fs.readFileSync(fixturePath + "pick3-morning-drawing-fixture.html", "UTF-8"),
@@ -110,12 +111,12 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         })
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, drawTime);
+            scraper.findPastWinningNumber(drawDate, drawTime);
         }, BytePushers.DrawingTimeNotFoundException)
     });
     it("should throw a DrawingTimeNotFoundException when a date is found but the DAY drawing time is unavailable", function() {
@@ -127,12 +128,12 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         })
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, drawTime);
+            scraper.findPastWinningNumber(drawDate, drawTime);
         }, BytePushers.DrawingTimeNotFoundException)
     });
     it("should throw a DrawingTimeNotFoundException when a date is found but the EVENING drawing time is unavailable", function() {
@@ -144,12 +145,12 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         })
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, drawTime);
+            scraper.findPastWinningNumber(drawDate, drawTime);
         }, BytePushers.DrawingTimeNotFoundException)
     });
     it("should throw a DrawingTimeNotFoundException when a date is found but the NIGHT drawing time is unavailable", function() {
@@ -161,12 +162,12 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         })
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, drawTime);
+            scraper.findPastWinningNumber(drawDate, drawTime);
         }, BytePushers.DrawingTimeNotFoundException)
     });
     it("should correctly identify any combination of missing times -- binary code: 0000", function() {
@@ -178,21 +179,21 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0001", function() {
@@ -204,20 +205,20 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0010", function() {
@@ -229,20 +230,20 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0011", function() {
@@ -254,19 +255,19 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0100", function() {
@@ -278,20 +279,20 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0101", function() {
@@ -303,19 +304,19 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0110", function() {
@@ -327,19 +328,19 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 0111", function() {
@@ -351,18 +352,18 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "NIGHT");
+            scraper.findPastWinningNumber(drawDate, "NIGHT");
         }, BytePushers.DrawingTimeNotFoundException);
     });
     it("should correctly identify any combination of missing times -- binary code: 1000", function() {
@@ -374,21 +375,21 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1001", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -399,20 +400,20 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1010", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -423,20 +424,20 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1011", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -447,19 +448,19 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "EVENING");
+            scraper.findPastWinningNumber(drawDate, "EVENING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1100", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -470,20 +471,20 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1101", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -494,19 +495,19 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "DAY");
+            scraper.findPastWinningNumber(drawDate, "DAY");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1110", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -517,19 +518,19 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
         assert.throws(() => {
-            scraper.findWinningNumber(drawDate, "MORNING");
+            scraper.findPastWinningNumber(drawDate, "MORNING");
         }, BytePushers.DrawingTimeNotFoundException);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
     });
     it("should correctly identify any combination of missing times -- binary code: 1111", function() {
         var html = fs.readFileSync(fixturePath + "pick3-missing-time-fixture.html", "UTF-8"),
@@ -540,17 +541,145 @@ describe("TexasPick3WebScraper Unit Tests", function() {
         $ = pageReader.read(html);
 
         scraper = new BytePushers.TexasPick3WebScraper({
-            url: BytePushers.TexasPick3WebScraper.URL,
+            url: url,
             pageReader: $
         });
 
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "MORNING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "DAY");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "EVENING");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
-        actualWinningNumber = scraper.findWinningNumber(drawDate, "NIGHT");
-        assert.equal(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "MORNING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "DAY");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "EVENING");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+        actualWinningNumber = scraper.findPastWinningNumber(drawDate, "NIGHT");
+        assert.strictEqual(actualWinningNumber, expectedWinningNumber);
+    });
+});
+
+describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
+    it("should be able to find Morning winning number for a specific date", function () {
+        var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
+            expectedWinningNumber = 723,
+            actualMorningWinningNumber,
+            actualDrawDate = new Date("12/17/2020"),
+            actualDrawingTime = "Morning",
+            scraper;
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: url,
+            pageReader: pageReader.read(html),
+            drawingDate: actualDrawDate,
+            drawingTime: actualDrawingTime
+        });
+
+        actualMorningWinningNumber = scraper.findLastDrawingWinningNumber(actualDrawDate, actualDrawingTime);
+
+        assert.strictEqual(actualMorningWinningNumber, expectedWinningNumber);
+    });
+
+    it("should be able to find Day winning number for a specific date", function () {
+        var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
+            expectedWinningNumber = 75,
+            actualMorningWinningNumber,
+            actualDrawDate = new Date("12/17/2020"),
+            actualDrawingTime = "Day",
+            scraper;
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: url,
+            pageReader: pageReader.read(html),
+            drawingDate: actualDrawDate,
+            drawingTime: actualDrawingTime
+        });
+
+        actualMorningWinningNumber = scraper.findLastDrawingWinningNumber(actualDrawDate, actualDrawingTime);
+
+        assert.strictEqual(actualMorningWinningNumber, expectedWinningNumber);
+    });
+
+    it("should be able to find Evening winning number for a specific date", function () {
+        var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
+            expectedWinningNumber = 7,
+            actualMorningWinningNumber,
+            actualDrawDate = new Date("12/17/2020"),
+            actualDrawingTime = "Evening",
+            scraper;
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: url,
+            pageReader: pageReader.read(html),
+            drawingDate: actualDrawDate,
+            drawingTime: actualDrawingTime
+        });
+
+        actualMorningWinningNumber = scraper.findLastDrawingWinningNumber(actualDrawDate, actualDrawingTime);
+
+        assert.strictEqual(actualMorningWinningNumber, expectedWinningNumber);
+    });
+
+    it("should be able to find Evening winning number for a specific date", function () {
+        var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
+            expectedWinningNumber = 0,
+            actualMorningWinningNumber,
+            actualDrawDate = new Date("12/17/2020"),
+            actualDrawingTime = "Night",
+            scraper;
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: url,
+            pageReader: pageReader.read(html),
+            drawingDate: actualDrawDate,
+            drawingTime: actualDrawingTime
+        });
+
+        actualMorningWinningNumber = scraper.findLastDrawingWinningNumber(actualDrawDate, actualDrawingTime);
+
+        assert.strictEqual(actualMorningWinningNumber, expectedWinningNumber);
+    });
+
+    it("should throw WinningNumberNotFoundException when unable to find Morning winning number.", function () {
+        var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-with-bad-data-fixture.html", "UTF-8"),
+            expectedWinningNumber = 723,
+            actualMorningWinningNumber,
+            actualDrawDate = new Date("12/17/2020"),
+            actualDrawingTime = "Morning",
+            scraper;
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: url,
+            pageReader: pageReader.read(html),
+            drawingDate: actualDrawDate,
+            drawingTime: actualDrawingTime
+        });
+
+        assert.throws(() => {
+            scraper.findLastDrawingWinningNumber(actualDrawDate, actualDrawingTime)
+        }, (error) => {
+            assert(error instanceof BytePushers.WinningNumberNotFoundException);
+            return true;
+        });
+    });
+
+    it("should throw DrawingTimeNotFoundException when unable to find Morning winning number for the specified date.", function () {
+        var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-with-bad-data-fixture.html", "UTF-8"),
+            expectedWinningNumber = 723,
+            actualMorningWinningNumber,
+            actualDrawDate = new Date("12/18/2020"),
+            actualDrawingTime = "Morning",
+            scraper;
+
+        scraper = new BytePushers.TexasPick3WebScraper({
+            url: url,
+            pageReader: pageReader.read(html),
+            drawingDate: actualDrawDate,
+            drawingTime: actualDrawingTime
+        });
+
+        assert.throws(() => {
+            scraper.findLastDrawingWinningNumber(actualDrawDate, actualDrawingTime)
+        }, (error) => {
+            assert(error instanceof BytePushers.DrawingTimeNotFoundException);
+            return true;
+        });
     });
 });

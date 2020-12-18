@@ -11,11 +11,11 @@ describe("DrawingTimeNotFoundException Unit Tests", function() {
             exception = new BytePushers.DrawingTimeNotFoundException("MORNING", "07/31/2018"),
             actualMsg = exception.toString();
 
-        assert.equal(expectedMsg, actualMsg);
+        assert.strictEqual(expectedMsg, actualMsg);
     });
     it("should have the correct exception code set", function() {
         var exception = new BytePushers.DrawingTimeNotFoundException("MORNING", "07/31/2018");
 
-        assert.equal(exception.code, BytePushers.Exception.Code.DRAWING_TIME_NOT_FOUND);
+        assert.strictEqual(exception.code, BytePushers.Exception.Code.DRAWING_TIME_NOT_FOUND);
     });
 });

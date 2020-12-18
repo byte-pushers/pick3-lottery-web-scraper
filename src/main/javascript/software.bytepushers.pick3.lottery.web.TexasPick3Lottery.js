@@ -19,7 +19,8 @@ function TexasPick3Lottery(webScraperBaseUrl) {
             stateName: stateName,
             WebScraper: TexasPick3WebScraper,
             baseUrl: ((webScraperBaseUrl === null || webScraperBaseUrl === undefined) ? TexasPick3UrlScraper.BASE_URL : webScraperBaseUrl),
-            pathToScrape: TexasPick3UrlScraper.PATH_TO_SCRAPE,
+            pathToScrapeForPastWinningNumbers: TexasPick3UrlScraper.PATH_TO_SCRAPE_FOR_PAST_WINNING_NUMBERS,
+            pathToScrapeForCurrentWinningNumbers: TexasPick3UrlScraper.PATH_TO_SCRAPE_FOR_CURRENT_WINNING_NUMBERS,
             UrlScraper: TexasPick3UrlScraper,
             theme: {
                 backgroundImageUrl: 'https://blairhouseinn.com/wp-content/uploads/2020/02/Bluebonnets-in-Texas-Hill-Country-1170x475.jpg'
@@ -31,7 +32,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         request.request(url, callback);
     }
 
-    function getWinningNumberSourcePath (drawingDate, request, pageReader) {
+    function getWinningNumberSourcePath (winningNumberUrl, drawingDate, request, pageReader) {
         var winningNumberSourcePathPromise,
             sourcePath = {
                 date: drawingDate,
@@ -40,7 +41,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
 
         try {
             winningNumberSourcePathPromise = new Promise(function (resolve, reject) {
-                doScrape(config.baseUrl + config.pathToScrape, function(error, ignore, html) {
+                doScrape(winningNumberUrl, function(error, ignore, html) {
                     if (error) {
                         reject(error);
                     } else {
@@ -50,7 +51,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                             drawingDate: drawingDate
                         });
                         try {
-                            sourcePath.url = scraper.findSourcePath(drawingDate);
+                            sourcePath.url = scraper.findDrawingUrlForYear(drawingDate);
                             resolve(sourcePath);
                         } catch (err) {
                             reject(err);
@@ -74,6 +75,51 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         return stateName;
     };
 
+    this.retrieveCurrentWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
+        var winningNumberPromise,
+            winningNumber = {
+                date: drawingDate,
+                time: drawingTime,
+                number: 0
+            };
+
+        try {
+            winningNumberPromise = new Promise(function(resolve, reject) {
+                getWinningNumberSourcePath(config.baseUrl + config.pathToScrapeForCurrentWinningNumbers, drawingDate, request, pageReader)
+                    .then(function(winningNumberSourcePath) {
+                        if (!winningNumberSourcePath || winningNumberSourcePath.url === null) {
+                            reject("Could not find url in state " + drawingState + " for date " + drawingDate);
+                        }
+                        doScrape(winningNumberSourcePath.url, function (error, ignore, html) {
+                            if (error) {
+                                reject(error);
+                            } else {
+                                scraper = (config === undefined)? null : new config.WebScraper({
+                                    baseUrl: winningNumberSourcePath.url,
+                                    pageReader: pageReader.read2(html),
+                                    drawingDate: drawingDate,
+                                    drawingTime: drawingTime
+                                });
+                                try {
+                                    winningNumber.number = scraper.findLastDrawingWinningNumber(drawingDate, drawingTime);
+                                    resolve(winningNumber);
+                                } catch (err) {
+                                    reject(err);
+                                }
+                            }
+                        }, request);
+                    }).catch(function(error) {
+                    reject(error);
+                });
+            });
+        } catch (error) {
+            winningNumberPromise = new Promise(function (ignore, reject) {
+                reject(error);
+            });
+        }
+        return winningNumberPromise;
+    };
+
     this.retrievePastWinningNumber = function (drawingState, drawingDate, drawingTime, request, pageReader) {
         var winningNumberPromise,
             winningNumber = {
@@ -84,7 +130,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
 
         try {
             winningNumberPromise = new Promise(function(resolve, reject) {
-                getWinningNumberSourcePath(drawingDate, request, pageReader)
+                getWinningNumberSourcePath(config.baseUrl + config.pathToScrapeForPastWinningNumbers, drawingDate, request, pageReader)
                     .then(function(successResult) {
                         if (!successResult || successResult.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
@@ -100,7 +146,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                                     drawingTime: drawingTime
                                 });
                                 try {
-                                    winningNumber.number = scraper.findWinningNumber(drawingDate, drawingTime);
+                                    winningNumber.number = scraper.findPastWinningNumber(drawingDate, drawingTime);
                                     resolve(winningNumber);
                                 } catch (err) {
                                     reject(err);

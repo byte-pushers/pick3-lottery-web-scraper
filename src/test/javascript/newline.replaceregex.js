@@ -6,6 +6,6 @@ describe("Regular Express Tests", function() {
             expectedText = "8 ",
             actualText = text.replace(/\r|\n/g, "");
 
-        assert.deepStrictEqual(actualText.trim(), expectedText.trim());
+        assert.strictEqual(actualText.trim(), expectedText.trim());
     });
 });

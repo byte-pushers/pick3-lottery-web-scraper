@@ -1,7 +1,7 @@
 declare module MWinningNumberNotFoundException {
     export interface WinningNumberNotFoundException {
         toString():string;
-        new(drawingTime:string, drawingDat:Date):WinningNumberNotFoundException;
+        new(digit1:string|number, digit2:string|number, digit3:string|number):WinningNumberNotFoundException;
     }
 }
 

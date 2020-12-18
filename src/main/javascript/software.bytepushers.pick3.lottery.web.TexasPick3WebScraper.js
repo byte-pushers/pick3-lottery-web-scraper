@@ -143,6 +143,63 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return winningNumber;
     };
 
+    this.findLastDrawnMorningWinningNumber = function (drawingDate, drawingTime) {
+        return this.findLastDrawnWinningNumber(drawingDate, drawingTime);
+    };
+
+    this.findLastDrawnDayWinningNumber = function (drawingDate, drawingTime) {
+        return this.findLastDrawnWinningNumber(drawingDate, drawingTime);
+    };
+
+    this.findLastDrawnEveningWinningNumber = function (drawingDate, drawingTime) {
+        return this.findLastDrawnWinningNumber(drawingDate, drawingTime);
+    };
+
+
+    this.findLastDrawnNightWinningNumber = function (drawingDate, drawingTime) {
+        return this.findLastDrawnWinningNumber(drawingDate, drawingTime);
+    };
+
+    this.findLastDrawnWinningNumber = function (drawingDate, drawingTime) {
+        var lastDrawnWinningNumber = 0,
+            digits = [],
+            $drawDateDivElement = (Object.isFunction($.find)) ?
+                $.find('div.large-6.cell > div.homePageCell:contains(' + drawingDate + ' ' + drawingTime + ')') :
+                $('div.large-6.cell > div.homePageCell:contains(' + drawingDate + ' ' + drawingTime + ')');
+
+        if ($drawDateDivElement === null || $drawDateDivElement === undefined || $drawDateDivElement.length == 0) {
+            throw new DrawingTimeNotFoundException(drawingTime, drawingDate);
+        }
+
+        if ($drawDateDivElement !== null && $drawDateDivElement !== undefined) {
+            var $lastDrawWinningNumberLiElement = $drawDateDivElement.find('ol.winningNumberBalls > li:not(:contains(FIREBALL))');
+            $lastDrawWinningNumberLiElement.each(function(index, element) {
+                var data = (element && element.children && element.children[0] && element.children[0].children && element.children[0].children[0] && element.children[0].children[0].data) ? element.children[0].children[0].data.trim() : null;
+                digits.push(data);
+
+                if (data !== null && data !== undefined) {
+                    if (index == 0){
+                        lastDrawnWinningNumber = data * 100;
+                    } else if (index == 1) {
+                        lastDrawnWinningNumber = lastDrawnWinningNumber + (data * 10);
+                    } else if (index === 2) {
+                        lastDrawnWinningNumber = lastDrawnWinningNumber + (data * 1);
+                    }
+                }
+            });
+        }
+
+        var throwWinningNumberNotFoundException = digits.some(function (digit) {
+            return (digit === null || digit === undefined || digit === "");
+        });
+
+        if (throwWinningNumberNotFoundException) {
+            throw new WinningNumberNotFoundException(digits[0], digits[1], digits[2]);
+        }
+
+        return lastDrawnWinningNumber;
+    };
+
     this.findDayWinningNumber = function (drawingDate) {
         var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
             parsedDrawDateSection = parseTargetDrawDateSection($targetDrawDateSection),
@@ -171,7 +228,5 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
 TexasPick3WebScraper.prototype = BytePushers.inherit(WebScraper.prototype);
 TexasPick3WebScraper.prototype.constructor = TexasPick3WebScraper;
 TexasPick3WebScraper.prototype.superclass = WebScraper;
-
-TexasPick3WebScraper.URL = "http://www.txlottery.org/export/sites/lottery/Games/Pick_3/Winning_Numbers/print.html_8783066.html";
 
 module.exports = TexasPick3WebScraper;

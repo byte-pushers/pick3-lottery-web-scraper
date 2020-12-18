@@ -38,9 +38,9 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
             drawingDate: actualDrawDate,
         });
 
-        actualUrl = scraper.findSourcePath(actualDrawDate);
+        actualUrl = scraper.findDrawingUrlForYear(actualDrawDate);
 
-        assert.equal(expectedUrl, actualUrl);
+        assert.strictEqual(expectedUrl, actualUrl);
     });
 
     it("should be able to find URLs for a date in the past", function () {
@@ -56,9 +56,9 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
             drawingDate: actualDrawDate,
         });
 
-        actualUrl = scraper.findSourcePath(actualDrawDate);
+        actualUrl = scraper.findDrawingUrlForYear(actualDrawDate);
 
-        assert.equal(expectedUrl, actualUrl);
+        assert.strictEqual(expectedUrl, actualUrl);
     });
 
     it("should throw a DrawingYearNotAvailableException when drawing time requested for a date which has no data", function () {
@@ -74,7 +74,7 @@ describe("TexasPick3UrlScraper Unit Tests", function() {
         });
 
         assert.throws(() => {
-            actualUrl = scraper.findSourcePath(actualDrawDate);
+            actualUrl = scraper.findDrawingUrlForYear(actualDrawDate);
         }, BytePushers.DrawingYearNotAvailableException);
     });
 });

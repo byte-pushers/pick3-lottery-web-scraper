@@ -9,6 +9,16 @@ declare module MBytePushers {
     toString():string;
   }
 
+  export interface WinningNumberNotFoundException {
+    new (digit1: string|number, digit2: string|number, digit3: string|number): WinningNumberNotFoundException;
+    toString():string;
+  }
+
+  export interface HtmlParseException {
+    new (message:string): HtmlParseException;
+    toString():string;
+  }
+
   export interface Pick3LotteryWebScrapingService {
     new (baseUrl: string): Pick3LotteryWebScrapingService;
     findRegisteredStateLottery(drawingState:string): {state: string, stateName: string, stateLottery: string};
@@ -35,6 +45,7 @@ declare module MBytePushers {
     BaseWebScraper: BaseWebScraper;
     DrawingTimeNotFoundException: DrawingTimeNotFoundException;
     DrawingYearNotAvailableException: DrawingYearNotAvailableException;
+    WinningNumberNotFoundException: WinningNumberNotFoundException;
     Pick3LotteryWebScrapingService: Pick3LotteryWebScrapingService;
     ScrapingServiceDTO: ScrapingServiceDTO;
   }
