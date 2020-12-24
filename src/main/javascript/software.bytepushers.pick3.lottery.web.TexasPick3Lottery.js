@@ -51,7 +51,11 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                             drawingDate: drawingDate
                         });
                         try {
-                            sourcePath.url = scraper.findDrawingUrlForYear(drawingDate);
+                            if (winningNumberUrl.endsWith("index.html")) {
+                                sourcePath.url = winningNumberUrl;
+                            } else {
+                                sourcePath.url = scraper.findDrawingUrlForYear(drawingDate);
+                            }
                             resolve(sourcePath);
                         } catch (err) {
                             reject(err);
@@ -85,17 +89,17 @@ function TexasPick3Lottery(webScraperBaseUrl) {
 
         try {
             winningNumberPromise = new Promise(function(resolve, reject) {
-                getWinningNumberSourcePath(config.baseUrl + config.pathToScrapeForCurrentWinningNumbers, drawingDate, request, pageReader)
+                /*getWinningNumberSourcePath(config.baseUrl + config.pathToScrapeForCurrentWinningNumbers, drawingDate, request, pageReader)
                     .then(function(winningNumberSourcePath) {
                         if (!winningNumberSourcePath || winningNumberSourcePath.url === null) {
                             reject("Could not find url in state " + drawingState + " for date " + drawingDate);
-                        }
-                        doScrape(winningNumberSourcePath.url, function (error, ignore, html) {
+                        }*/
+                        doScrape(config.baseUrl + config.pathToScrapeForCurrentWinningNumbers, function (error, ignore, html) {
                             if (error) {
                                 reject(error);
                             } else {
                                 scraper = (config === undefined)? null : new config.WebScraper({
-                                    baseUrl: winningNumberSourcePath.url,
+                                    baseUrl: config.baseUrl + config.pathToScrapeForCurrentWinningNumbers,
                                     pageReader: pageReader.read2(html),
                                     drawingDate: drawingDate,
                                     drawingTime: drawingTime
@@ -107,10 +111,10 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                                     reject(err);
                                 }
                             }
-                        }, request);
+                        }, request);/*
                     }).catch(function(error) {
                     reject(error);
-                });
+                });*/
             });
         } catch (error) {
             winningNumberPromise = new Promise(function (ignore, reject) {

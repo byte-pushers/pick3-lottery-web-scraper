@@ -135,6 +135,20 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         return $targetTrElement;
     }
 
+    function getElementData (element) {
+        var data = null;
+
+        if (element && element.children && element.children[0] && element.children[0].innerText) {
+            data = element.children[0].innerText.trim();
+        } else if (element && element.children && element.children.length == 3 && element.children[1].children && element.children[1].children[0] && element.children[1].children[0].data) {
+            data = element.children[1].children[0].data.trim();
+        } else if (element && element.children && element.children[0] && element.children[0].children && element.children[0].children.length == 1) {
+            data = element.children[0].children[0].data.trim();
+        }
+
+        return data;
+    }
+
     this.findMorningWinningNumber = function (drawingDate) {
         var $targetDrawDateSection = findTargetDrawDateSection(drawingDate),
             parsedDrawDateSection = parseTargetDrawDateSection($targetDrawDateSection),
@@ -174,7 +188,7 @@ function TexasPick3WebScraper(TxPick3WebScraperConfig) {
         if ($drawDateDivElement !== null && $drawDateDivElement !== undefined) {
             var $lastDrawWinningNumberLiElement = $drawDateDivElement.find('ol.winningNumberBalls > li:not(:contains(FIREBALL))');
             $lastDrawWinningNumberLiElement.each(function(index, element) {
-                var data = (element && element.children && element.children[0] && element.children[0].children && element.children[0].children[0] && element.children[0].children[0].data) ? element.children[0].children[0].data.trim() : null;
+                var data = getElementData(element);
                 digits.push(data);
 
                 if (data !== null && data !== undefined) {

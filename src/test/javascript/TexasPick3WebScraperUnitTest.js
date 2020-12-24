@@ -561,7 +561,7 @@ describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
         var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
             expectedWinningNumber = 723,
             actualMorningWinningNumber,
-            actualDrawDate = new Date("12/17/2020"),
+            actualDrawDate = new Date("12/23/2020"),
             actualDrawingTime = "Morning",
             scraper;
 
@@ -581,7 +581,7 @@ describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
         var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
             expectedWinningNumber = 75,
             actualMorningWinningNumber,
-            actualDrawDate = new Date("12/17/2020"),
+            actualDrawDate = new Date("12/23/2020"),
             actualDrawingTime = "Day",
             scraper;
 
@@ -601,7 +601,7 @@ describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
         var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
             expectedWinningNumber = 7,
             actualMorningWinningNumber,
-            actualDrawDate = new Date("12/17/2020"),
+            actualDrawDate = new Date("12/23/2020"),
             actualDrawingTime = "Evening",
             scraper;
 
@@ -621,7 +621,7 @@ describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
         var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-fixture.html", "UTF-8"),
             expectedWinningNumber = 0,
             actualMorningWinningNumber,
-            actualDrawDate = new Date("12/17/2020"),
+            actualDrawDate = new Date("12/23/2020"),
             actualDrawingTime = "Night",
             scraper;
 
@@ -641,7 +641,7 @@ describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
         var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-with-bad-data-fixture.html", "UTF-8"),
             expectedWinningNumber = 723,
             actualMorningWinningNumber,
-            actualDrawDate = new Date("12/17/2020"),
+            actualDrawDate = new Date("12/23/2020"),
             actualDrawingTime = "Morning",
             scraper;
 
@@ -664,7 +664,7 @@ describe("TexasPick3WebScraper Unit Tests for Last Drawn Numbers", function() {
         var html = fs.readFileSync(fixturePath + "pick3-last-drawn-numbers-with-bad-data-fixture.html", "UTF-8"),
             expectedWinningNumber = 723,
             actualMorningWinningNumber,
-            actualDrawDate = new Date("12/18/2020"),
+            actualDrawDate = new Date("12/24/2020"),
             actualDrawingTime = "Morning",
             scraper;
 
