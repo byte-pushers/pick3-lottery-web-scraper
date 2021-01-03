@@ -114,8 +114,6 @@ module.exports = function (grunt) {
             }
         }
     });
-    
-    
 
     var build = grunt.option('target') || 'build';
     var release = grunt.option('target') || 'release';
