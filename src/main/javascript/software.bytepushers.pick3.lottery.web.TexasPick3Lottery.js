@@ -208,6 +208,10 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         return drawingTime;
     };
 
+    this.getAvailableDrawingTimes = function(targetDrawingTime) {
+        return TexasPick3Lottery.DRAWING_TIMES.getAvailableDrawingTimes(targetDrawingTime);
+    };
+
     function compareTime(time1, time2) {
         if (time1 && time2 ) {
             if (!time1.getHours() && !time2.getHours()) {
@@ -370,6 +374,25 @@ TexasPick3Lottery.getActualNightDrawingTime = function(actualNightDrawingTime) {
 	drawingTime.getDateTime().setHours(22, 30, 0, 0);
 
     return drawingTime;
+};
+
+TexasPick3Lottery.getAvailableDrawingTimes = function(targetDrawingTime) {
+    var collectAvailableDrawingTimes = false;
+    var availableDrawingTimes = [];
+
+    for (var drawingTime in TexasPick3Lottery.DRAWING_TIMES) {
+        if (TexasPick3Lottery.DRAWING_TIMES.hasOwnProperty(drawingTime)) {
+            if (drawingTime === targetDrawingTime) {
+                collectAvailableDrawingTimes = true;
+            }
+
+            if (collectAvailableDrawingTimes) {
+                availableDrawingTimes.push(TexasPick3Lottery.DRAWING_TIMES[drawingTime]());
+            }
+        }
+    }
+
+    return availableDrawingTimes;
 };
 
 TexasPick3Lottery.DRAWING_TIMES = {
