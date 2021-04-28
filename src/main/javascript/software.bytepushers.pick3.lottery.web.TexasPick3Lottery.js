@@ -209,7 +209,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
     };
 
     this.getAvailableDrawingTimes = function(targetDrawingTime) {
-        return TexasPick3Lottery.DRAWING_TIMES.getAvailableDrawingTimes(targetDrawingTime);
+        return TexasPick3Lottery.getAvailableDrawingTimes(targetDrawingTime);
     };
 
     function compareTime(time1, time2) {
