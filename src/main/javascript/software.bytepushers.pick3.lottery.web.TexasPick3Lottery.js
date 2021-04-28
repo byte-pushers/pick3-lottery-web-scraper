@@ -13,7 +13,7 @@ var TexasPick3WebScraper = require('./software.bytepushers.pick3.lottery.web.Tex
 function TexasPick3Lottery(webScraperBaseUrl) {
     'use strict';
     var state = "TX",
-        stateName = "'state.tx'",
+        stateName = "state.tx",
         config = {
             state: state,
             stateName: stateName,
