@@ -173,16 +173,16 @@ function TexasPick3Lottery(webScraperBaseUrl) {
         var midnight = new Date();
         midnight.setHours(23, 59, 59, 0);
         //TODO: re-factor to only look a the time of day and not include the date in calculation.
-        if (compareTime(currentTime, TexasPick3Lottery.getActualDayDrawingTime().getDateTime()) == -1) {
+        if (compareTime(currentTime, TexasPick3Lottery.getActualMorningDrawingTime().getDateTime()) === -1) {
             return TexasPick3Lottery.DRAWING_TIMES.MORNING(currentTime);
-        } else if (compareTime(currentTime, TexasPick3Lottery.getActualEveningDrawingTime().getDateTime()) == -1) {
+        } else if (compareTime(currentTime, TexasPick3Lottery.getActualDayDrawingTime().getDateTime()) === -1) {
             return TexasPick3Lottery.DRAWING_TIMES.DAY(currentTime);
-        } else if (compareTime(currentTime, TexasPick3Lottery.getActualNightDrawingTime().getDateTime()) == -1) {
+        } else if (compareTime(currentTime, TexasPick3Lottery.getActualEveningDrawingTime().getDateTime()) === -1) {
             return TexasPick3Lottery.DRAWING_TIMES.EVENING(currentTime);
-        } else if (compareTime(currentTime, TexasPick3Lottery.getActualNightDrawingTime().getDateTime()) == 1 ||
-            compareTime(currentTime, TexasPick3Lottery.getActualNightDrawingTime().getDateTime()) == 0){
+        } else if (compareTime(currentTime, TexasPick3Lottery.getActualNightDrawingTime().getDateTime()) === 1 ||
+            compareTime(currentTime, TexasPick3Lottery.getActualNightDrawingTime().getDateTime()) === 0){
             return TexasPick3Lottery.DRAWING_TIMES.NIGHT(currentTime);
-        } else if (compareTime(currentTime, midnight) == -1 || compareTime(currentTime, midnight) == 0) {
+        } else if (compareTime(currentTime, midnight) === -1 || compareTime(currentTime, midnight) === 0) {
             return TexasPick3Lottery.DRAWING_TIMES.NIGHT(currentTime);
         } else {
             return TexasPick3Lottery.DRAWING_TIMES.MORNING(currentTime);
