@@ -222,7 +222,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                 return 1;
             } else if (time1.getHours() < time2.getHours()) {
                 return -1;
-            } else if (time1.getHours > time2.getHours()) {
+            } else if (time1.getHours() > time2.getHours()) {
                 return 1;
             } else if (time1.getHours() == time2.getHours()) {
                 if (!time1.getMinutes() && !time2.getMinutes()) {
@@ -233,7 +233,7 @@ function TexasPick3Lottery(webScraperBaseUrl) {
                     return 1;
                 } else if (time1.getMinutes() < time2.getMinutes()) {
                     return -1;
-                } else if (time1.getMinutes > time2.getMinutes()) {
+                } else if (time1.getMinutes() > time2.getMinutes()) {
                     return 1;
                 } else if (time1.getMinutes() == time2.getMinutes()) {
                     return 0;
